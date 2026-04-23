@@ -1,0 +1,2207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personalise Your Meals - Frive</title>
+  <style>
+    /* ── Frive Fonts ── */
+    @font-face { 
+      font-family: FriveJokker; 
+      font-weight: 900; 
+      src: url("fonts/JokkerTRIAL-Heavy.otf") format("opentype"); 
+      font-display: swap;
+    }
+    @font-face { 
+      font-family: FriveJokker; 
+      font-weight: 700; 
+      font-style: normal; 
+      src: url("fonts/FriveJokker-Bold.ttf") format("truetype"); 
+      font-display: swap;
+    }
+    @font-face { 
+      font-family: FriveJokker; 
+      font-weight: 700; 
+      font-style: italic; 
+      src: url("fonts/FriveJokker-BoldItalic.ttf") format("truetype"); 
+      font-display: swap;
+    }
+    @font-face { 
+      font-family: FriveJokker; 
+      font-weight: 500; 
+      font-style: normal; 
+      src: url("fonts/FriveJokker-Medium.ttf") format("truetype"); 
+      font-display: swap;
+    }
+    @font-face { 
+      font-family: FriveJokker; 
+      font-weight: 500; 
+      font-style: italic; 
+      src: url("fonts/FriveJokker-MediumItalic.ttf") format("truetype"); 
+      font-display: swap;
+    }
+    @font-face { 
+      font-family: FriveJokker; 
+      font-weight: 400; 
+      font-style: normal; 
+      src: url("fonts/FriveJokker-Regular.ttf") format("truetype"); 
+      font-display: swap;
+    }
+
+    /* ── CSS VARIABLES ── */
+    :root {
+      --kale: #053827;
+      --lime: #C6F432;
+      --cream-banner: #FFF7E8;
+      --border: #E0E0E0;
+      --grey-60: #666;
+      --grey-80: #333;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: FriveJokker, Arial, sans-serif;
+      background: #FAFAFA;
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* ════════════════════════════════
+       HEADER
+    ════════════════════════════════ */
+    header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-link {
+      display: block;
+    }
+
+    .logo-link svg {
+      height: 32px;
+      width: auto;
+    }
+
+    .reset-btn {
+      background: white;
+      color: var(--kale);
+      border: 2px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: FriveJokker, Arial, sans-serif;
+    }
+
+    .reset-btn:hover {
+      border-color: var(--kale);
+      background: #F0F8F5;
+    }
+
+    /* ════════════════════════════════
+       INFO BAR
+    ════════════════════════════════ */
+    .info-bar-wrap {
+      background: var(--cream-banner);
+      border-bottom: 1px solid #E8D7B8;
+    }
+
+    .info-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--grey-80);
+    }
+
+    /* ════════════════════════════════
+       MAIN CONTENT
+    ════════════════════════════════ */
+    .main-content {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        max-width: 100%;
+      }
+    }
+
+    .main-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .main-header h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      color: var(--grey-80);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .main-header .subtitle {
+      font-size: 16px;
+      color: var(--grey-60);
+      font-weight: 400;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+
+    .progress-container.active {
+      display: block;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .progress-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--kale);
+    }
+
+    .progress-count {
+      font-size: 14px;
+      color: var(--grey-80);
+    }
+
+    .progress-bar-track {
+      height: 12px;
+      background: #f5f5f5;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--kale) 0%, var(--lime) 100%);
+      border-radius: 20px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* ════════════════════════════════
+       INTRO SCREEN
+    ════════════════════════════════ */
+    .intro-screen {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 48px 24px;
+      text-align: center;
+      animation: slideDown 0.4s ease-out forwards;
+    }
+
+    .intro-modal {
+      background: white;
+      border-radius: 16px;
+      padding: 48px 32px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .intro-screen h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--kale);
+      margin: 0 0 16px 0;
+      line-height: 1.3;
+    }
+
+    .intro-screen p {
+      font-size: 16px;
+      color: var(--grey-60);
+      line-height: 1.6;
+      margin: 0 0 32px 0;
+    }
+
+    .intro-screen .continue-btn {
+      display: inline-block;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    @media (max-width: 640px) {
+      .intro-screen {
+        padding: 32px 16px;
+      }
+      
+      .intro-modal {
+        padding: 32px 24px;
+      }
+      
+      .intro-screen h2 {
+        font-size: 24px;
+      }
+      
+      .intro-screen p {
+        font-size: 15px;
+      }
+    }
+
+    /* ════════════════════════════════
+       PREFERENCE CARDS
+    ════════════════════════════════ */
+    .preferences-section {
+      max-width: 900px;
+      margin: 0 auto;
+      animation: slideDown 0.4s ease;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .section-header h2 {
+      font-size: clamp(20px, 3vw, 26px);
+      font-weight: 700;
+      color: var(--grey-80);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .section-header p {
+      font-size: 14px;
+      color: var(--grey-60);
+      font-weight: 400;
+    }
+
+    .pref-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .pref-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .pref-card {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pref-card:hover {
+      border-color: var(--kale);
+      transform: translateY(-2px);
+    }
+
+    .pref-card.selected {
+      border-color: var(--kale);
+      background: #F0F8F5;
+    }
+
+    .pref-card-inner {
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pref-card-icon {
+      font-size: 48px;
+      line-height: 1;
+      position: relative;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .emoji {
+      font-size: 48px;
+      display: block;
+    }
+
+    .pref-card.selected .emoji {
+      display: none;
+    }
+
+    .check-icon {
+      display: none;
+      width: 48px;
+      height: 48px;
+    }
+
+    .pref-card.selected .check-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .check-icon svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    .pref-card-label {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--grey-80);
+      text-align: center;
+    }
+
+    .pref-card.selected .pref-card-label {
+      color: var(--kale);
+      font-weight: 700;
+    }
+
+    @keyframes slideDown {
+      from { 
+        opacity: 0; 
+        transform: translateY(-20px);
+        max-height: 0;
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0);
+        max-height: 2000px;
+      }
+    }
+
+    /* Continue Button */
+    .continue-btn-container {
+      text-align: center;
+      margin-top: 32px;
+    }
+
+    .continue-btn {
+      display: none;
+      background: var(--kale);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: FriveJokker, Arial, sans-serif;
+    }
+
+    .continue-btn.active {
+      display: inline-block;
+    }
+
+    .continue-btn:hover {
+      background: #075d3f;
+      transform: scale(1.05);
+    }
+
+    /* Meal Voting */
+    .meal-voting-container {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto;
+      animation: slideDown 0.4s ease;
+    }
+
+    .meal-voting-container.active {
+      display: block;
+    }
+
+    .meal-card {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      animation: fadeInUp 0.4s ease-out;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .meal-card.voting {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .meal-card.fade-out {
+      animation: fadeOutDown 0.3s ease-in forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeOutDown {
+      from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+    }
+
+    .meal-image {
+      width: 100%;
+      height: 280px;
+      background-size: cover;
+      background-position: center;
+      background-color: #f5f5f5;
+    }
+
+    .meal-info {
+      padding: 24px;
+      text-align: left;
+    }
+
+    .meal-name {
+      font-size: clamp(20px, 3vw, 24px);
+      font-weight: 700;
+      color: var(--grey-80);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .meal-description {
+      font-size: 14px;
+      color: var(--grey-60);
+      margin-bottom: 16px;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .meal-nutrition {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--grey-70);
+      margin-bottom: 8px;
+    }
+
+    .nutrition-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nutrition-item strong {
+      font-weight: 700;
+      color: var(--grey-80);
+    }
+
+    .voting-buttons {
+      display: flex;
+      gap: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .vote-btn {
+      flex: 1;
+      padding: 20px;
+      border: none;
+      border-right: 1px solid var(--border);
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .vote-btn:last-child {
+      border-right: none;
+    }
+
+    .vote-btn:hover {
+      background: #f9f9f9;
+    }
+
+    .vote-btn:active {
+      transform: scale(0.95);
+    }
+
+    .vote-btn.voted {
+      animation: voteClick 0.3s ease;
+    }
+
+    @keyframes voteClick {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .vote-btn.thumbs-down:hover {
+      background: #fff5f5;
+    }
+
+    .vote-btn.thumbs-up:hover {
+      background: #f0fdf4;
+    }
+
+    .vote-icon {
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .vote-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--grey-70);
+      text-decoration: none;
+    }
+
+    .vote-btn .vote-label {
+      color: var(--grey-70) !important;
+      text-decoration: none !important;
+    }
+
+    .vote-btn.thumbs-up:hover {
+      background: #F0F8F5;
+      border-color: #4CAF50;
+    }
+
+    .vote-btn.thumbs-down:hover {
+      background: #FFF5F5;
+      border-color: #F44336;
+    }
+
+    /* Split Box Section */
+    .split-box-section {
+      display: none;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 40px 24px;
+    }
+
+    .split-box-section .section-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .split-box-section h2 {
+      font-size: clamp(24px, 4vw, 32px);
+      color: var(--grey-80);
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .split-box-section p {
+      font-size: 16px;
+      color: var(--grey-60);
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .split-box-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .split-box-card {
+      background: white;
+      border: 3px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .split-box-card:hover {
+      border-color: var(--kale);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(5, 56, 39, 0.15);
+    }
+
+    .split-box-card.selected {
+      border-color: var(--lime);
+      background: var(--cream-banner);
+    }
+
+    .split-box-card .icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .split-box-card h3 {
+      font-size: 20px;
+      color: var(--grey-80);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .split-box-card p {
+      font-size: 14px;
+      color: var(--grey-60);
+      line-height: 1.4;
+    }
+
+    /* Goals Section */
+    .goals-section {
+      display: none;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 40px 24px;
+    }
+
+    .goals-section .section-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .goals-section h2 {
+      font-size: clamp(24px, 4vw, 32px);
+      color: var(--grey-80);
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .goals-section p {
+      font-size: 16px;
+      color: var(--grey-60);
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .goals-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .goal-card {
+      background: white;
+      border: 3px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .goal-card:hover {
+      border-color: var(--kale);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(5, 56, 39, 0.15);
+    }
+
+    .goal-card.selected {
+      border-color: var(--lime);
+      background: var(--cream-banner);
+    }
+
+    .goal-card .goal-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      filter: grayscale(20%);
+    }
+
+    .goal-card.selected .goal-icon {
+      filter: grayscale(0%);
+    }
+
+    .goal-card .goal-label {
+      font-size: 15px;
+      color: var(--grey-80);
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 768px) {
+      .goals-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .goals-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .split-box-options {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Success Panel */
+    .success-panel {
+      display: none;
+    }
+
+    .success-panel.active {
+      display: block;
+    }
+
+    .success-banner {
+      background: linear-gradient(135deg, var(--kale) 0%, #064d35 100%);
+      color: white;
+      padding: 24px;
+      border-radius: 16px;
+      margin: 20px auto 40px;
+      max-width: 900px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(5, 56, 39, 0.2);
+      opacity: 0;
+      animation: fadeInDown 0.6s ease forwards;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-banner h2 {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--lime);
+    }
+
+    .success-banner p {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.95);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .benefits-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease 0.4s forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .benefits-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .benefits-header h3 {
+      font-size: clamp(24px, 4vw, 32px);
+      color: var(--grey-80);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .benefits-header p {
+      font-size: 16px;
+      color: var(--grey-60);
+      line-height: 1.5;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .benefit-card {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .benefit-card:hover {
+      border-color: var(--lime);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(5, 56, 39, 0.1);
+    }
+
+    .benefit-card .icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .benefit-card h4 {
+      font-size: 20px;
+      color: var(--grey-80);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .benefit-card p {
+      font-size: 15px;
+      color: var(--grey-60);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .benefit-card .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: var(--kale);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .benefit-card .btn:hover {
+      background: #064d35;
+      transform: scale(1.05);
+    }
+
+    .benefit-card .btn.whatsapp {
+      background: #25D366;
+    }
+
+    .benefit-card .btn.whatsapp:hover {
+      background: #20BA5A;
+    }
+
+    .reward-badge {
+      display: inline-block;
+      background: var(--lime);
+      color: var(--kale);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 60px 24px;
+    }
+
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--kale);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .error-message {
+      background: #FFF5F5;
+      border: 2px solid #F44336;
+      color: #C62828;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 600px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="index.html" aria-label="Frive Home">
+        <svg width="60" height="32" viewBox="0 0 64 34" fill="none">
+          <path d="M27.1093 5.47436L39.8848 0.518036C40.1147 0.428684 40.3738 0.6858 40.3428 0.970268L39.9012 5.01301C39.8118 5.82265 39.2243 6.54659 38.396 6.86752L32.499 9.15604C31.6688 9.4788 30.7474 9.34021 30.1362 8.80228L27.0801 6.11623C26.8611 5.92659 26.8794 5.56189 27.1093 5.47436Z" fill="#053827"/>
+          <path d="M29.4721 33.5C29.2732 33.5 29.1108 33.3377 29.1108 33.1389V10.8009C29.1108 10.6021 29.2732 10.4398 29.4721 10.4398H34.5133C34.7122 10.4398 34.8746 10.6021 34.8746 10.8009V33.1371C34.8746 33.3359 34.7122 33.4982 34.5133 33.4982H29.4721V33.5Z" fill="#053827"/>
+          <path d="M53.1494 33.5C52.9505 33.5 52.7881 33.3377 52.7881 33.1389V4.59177C52.7881 4.39301 52.9505 4.23072 53.1494 4.23072H63.6387C63.8376 4.23072 64 4.39301 64 4.59177V8.89345C64 9.09221 63.8376 9.25451 63.6387 9.25451H58.8931C58.6942 9.25451 58.5318 9.4168 58.5318 9.61556V15.9578C58.5318 16.1565 58.6942 16.3188 58.8931 16.3188H62.482C62.6808 16.3188 62.8432 16.4811 62.8432 16.6799V20.7718C62.8432 20.9706 62.6808 21.1329 62.482 21.1329H58.8931C58.6942 21.1329 58.5318 21.2952 58.5318 21.494V28.1079C58.5318 28.3066 58.6942 28.4689 58.8931 28.4689H63.6387C63.8376 28.4689 64 28.6312 64 28.83V33.1316C64 33.3304 63.8376 33.4927 63.6387 33.4927H53.1494V33.5Z" fill="#053827"/>
+          <path d="M20.924 16.0161C20.6722 16.6124 20.2453 16.9096 19.6414 16.9096H18.7838C18.5831 16.9096 18.4226 16.7473 18.4226 16.5486V9.36574C18.4226 9.16516 18.585 9.00469 18.7838 9.00469H19.5574C20.0063 9.00469 20.3566 9.13416 20.6084 9.3931C20.862 9.65386 21.0408 10.0587 21.1466 10.613C21.2525 11.1656 21.3035 11.9278 21.3035 12.8942C21.3035 14.3786 21.1776 15.4198 20.924 16.0161ZM27.1531 31.9755C27.0126 31.31 26.9195 30.5003 26.8794 29.5466C26.8648 29.0415 26.852 28.509 26.8374 27.9492C26.821 27.3876 26.8082 26.8059 26.7936 26.2023C26.8082 25.5586 26.8082 24.9131 26.7936 24.2675C26.779 23.6238 26.7663 22.9856 26.7517 22.3547C26.7079 21.4994 26.5546 20.7609 26.2882 20.1373C26.0237 19.5136 25.6077 19.0267 25.0475 18.6748C24.8103 18.5271 24.5458 18.4086 24.252 18.3174C24.0969 18.27 24.0769 18.0566 24.2228 17.9837C24.6242 17.7849 24.98 17.5351 25.2884 17.2342C25.885 16.6525 26.3229 15.9103 26.6039 15.0059C26.8849 14.1014 27.0254 13.0328 27.0254 11.8001C27.0254 10.1736 26.8101 8.80592 26.3831 7.69905C25.956 6.59399 25.2884 5.75011 24.3797 5.16801C23.471 4.5877 22.3253 4.29755 20.9422 4.29755H13.0481C12.8511 4.29755 12.6905 4.45984 12.6905 4.65861V33.1371C12.6905 33.3359 12.8529 33.4982 13.0481 33.4982H18.0675C18.2663 33.4982 18.4269 33.3359 18.4269 33.1371V22.1177C18.4269 21.9189 18.5893 21.7566 18.7881 21.7566H19.3709C20.0922 21.7566 20.6706 22.0559 21.1011 22.6545C21.5297 23.2531 21.7961 24.2291 21.9002 25.5823L22.3253 31.9664C22.3399 32.1451 22.3636 32.3037 22.399 32.4422C22.4856 32.8051 22.6972 33.0734 23.0348 33.2466C23.2044 33.3323 23.4181 33.377 23.6716 33.377H27.0527C27.2516 33.377 27.4011 33.3068 27.4776 33.1644C27.5523 33.0257 27.5559 32.8434 27.4739 32.6281L27.1531 31.9755Z" fill="#053827"/>
+          <path d="M51.3631 4.64101L47.402 33.1882C47.3765 33.3669 47.2232 33.5 47.0426 33.5H39.8666C39.6859 33.5 39.5327 33.3669 39.5071 33.1882L36.1609 9.20892C36.1299 8.99192 36.2996 8.79681 36.5203 8.79681H41.5269C41.713 8.79681 41.8681 8.93722 41.8864 9.12322L43.4609 25.141C43.4828 25.358 43.8003 25.358 43.8222 25.141L45.8128 4.55531C45.831 4.36931 45.9861 4.2289 46.1741 4.2289H51.0055C51.2244 4.2289 51.3941 4.42219 51.3631 4.64101Z" fill="#053827"/>
+          <path d="M0 33.1371V4.59177C0 4.39119 0.162386 4.23072 0.361262 4.23072H10.7886C10.9893 4.23072 11.1499 4.39301 11.1499 4.59177V8.87157C11.1499 9.07215 10.9875 9.23262 10.7886 9.23262H6.10497C5.90427 9.23262 5.74371 9.39492 5.74371 9.59368V15.9778C5.74371 16.1784 5.90609 16.3389 6.10497 16.3389H9.86173C10.0624 16.3389 10.223 16.5012 10.223 16.6999V20.7919C10.223 20.9925 10.0606 21.153 9.86173 21.153H6.10497C5.90427 21.153 5.74371 21.3153 5.74371 21.514V33.1335C5.74371 33.3341 5.58132 33.4945 5.38244 33.4945H0.361262C0.162386 33.5 0 33.3377 0 33.1371Z" fill="#053827"/>
+        </svg>
+      </a>
+      <button class="reset-btn" onclick="resetDemo()">🔄 Reset Demo</button>
+    </div>
+  </header>
+
+  <div class="info-bar-wrap" id="info-bar-wrap">
+    <div class="info-bar" id="info-bar-text">
+      💰 Rate 10 meals to claim your £5 credit!
+    </div>
+  </div>
+
+  <div class="main-content">
+    <!-- Loading State -->
+    <div class="loading" id="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading your personalization flow...</p>
+    </div>
+
+    <!-- Error Message -->
+    <div id="error-container"></div>
+
+    <!-- Intro Screen -->
+    <div class="intro-screen" id="intro-screen" style="display: none;">
+      <div class="intro-modal">
+        <h2>PERSONALISE YOUR MENU</h2>
+        <p id="intro-text">To help us select the perfect meals for you, let us know what you like and what you don't.</p>
+        <button class="continue-btn" onclick="startPersonalization()">
+          LET'S GET STARTED
+        </button>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container" id="progress-container">
+      <div class="progress-header">
+        <span class="progress-text" id="progress-text">Rate meals to unlock your £5 credit</span>
+        <span class="progress-count"><span id="votes-count">0</span>/<span id="total-meals">10</span> rated</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progress-bar-fill"></div>
+      </div>
+    </div>
+
+    <!-- Preferences Section -->
+    <div class="preferences-section" id="preferences-section" style="display: none;">
+      <div class="section-header">
+        <h2>What type of meals do you prefer?</h2>
+        <p>Select all that apply</p>
+      </div>
+
+      <div class="pref-grid">
+        <div class="pref-card" onclick="togglePreference(this)" data-value="meat">
+          <div class="pref-card-inner">
+            <div class="pref-card-icon">
+              <span class="emoji">🥩</span>
+              <div class="check-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="11" fill="#4CAF50"/>
+                  <path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <span class="pref-card-label">Meat</span>
+          </div>
+        </div>
+
+        <div class="pref-card" onclick="togglePreference(this)" data-value="fish">
+          <div class="pref-card-inner">
+            <div class="pref-card-icon">
+              <span class="emoji">🐟</span>
+              <div class="check-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="11" fill="#4CAF50"/>
+                  <path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <span class="pref-card-label">Seafood</span>
+          </div>
+        </div>
+
+        <div class="pref-card" onclick="togglePreference(this)" data-value="vegetarian">
+          <div class="pref-card-inner">
+            <div class="pref-card-icon">
+              <span class="emoji">🥗</span>
+              <div class="check-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="11" fill="#4CAF50"/>
+                  <path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <span class="pref-card-label">Vegetarian</span>
+          </div>
+        </div>
+
+        <div class="pref-card" onclick="togglePreference(this)" data-value="vegan">
+          <div class="pref-card-inner">
+            <div class="pref-card-icon">
+              <span class="emoji">🌱</span>
+              <div class="check-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="11" fill="#4CAF50"/>
+                  <path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <span class="pref-card-label">Vegan</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="continue-btn-container">
+        <button class="continue-btn" id="continue-btn" onclick="continueFromPreferences()">
+          Continue →
+        </button>
+      </div>
+    </div>
+
+    <!-- Goals Section -->
+    <div class="goals-section" id="goals-section">
+      <div class="section-header">
+        <h2>What are your health goals?</h2>
+        <p>Select all that apply</p>
+      </div>
+
+      <div class="goals-grid">
+        <div class="goal-card" onclick="toggleGoal(this)" data-value="improve_health">
+          <div class="goal-icon">❤️</div>
+          <div class="goal-label">Improve overall health</div>
+        </div>
+
+        <div class="goal-card" onclick="toggleGoal(this)" data-value="build_muscle">
+          <div class="goal-icon">💪</div>
+          <div class="goal-label">Build muscle</div>
+        </div>
+
+        <div class="goal-card" onclick="toggleGoal(this)" data-value="lose_weight">
+          <div class="goal-icon">⚖️</div>
+          <div class="goal-label">Lose weight</div>
+        </div>
+
+        <div class="goal-card" onclick="toggleGoal(this)" data-value="increase_energy">
+          <div class="goal-icon">🔋</div>
+          <div class="goal-label">Increase energy levels</div>
+        </div>
+
+        <div class="goal-card" onclick="toggleGoal(this)" data-value="improve_gut_health">
+          <div class="goal-icon">🫃</div>
+          <div class="goal-label">Improve gut health</div>
+        </div>
+
+        <div class="goal-card" onclick="toggleGoal(this)" data-value="support_glp1">
+          <div class="goal-icon">✨</div>
+          <div class="goal-label">Support my GLP-1 journey</div>
+        </div>
+      </div>
+
+      <div class="continue-btn-container">
+        <button class="continue-btn" id="goals-continue-btn" onclick="continueFromGoals()" disabled>
+          Continue →
+        </button>
+      </div>
+    </div>
+
+    <!-- Split Box Section -->
+    <div class="split-box-section" id="split-box-section">
+      <div class="section-header">
+        <h2>Would you like to split your delivery?</h2>
+        <p id="split-box-description">You have a large order. We can split it into multiple boxes if you prefer.</p>
+      </div>
+
+      <div class="split-box-options">
+        <div class="split-box-card" onclick="selectSplitBox(this, 'no')" data-value="no">
+          <div class="icon">📦</div>
+          <h3>One Box</h3>
+          <p id="one-box-description">Keep all meals in a single delivery</p>
+        </div>
+
+        <div class="split-box-card" onclick="selectSplitBox(this, 'yes')" data-value="yes">
+          <div class="icon">📦📦</div>
+          <h3>Split Box</h3>
+          <p id="split-box-card-description">Divide meals into multiple boxes</p>
+        </div>
+      </div>
+
+      <div class="continue-btn-container">
+        <button class="continue-btn" id="split-continue-btn" onclick="continueFromSplitBox()" disabled>
+          Continue to Rate Meals →
+        </button>
+        <p style="margin-top: 16px; font-size: 14px; color: #666; text-align: center;">
+          You can change this any time in our app
+        </p>
+      </div>
+    </div>
+
+    <!-- Meal Voting Section -->
+    <div class="meal-voting-container" id="meal-voting-container">
+      <!-- Meal cards will be dynamically inserted here -->
+    </div>
+
+    <!-- Success Panel -->
+    <div class="success-panel" id="success-panel">
+      <!-- Success Banner -->
+      <div class="success-banner" id="success-banner">
+        <h2 id="success-banner-title">🎉 £5 credit added to your account!</h2>
+        <p id="success-banner-text">Your credit will be automatically applied to your next delivery.</p>
+      </div>
+
+      <!-- Benefits Section -->
+      <div class="benefits-container">
+        <div class="benefits-header">
+          <p>Here's everything you need to know to make the most of your subscription</p>
+        </div>
+
+        <div class="benefits-grid">
+          <!-- Freya Chatbot -->
+          <div class="benefit-card">
+            <span class="icon">💬</span>
+            <h4>Meet Freya, Your AI Assistant</h4>
+            <p>Got questions? Chat with Freya on WhatsApp 24/7 for instant help.</p>
+            <p style="font-size: 14px; margin-top: 12px;"><strong>Try asking:</strong></p>
+            <p style="font-size: 13px; font-style: italic; color: var(--grey-60); margin-bottom: 4px;">"Where is my delivery?"</p>
+            <p style="font-size: 13px; font-style: italic; color: var(--grey-60); margin-bottom: 16px;">"I would like to change my meals"</p>
+            <a href="https://wa.me/447957621162" target="_blank" class="btn whatsapp">
+              💚 Save Whatsapp Number
+            </a>
+          </div>
+
+          <!-- Rewards Programme -->
+          <div class="benefit-card">
+            <span class="icon">🎁</span>
+            <span class="reward-badge">Rewards club</span>
+            <h4>Free Breakfast?</h4>
+            <p>Try our full menu and claim a free item for the next 5 weeks!</p>
+            <a href="https://www.frive.co.uk/my-account/my-rewards" class="btn">
+              Claim your reward now →
+            </a>
+          </div>
+
+          <!-- Frive App -->
+          <div class="benefit-card">
+            <span class="icon">📱</span>
+            <h4>Download the Frive App</h4>
+            <p>Change your meals, track deliveries, and manage your account on the go. Available now on iOS.</p>
+            <a href="https://apps.apple.com/gb/app/frive-formerly-lions-prep/id6443897554" target="_blank" class="btn">
+              Download on App Store →
+            </a>
+          </div>
+        </div>
+
+        <!-- Final CTA Button -->
+        <div class="continue-btn-container" style="margin-top: 40px; padding-bottom: 20px;">
+          <a href="https://www.frive.co.uk/my-account" class="continue-btn active" style="text-decoration: none;">
+            Go to My Account
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════
+    // SUPABASE CONFIGURATION
+    // ═══════════════════════════════════════════════════════════
+    
+    // TODO: Replace with your actual Supabase credentials
+    const SUPABASE_URL = 'https://fhwkyeccpqtdidnexxrr.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZod2t5ZWNjcHF0ZGlkbmV4eHJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MzE5NDMsImV4cCI6MjA5MjIwNzk0M30.PLfHEo0ZIbJ8H9-66L4SkrkH3WyH9HEuBjlOf9qMs5c';
+    
+    // Initialize Supabase client
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ═══════════════════════════════════════════════════════════
+    // STATE MANAGEMENT
+    // ═══════════════════════════════════════════════════════════
+    
+    const state = {
+      orderId: null,
+      preferences: [],
+      goals: [], // Health goals selected by user
+      mealVotes: {}, // stores meal_id: 'up' or 'down'
+      votesCount: 0,
+      creditClaimed: false,
+      askPreferences: true, // Flag from Supabase
+      askMealRatings: true,  // Flag from Supabase
+      meals: [], // Meals loaded from Supabase
+      config: null, // Full config object from Supabase
+      splitBoxPreference: null, // 'yes' or 'no'
+      incentivise: true // Whether to show £5 credit messaging
+    };
+
+    // Placeholder meals - will be replaced with actual menu items
+    const placeholderMeals = [
+      { id: 1, name: 'Creamy Tuscan Chicken', description: 'Pan-seared chicken breast in a sun-dried tomato cream sauce with spinach and parmesan', emoji: '🍗' },
+      { id: 2, name: 'Thai Red Curry', description: 'Fragrant coconut curry with vegetables, fresh herbs and jasmine rice', emoji: '🍛' },
+      { id: 3, name: 'BBQ Pulled Pork Tacos', description: 'Slow-cooked pulled pork with tangy BBQ sauce, slaw and lime crema', emoji: '🌮' },
+      { id: 4, name: 'Mediterranean Lamb Kofta', description: 'Spiced lamb koftas with tzatziki, fresh salad and warm flatbread', emoji: '🥙' },
+      { id: 5, name: 'Teriyaki Salmon Bowl', description: 'Glazed salmon fillet with edamame, pickled ginger and sticky rice', emoji: '🐟' },
+      { id: 6, name: 'Mushroom Risotto', description: 'Creamy arborio rice with wild mushrooms, truffle oil and parmesan', emoji: '🍄' },
+      { id: 7, name: 'Korean Beef Bibimbap', description: 'Marinated beef with kimchi, vegetables, fried egg and gochujang', emoji: '🍚' },
+      { id: 8, name: 'Italian Meatball Marinara', description: 'Handmade beef meatballs in rich tomato sauce with spaghetti', emoji: '🍝' },
+      { id: 9, name: 'Cajun Chicken Pasta', description: 'Spicy cajun chicken with peppers in a creamy garlic sauce', emoji: '🌶️' },
+      { id: 10, name: 'Veggie Buddha Bowl', description: 'Roasted vegetables, quinoa, avocado with tahini dressing', emoji: '🥗' }
+    ];
+
+    let currentMealIndex = 0;
+
+    // ═══════════════════════════════════════════════════════════
+    // SUPABASE FUNCTIONS
+    // ═══════════════════════════════════════════════════════════
+
+    /**
+     * Get order_id from URL parameter
+     * Example: ?order_id=abc123
+     */
+    function getOrderIdFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('order_id');
+    }
+
+    /**
+     * Fetch order configuration from Supabase
+     * Checks if we should ask preferences and meal ratings
+     */
+    async function fetchOrderConfig(orderId) {
+      try {
+        const { data, error} = await supabaseClient
+          .from('personalization_config')
+          .select('*')
+          .eq('order_id', orderId)
+          .single();
+
+        if (error) {
+          // If no config found, create default one
+          if (error.code === 'PGRST116') {
+            await createDefaultConfig(orderId);
+            return { 
+              askPreferences: true, 
+              askMealRatings: true,
+              askGoals: false,
+              askSplitBox: false,
+              numberOfMeals: 0,
+              deliveryDay: null,
+              incentivise: true
+            };
+          }
+          throw error;
+        }
+
+        // Determine if we should ask about split box
+        const shouldAskSplitBox = data.number_of_meals > 12 && 
+                                  (data.delivery_day === 'Sun' || data.delivery_day === 'Mon');
+
+        return {
+          askPreferences: data.ask_preferences,
+          askMealRatings: data.ask_meal_ratings,
+          askGoals: data.ask_goals || false,
+          askSplitBox: shouldAskSplitBox,
+          numberOfMeals: data.number_of_meals,
+          deliveryDay: data.delivery_day,
+          incentivise: data.incentivise !== false // Default to true if not set
+        };
+      } catch (error) {
+        console.error('Error fetching order config:', error);
+        showError('Failed to load configuration. Please try again.');
+        throw error;
+      }
+    }
+
+    /**
+     * Create default configuration for new order
+     */
+    async function createDefaultConfig(orderId) {
+      const { error } = await supabaseClient
+        .from('personalization_config')
+        .insert([{
+          order_id: orderId,
+          ask_preferences: true,
+          ask_meal_ratings: true,
+          created_at: new Date().toISOString()
+        }]);
+
+      if (error) {
+        console.error('Error creating config:', error);
+      }
+    }
+
+    /**
+     * Fetch active meals from Supabase
+     * Filters based on user preferences and returns randomized meals
+     */
+    async function fetchMealsFromDB(preferences = []) {
+      try {
+        const { data, error } = await supabaseClient
+          .from('meals')
+          .select('*')
+          .eq('is_active', true);
+
+        if (error) throw error;
+
+        console.log(`Loaded ${data.length} total meals from Supabase`);
+        
+        // Filter meals based on preferences
+        let filteredMeals = data;
+        
+        if (preferences.length > 0 && !preferences.includes('none')) {
+          // Map preference names to tags
+          const preferenceMap = {
+            'meat': 'Meat',
+            'fish': 'Fish',
+            'vegetarian': 'Vegetarian',
+            'vegan': 'Vegan',
+            'gluten-free': 'Gluten-Free',
+            'dairy-free': 'Dairy-Free',
+            'low-carb': 'Low-Carb',
+            'high-protein': 'High-Protein'
+          };
+          
+          // Convert user preferences to tag format
+          const selectedTags = preferences.map(pref => preferenceMap[pref]).filter(Boolean);
+          
+          console.log('Filtering meals by tags:', selectedTags);
+          
+          // Filter meals that have at least one matching tag
+          filteredMeals = data.filter(meal => {
+            if (!meal.tags || meal.tags.length === 0) return false;
+            return meal.tags.some(tag => selectedTags.includes(tag));
+          });
+          
+          console.log(`Filtered to ${filteredMeals.length} meals matching preferences`);
+        }
+        
+        // Randomize the order
+        const randomizedMeals = shuffleArray(filteredMeals);
+        
+        // Limit to 10 meals
+        const selectedMeals = randomizedMeals.slice(0, 10);
+        
+        console.log(`Returning ${selectedMeals.length} randomized meals`);
+        return selectedMeals;
+      } catch (error) {
+        console.error('Error fetching meals:', error);
+        showError('Failed to load meals. Please try again.');
+        return [];
+      }
+    }
+
+    /**
+     * Shuffle array using Fisher-Yates algorithm
+     */
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    /**
+     * Load existing personalization data from Supabase
+     */
+    async function loadPersonalizationData(orderId) {
+      try {
+        const { data, error } = await supabaseClient
+          .from('personalization_responses')
+          .select('*')
+          .eq('order_id', orderId)
+          .single();
+
+        if (error && error.code !== 'PGRST116') {
+          throw error;
+        }
+
+        if (data) {
+          // Restore state from database
+          state.preferences = data.preferences || [];
+          state.goals = data.goals || [];
+          state.mealVotes = data.meal_votes || {};
+          state.votesCount = Object.keys(state.mealVotes).length;
+          state.creditClaimed = data.credit_claimed || false;
+          state.splitBoxPreference = data.split_box_preference || null;
+          
+          return true;
+        }
+
+        return false;
+      } catch (error) {
+        console.error('Error loading personalization data:', error);
+        return false;
+      }
+    }
+
+    /**
+     * Save preferences to Supabase
+     */
+    async function savePreferencesToDB() {
+      if (!state.orderId) return;
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('personalization_responses')
+          .upsert([{
+            order_id: state.orderId,
+            preferences: state.preferences,
+            meal_votes: state.mealVotes,
+            credit_claimed: state.creditClaimed,
+            updated_at: new Date().toISOString()
+          }], {
+            onConflict: 'order_id'
+          });
+
+        if (error) throw error;
+        
+        console.log('Preferences saved to Supabase');
+      } catch (error) {
+        console.error('Error saving preferences:', error);
+        showError('Failed to save your preferences. Please try again.');
+      }
+    }
+
+    /**
+     * Save meal vote to Supabase
+     * Saves to both personalization_responses (for quick lookup) 
+     * and meal_votes table (for detailed analytics)
+     */
+    async function saveMealVoteToDB(mealId, vote) {
+      if (!state.orderId) return;
+
+      state.mealVotes[mealId] = vote;
+      state.votesCount = Object.keys(state.mealVotes).length;
+
+      try {
+        // Save to personalization_responses (JSONB storage)
+        const { error: responseError } = await supabaseClient
+          .from('personalization_responses')
+          .upsert([{
+            order_id: state.orderId,
+            preferences: state.preferences,
+            meal_votes: state.mealVotes,
+            credit_claimed: state.creditClaimed,
+            updated_at: new Date().toISOString()
+          }], {
+            onConflict: 'order_id'
+          });
+
+        if (responseError) throw responseError;
+
+        // Save to meal_votes table (normalized for analytics)
+        const { error: voteError } = await supabaseClient
+          .from('meal_votes')
+          .upsert([{
+            order_id: state.orderId,
+            meal_id: mealId,
+            vote: vote,
+            voted_at: new Date().toISOString()
+          }], {
+            onConflict: 'order_id,meal_id'
+          });
+
+        if (voteError) throw voteError;
+        
+        console.log(`Meal vote saved: ${mealId} = ${vote}`);
+      } catch (error) {
+        console.error('Error saving meal vote:', error);
+        showError('Failed to save your rating. Please try again.');
+      }
+    }
+
+    /**
+     * Mark credit as claimed in Supabase
+     */
+    async function markCreditClaimed() {
+      if (!state.orderId) return;
+
+      state.creditClaimed = true;
+
+      try {
+        const { error } = await supabaseClient
+          .from('personalization_responses')
+          .upsert([{
+            order_id: state.orderId,
+            preferences: state.preferences,
+            meal_votes: state.mealVotes,
+            credit_claimed: true,
+            completed_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          }], {
+            onConflict: 'order_id'
+          });
+
+        if (error) throw error;
+        
+        console.log('Credit claimed and saved to Supabase');
+      } catch (error) {
+        console.error('Error marking credit as claimed:', error);
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // UI FUNCTIONS
+    // ═══════════════════════════════════════════════════════════
+
+    function startPersonalization() {
+      // Hide intro screen, show preferences section
+      document.getElementById('intro-screen').style.display = 'none';
+      document.getElementById('preferences-section').style.display = 'block';
+    }
+
+    function showError(message) {
+      const errorContainer = document.getElementById('error-container');
+      errorContainer.innerHTML = `<div class="error-message">${message}</div>`;
+    }
+
+    function hideLoading() {
+      document.getElementById('loading-state').style.display = 'none';
+    }
+
+    function restoreUIFromState() {
+      // Restore preferences
+      state.preferences.forEach(value => {
+        const card = document.querySelector(`.pref-card[data-value="${value}"]`);
+        if (card) card.classList.add('selected');
+      });
+      
+      // Restore goals
+      state.goals.forEach(value => {
+        const card = document.querySelector(`.goal-card[data-value="${value}"]`);
+        if (card) card.classList.add('selected');
+      });
+      
+      // Show continue button if preferences selected
+      if (state.preferences.length > 0) {
+        document.getElementById('continue-btn').classList.add('active');
+      }
+      
+      // Show continue button if goals selected
+      if (state.goals.length > 0) {
+        const goalsBtn = document.getElementById('goals-continue-btn');
+        if (goalsBtn) {
+          goalsBtn.classList.add('active');
+          goalsBtn.disabled = false;
+        }
+      }
+      
+      // If preferences selected and votes started, show meal voting
+      if (state.preferences.length > 0 && state.votesCount > 0) {
+        currentMealIndex = state.votesCount;
+        if (state.votesCount < 10) {
+          startMealVoting();
+        }
+      }
+      
+      // Restore success state
+      if (state.creditClaimed) {
+        document.getElementById('info-bar-wrap').style.display = 'none';
+        document.getElementById('intro-screen').style.display = 'none';
+        document.getElementById('preferences-section').style.display = 'none';
+        document.getElementById('goals-section').style.display = 'none';
+        document.getElementById('split-box-section').style.display = 'none';
+        document.getElementById('progress-container').style.display = 'none';
+        document.getElementById('meal-voting-container').style.display = 'none';
+        document.getElementById('success-panel').classList.add('active');
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // PREFERENCE SELECTION
+    // ═══════════════════════════════════════════════════════════
+
+    async function togglePreference(el) {
+      const value = el.dataset.value;
+      const index = state.preferences.indexOf(value);
+      
+      if (index > -1) {
+        state.preferences.splice(index, 1);
+        el.classList.remove('selected');
+      } else {
+        state.preferences.push(value);
+        el.classList.add('selected');
+      }
+      
+      // Save to Supabase
+      await savePreferencesToDB();
+      
+      // Show/hide continue button
+      const continueBtn = document.getElementById('continue-btn');
+      if (state.preferences.length > 0) {
+        continueBtn.classList.add('active');
+      } else {
+        continueBtn.classList.remove('active');
+      }
+    }
+
+    /**
+     * Continue from preferences section
+     * Decides whether to show goals, split box, or go straight to meal voting
+     */
+    async function continueFromPreferences() {
+      await savePreferencesToDB();
+      
+      // Hide preferences section
+      document.getElementById('preferences-section').style.display = 'none';
+      
+      // Check if we need to ask about goals
+      if (state.config && state.config.askGoals) {
+        document.getElementById('goals-section').style.display = 'block';
+        return;
+      }
+      
+      // Check if we need to ask about split box
+      if (state.config && state.config.askSplitBox) {
+        updateSplitBoxUI(); // Personalize the split box text
+        document.getElementById('split-box-section').style.display = 'block';
+        return;
+      }
+      
+      // Go straight to meal voting
+      startMealVoting();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // GOALS SELECTION
+    // ═══════════════════════════════════════════════════════════
+
+    async function toggleGoal(el) {
+      const value = el.dataset.value;
+      const index = state.goals.indexOf(value);
+      
+      if (index > -1) {
+        state.goals.splice(index, 1);
+        el.classList.remove('selected');
+      } else {
+        state.goals.push(value);
+        el.classList.add('selected');
+      }
+      
+      // Save to Supabase
+      await saveGoalsToDB();
+      
+      // Show/hide continue button
+      const continueBtn = document.getElementById('goals-continue-btn');
+      if (state.goals.length > 0) {
+        continueBtn.classList.add('active');
+        continueBtn.disabled = false;
+      } else {
+        continueBtn.classList.remove('active');
+        continueBtn.disabled = true;
+      }
+    }
+
+    /**
+     * Continue from goals section
+     */
+    async function continueFromGoals() {
+      await saveGoalsToDB();
+      
+      // Hide goals section
+      document.getElementById('goals-section').style.display = 'none';
+      
+      // Check if we need to ask about split box
+      if (state.config && state.config.askSplitBox) {
+        updateSplitBoxUI(); // Personalize the split box text
+        document.getElementById('split-box-section').style.display = 'block';
+        return;
+      }
+      
+      // Go straight to meal voting
+      startMealVoting();
+    }
+
+    /**
+     * Save goals to Supabase
+     */
+    async function saveGoalsToDB() {
+      if (!state.orderId) return;
+
+      try {
+        const { error } = await supabaseClient
+          .from('personalization_responses')
+          .update({
+            goals: state.goals,
+            updated_at: new Date().toISOString()
+          })
+          .eq('order_id', state.orderId);
+
+        if (error) throw error;
+        console.log('Goals saved:', state.goals);
+      } catch (error) {
+        console.error('Error saving goals:', error);
+        showError('Failed to save your goals. Please try again.');
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // SPLIT BOX SELECTION
+    // ═══════════════════════════════════════════════════════════
+
+    function selectSplitBox(el, value) {
+      // Remove selected from all cards
+      document.querySelectorAll('.split-box-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      
+      // Add selected to clicked card
+      el.classList.add('selected');
+      
+      // Store the preference
+      state.splitBoxPreference = value;
+      
+      // Enable continue button
+      document.getElementById('split-continue-btn').classList.add('active');
+      document.getElementById('split-continue-btn').disabled = false;
+    }
+
+    /**
+     * Continue from split box section to meal voting
+     */
+    async function continueFromSplitBox() {
+      // Save split box preference to database
+      await saveSplitBoxPreference();
+      
+      // Continue to meal voting
+      startMealVoting();
+    }
+
+    /**
+     * Save split box preference to Supabase
+     */
+    async function saveSplitBoxPreference() {
+      if (!state.orderId || !state.splitBoxPreference) return;
+
+      try {
+        const { error } = await supabaseClient
+          .from('personalization_responses')
+          .update({
+            split_box_preference: state.splitBoxPreference,
+            updated_at: new Date().toISOString()
+          })
+          .eq('order_id', state.orderId);
+
+        if (error) throw error;
+        console.log('Split box preference saved:', state.splitBoxPreference);
+      } catch (error) {
+        console.error('Error saving split box preference:', error);
+        showError('Failed to save your preference. Please try again.');
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // MEAL VOTING
+    // ═══════════════════════════════════════════════════════════
+
+    async function startMealVoting() {
+      // Hide all question sections
+      document.getElementById('preferences-section').style.display = 'none';
+      document.getElementById('goals-section').style.display = 'none';
+      document.getElementById('split-box-section').style.display = 'none';
+      
+      // Reload meals based on selected preferences
+      console.log('Reloading meals based on preferences:', state.preferences);
+      state.meals = await fetchMealsFromDB(state.preferences);
+      console.log(`Loaded ${state.meals.length} meals matching preferences`);
+      
+      if (state.meals.length === 0) {
+        showError('No meals available matching your preferences. Please adjust your selections.');
+        return;
+      }
+      
+      // Reset meal index
+      currentMealIndex = 0;
+      state.votesCount = 0;
+      state.mealVotes = {};
+      
+      // Show progress bar and meal voting
+      document.getElementById('progress-container').classList.add('active');
+      document.getElementById('meal-voting-container').classList.add('active');
+      
+      // Render first meal
+      renderCurrentMeal();
+      updateProgressBar();
+    }
+
+    function renderCurrentMeal() {
+      if (currentMealIndex >= state.meals.length) {
+        // All meals rated, show success
+        showSuccess();
+        return;
+      }
+
+      const meal = state.meals[currentMealIndex];
+      const container = document.getElementById('meal-voting-container');
+      
+      // Default image if none provided
+      const imageUrl = meal.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c';
+      
+      container.innerHTML = `
+        <div class="meal-card">
+          <div class="meal-image" style="background-image: url('${imageUrl}')"></div>
+          <div class="meal-info">
+            <h3 class="meal-name">${meal.name}</h3>
+            <p class="meal-description">${meal.description || ''}</p>
+            <div class="meal-nutrition">
+              ${meal.calories ? `<span class="nutrition-item"><strong>${meal.calories}</strong>kcal</span>` : ''}
+              ${meal.protein ? `<span class="nutrition-item">Protein: <strong>${meal.protein}g</strong></span>` : ''}
+            </div>
+          </div>
+          <div class="voting-buttons">
+            <button class="vote-btn thumbs-down" onclick="voteMeal('${meal.meal_id}', 0)">
+              <span class="vote-icon">👎</span>
+            </button>
+            <button class="vote-btn thumbs-up" onclick="voteMeal('${meal.meal_id}', 1)">
+              <span class="vote-icon">👍</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    async function voteMeal(mealId, vote) {
+      // Ensure vote is an integer (0 or 1)
+      const voteInt = parseInt(vote, 10);
+      
+      // Get the meal card and button
+      const mealCard = document.querySelector('.meal-card');
+      const clickedButton = event.target.closest('.vote-btn');
+      
+      // Add animation classes
+      if (clickedButton) {
+        clickedButton.classList.add('voted');
+      }
+      
+      // Add fade-out animation to card
+      mealCard.classList.add('fade-out');
+      
+      // Save the vote to Supabase
+      await saveMealVoteToDB(mealId, voteInt);
+
+      // Update progress bar
+      updateProgressBar();
+
+      // Wait for animation to complete before showing next card
+      setTimeout(() => {
+        // Move to next meal
+        currentMealIndex++;
+        renderCurrentMeal();
+      }, 300); // Match the fadeOutDown animation duration
+    }
+
+    function updateProgressBar() {
+      const totalMeals = state.meals.length || 10;
+      const progress = (state.votesCount / totalMeals) * 100;
+      document.getElementById('progress-bar-fill').style.width = progress + '%';
+      document.getElementById('votes-count').textContent = state.votesCount;
+      document.getElementById('total-meals').textContent = totalMeals;
+    }
+
+    async function showSuccess() {
+      // Mark credit as claimed in Supabase
+      await markCreditClaimed();
+      
+      // Hide all other sections
+      document.getElementById('info-bar-wrap').style.display = 'none';
+      document.getElementById('intro-screen').style.display = 'none';
+      document.getElementById('preferences-section').style.display = 'none';
+      document.getElementById('goals-section').style.display = 'none';
+      document.getElementById('split-box-section').style.display = 'none';
+      document.getElementById('progress-container').style.display = 'none';
+      document.getElementById('meal-voting-container').style.display = 'none';
+      
+      // Show success panel
+      document.getElementById('success-panel').classList.add('active');
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // RESET FUNCTION
+    // ═══════════════════════════════════════════════════════════
+
+    function resetDemo() {
+      // Reset state
+      state.preferences = [];
+      state.mealVotes = {};
+      state.votesCount = 0;
+      state.creditClaimed = false;
+      currentMealIndex = 0;
+      
+      // Show intro screen and hide everything else
+      document.getElementById('intro-screen').style.display = 'block';
+      document.getElementById('preferences-section').style.display = 'none';
+      
+      // Hide success panel
+      document.getElementById('success-panel').classList.remove('active');
+      
+      // Reset all selections
+      document.querySelectorAll('.pref-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      
+      // Hide continue button
+      document.getElementById('continue-btn').classList.remove('active');
+      
+      // Hide progress and voting
+      document.getElementById('progress-container').classList.remove('active');
+      document.getElementById('meal-voting-container').classList.remove('active');
+      
+      // Clear meal voting container to reset meals
+      document.getElementById('meal-voting-container').innerHTML = '';
+      
+      // Reset progress bar
+      document.getElementById('progress-bar-fill').style.width = '0%';
+      document.getElementById('votes-count').textContent = '0';
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // INCENTIVISE UI UPDATE
+    // ═══════════════════════════════════════════════════════════
+
+    function updateIncentiviseUI() {
+      if (state.incentivise) {
+        // Show £5 credit messaging
+        document.getElementById('intro-text').textContent = 'Tell us what you like and get meals tailored to you. Get £5 off when you do.';
+        document.getElementById('info-bar-text').innerHTML = '💰 Rate 10 meals to claim your £5 credit!';
+        document.getElementById('progress-text').textContent = 'Rate meals to unlock your £5 credit';
+        document.getElementById('success-banner-title').textContent = '🎉 £5 credit added to your account!';
+        document.getElementById('success-banner-text').textContent = 'Your credit will be automatically applied to your next order. Welcome to Frive!';
+        document.getElementById('success-banner').style.display = 'block';
+      } else {
+        // Hide £5 credit messaging
+        document.getElementById('intro-text').textContent = 'Tell us what you like and get meals tailored to you.';
+        document.getElementById('info-bar-text').innerHTML = '✨ Help us personalise your Frive experience';
+        document.getElementById('progress-text').textContent = 'Help us personalise your meals';
+        document.getElementById('success-banner-title').textContent = '🎉 Thank you!';
+        document.getElementById('success-banner-text').textContent = 'Your preferences have been saved. We\'ll use this to personalise your meal recommendations!';
+        // Keep banner visible but with different message
+        document.getElementById('success-banner').style.display = 'block';
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // SPLIT BOX PERSONALIZATION
+    // ═══════════════════════════════════════════════════════════
+
+    function updateSplitBoxUI() {
+      if (!state.config) return;
+
+      const { numberOfMeals, deliveryDay } = state.config;
+      
+      // Determine the two delivery days
+      let firstDay, secondDay;
+      if (deliveryDay === 'Sun') {
+        firstDay = 'Sunday';
+        secondDay = 'Wednesday';
+      } else if (deliveryDay === 'Mon') {
+        firstDay = 'Monday';
+        secondDay = 'Wednesday';
+      } else {
+        // Fallback for other days (shouldn't happen if split box logic is correct)
+        firstDay = deliveryDay;
+        secondDay = 'Wednesday';
+      }
+
+      // Update the description
+      document.getElementById('split-box-description').textContent = 
+        `You have ${numberOfMeals} meals. Keep your meals fresh and save on fridge space by receiving your meals in two deliveries a week.`;
+      
+      // Update One Box description
+      document.getElementById('one-box-description').textContent = 
+        `Receive all ${numberOfMeals} meals on ${firstDay}s`;
+      
+      // Update Split Box description
+      document.getElementById('split-box-card-description').textContent = 
+        `Receive meals on ${firstDay} and ${secondDay}`;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // INITIALIZATION
+    // ═══════════════════════════════════════════════════════════
+
+    async function initializeApp() {
+      try {
+        // Get order_id from URL
+        const orderId = getOrderIdFromURL();
+        
+        console.log('=== INITIALIZATION START ===');
+        console.log('Order ID from URL:', orderId);
+        
+        if (!orderId) {
+          showError('No order ID provided. Please use a valid personalization link.');
+          hideLoading();
+          return;
+        }
+
+        state.orderId = orderId;
+        console.log('State order ID set:', state.orderId);
+
+        // Test Supabase connection
+        console.log('Testing Supabase connection...');
+        const { data: testData, error: testError } = await supabaseClient
+          .from('personalization_config')
+          .select('count');
+        
+        if (testError) {
+          console.error('Supabase connection test failed:', testError);
+          showError(`Database connection failed: ${testError.message}. Make sure you've run the SQL schema in Supabase.`);
+          hideLoading();
+          return;
+        }
+        console.log('Supabase connection successful!');
+
+        // Fetch configuration flags from Supabase
+        console.log('Fetching order config...');
+        const config = await fetchOrderConfig(orderId);
+        console.log('Config received:', config);
+        
+        // Store full config in state
+        state.config = config;
+        state.askPreferences = config.askPreferences;
+        state.askMealRatings = config.askMealRatings;
+        state.incentivise = config.incentivise;
+
+        // Update UI based on incentivise flag
+        updateIncentiviseUI();
+
+        // Load existing data if available (need this before loading meals)
+        console.log('Loading existing personalization data...');
+        const hasExistingData = await loadPersonalizationData(orderId);
+        console.log('Has existing data:', hasExistingData);
+
+        // Load meals from Supabase if meal ratings are enabled
+        if (state.askMealRatings) {
+          console.log('Loading meals from database...');
+          // Pass existing preferences to filter meals
+          state.meals = await fetchMealsFromDB(state.preferences);
+          console.log(`Loaded ${state.meals.length} meals`);
+          
+          if (state.meals.length === 0) {
+            showError('No meals available matching your preferences. Please try again later.');
+            return;
+          }
+        }
+
+        // Hide loading, show content
+        hideLoading();
+
+        // Show appropriate sections based on flags and existing data
+        if (state.creditClaimed) {
+          // Already completed - show success directly
+          console.log('Flow already completed, showing success');
+          restoreUIFromState();
+        } else if (hasExistingData && (state.preferences.length > 0 || state.votesCount > 0)) {
+          // User has started - skip intro and show preferences section
+          console.log('User has existing progress, skipping intro');
+          if (state.askPreferences) {
+            document.getElementById('preferences-section').style.display = 'block';
+            restoreUIFromState();
+          } else if (state.askMealRatings) {
+            startMealVoting();
+            restoreUIFromState();
+          }
+        } else if (state.askPreferences) {
+          // New user - show intro screen first
+          console.log('New user, showing intro screen');
+          document.getElementById('intro-screen').style.display = 'block';
+        } else if (state.askMealRatings) {
+          // Skip to meal ratings (no preferences to ask)
+          console.log('Skipping to meal ratings');
+          startMealVoting();
+        } else {
+          // Nothing to ask, show completion
+          console.log('No questions to ask');
+          showError('This personalization flow has been completed.');
+        }
+
+        console.log('=== INITIALIZATION COMPLETE ===');
+
+      } catch (error) {
+        console.error('=== INITIALIZATION ERROR ===');
+        console.error('Error details:', error);
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
+        showError(`Failed to initialize: ${error.message}. Check console for details.`);
+        hideLoading();
+      }
+    }
+
+    // Start the app when DOM is ready
+    document.addEventListener('DOMContentLoaded', initializeApp);
+  </script>
+</body>
+</html>

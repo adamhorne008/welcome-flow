@@ -1,0 +1,17 @@
+# SQL test files
+*.sql
+test-*.sql
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
