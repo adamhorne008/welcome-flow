@@ -1433,7 +1433,7 @@
     
     // SECURITY: Debug flag — controls console logging.
     // Set to false in production to prevent data leakage via DevTools.
-    const DEBUG = true; // Set to true only during development
+    const DEBUG = false; // Set to true only during development
 
     // SECURITY: Credentials are injected server-side in production.
     // In local development, window.FRIVE_LOCAL_CONFIG (from config.local.js) is used.
@@ -1601,9 +1601,11 @@
           .single();
 
         if (error) {
-          // If no config found, create default one
+          // No config row found — return safe defaults.
+          // Config rows must be created server-side when an order is placed.
+          // The client never writes to personalization_config.
           if (error.code === 'PGRST116') {
-            await createDefaultConfig(orderId);
+            if (DEBUG) console.warn('No config row found for order — using defaults');
             return { 
               askPreferences: true, 
               askMealRatings: true,
@@ -1611,6 +1613,7 @@
               askSplitBox: false,
               numberOfMeals: 0,
               deliveryDay: null,
+              customerId: null,
               incentivise: true
             };
           }
@@ -1635,26 +1638,6 @@
       } catch (error) {
         if (DEBUG) console.error('Error fetching order config:', error);
         throw error; // Let initializeApp handle the error display
-      }
-    }
-
-    /**
-     * Create default configuration for new order
-     * 
-     * SECURITY: RLS must be enabled on personalization_config table
-     */
-    async function createDefaultConfig(orderId) {
-      const { error } = await supabaseClient
-        .from('personalization_config')
-        .insert([{
-          order_id: orderId,
-          ask_preferences: true,
-          ask_meal_ratings: true,
-          created_at: new Date().toISOString()
-        }]);
-
-      if (error) {
-        if (DEBUG) console.error('Error creating config:', error);
       }
     }
 
