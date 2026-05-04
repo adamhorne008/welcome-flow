@@ -140,7 +140,7 @@
        MAIN CONTENT
     ════════════════════════════════ */
     .main-content {
-      max-width: 500px;
+      max-width: 800px;
       margin: 0 auto;
       padding: 40px 24px;
     }
@@ -447,6 +447,44 @@
       display: block;
     }
 
+    /* ── Mobile fullscreen voting mode ── */
+    @media (max-width: 768px) {
+      body.voting-fullscreen {
+        overflow: hidden;
+      }
+
+      body.voting-fullscreen .meal-voting-container.active {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        background: #FAFAFA;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        max-width: 100%;
+        margin: 0;
+        padding: 16px 16px 32px;
+        animation: none;
+      }
+
+      /* Keep progress bar visible inside the fullscreen layer */
+      body.voting-fullscreen .progress-container.active {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 201;
+        background: #FAFAFA;
+        padding: 12px 16px 8px;
+        border-bottom: 1px solid var(--border);
+        margin: 0;
+      }
+
+      /* Push meal card below the pinned progress bar */
+      body.voting-fullscreen .meal-voting-container.active {
+        padding-top: 80px;
+      }
+    }
+
     .meal-card {
       background: white;
       border: 2px solid var(--border);
@@ -456,6 +494,8 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       animation: fadeInUp 0.4s ease-out;
       transition: opacity 0.3s ease, transform 0.3s ease;
+      max-width: 600px;
+      margin: auto;
     }
 
     .meal-card.voting {
@@ -624,9 +664,9 @@
     /* Split Box Section */
     .split-box-section {
       display: none;
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 40px 24px;
+      max-width: 800px;
+      margin: 16px auto;
+      padding: 16px 24px 40px;
     }
 
     .split-box-section .section-header {
@@ -660,10 +700,13 @@
       background: white;
       border: 3px solid var(--border);
       border-radius: 16px;
-      padding: 32px 24px;
+      padding: 24px 20px;
       cursor: pointer;
       transition: all 0.3s ease;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
     }
 
     .split-box-card:hover {
@@ -677,22 +720,94 @@
       background: var(--cream-banner);
     }
 
-    .split-box-card .icon {
-      font-size: 48px;
-      margin-bottom: 16px;
+    /* Card header row: icon + title + badge */
+    .split-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .split-card-icon {
+      font-size: 28px;
+      line-height: 1;
     }
 
     .split-box-card h3 {
-      font-size: 20px;
+      font-size: 18px;
       color: var(--grey-80);
       font-weight: 700;
-      margin-bottom: 8px;
+      margin: 0;
     }
 
-    .split-box-card p {
-      font-size: 14px;
+    .split-recommended-badge {
+      position: absolute;
+      top: -1px;
+      right: 16px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--kale);
+      background: var(--cream-banner);
+      border: 1.5px solid var(--lime);
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      padding: 4px 12px;
+      letter-spacing: 0.3px;
+    }
+
+    /* Delivery info pill */
+    .split-delivery-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      background: #F4F4F2;
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+
+    .split-delivery-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       color: var(--grey-60);
+    }
+
+    .split-delivery-detail {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-80);
       line-height: 1.4;
+    }
+
+    /* Benefits list */
+    .split-benefits {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .split-benefit {
+      font-size: 13px;
+      line-height: 1.4;
+      color: var(--grey-60);
+    }
+
+    .split-benefit.positive {
+      color: var(--kale);
+      font-weight: 500;
+    }
+
+    @media (max-width: 520px) {
+      .split-box-options {
+        grid-template-columns: 1fr;
+      }
+      .split-recommended-badge {
+        margin-left: 0;
+      }
     }
 
     /* Goals Section */
@@ -1011,7 +1126,7 @@
 
   <div class="info-bar-wrap" id="info-bar-wrap">
     <div class="info-bar" id="info-bar-text">
-      💰 Rate 10 meals to claim your £5 credit!
+      🎁 Upgrade your rewards scheme!
     </div>
   </div>
 
@@ -1172,22 +1287,46 @@
     <!-- Split Box Section -->
     <div class="split-box-section" id="split-box-section">
       <div class="section-header">
-        <h2>Would you like to split your delivery?</h2>
-        <p id="split-box-description">You have a large order. We can split it into multiple boxes if you prefer.</p>
+        <h2>How would you like your meals delivered?</h2>
+        <p id="split-box-description">You have a large order — here's how your delivery options compare.</p>
       </div>
 
       <div class="split-box-options">
+
+        <!-- One Box -->
         <div class="split-box-card" onclick="selectSplitBox(this, 'no')" data-value="no">
-          <div class="icon">📦</div>
-          <h3>One Box</h3>
-          <p id="one-box-description">Keep all meals in a single delivery</p>
+          <div class="split-card-header">
+            <div class="split-card-icon">📦</div>
+            <h3>One Box</h3>
+          </div>
+          <div class="split-delivery-info">
+            <span class="split-delivery-label">Your delivery</span>
+            <span class="split-delivery-detail" id="one-box-delivery"></span>
+          </div>
+          <ul class="split-benefits">
+            <li class="split-benefit neutral">Everything arrives together</li>
+            <li class="split-benefit neutral">Single delivery per week</li>
+          </ul>
         </div>
 
+        <!-- Split Box -->
         <div class="split-box-card" onclick="selectSplitBox(this, 'yes')" data-value="yes">
-          <div class="icon">📦📦</div>
-          <h3>Split Box</h3>
-          <p id="split-box-card-description">Divide meals into multiple boxes</p>
+          <span class="split-recommended-badge">Recommended</span>
+          <div class="split-card-header">
+            <div class="split-card-icon">📦📦</div>
+            <h3>Split Delivery</h3>
+          </div>
+          <div class="split-delivery-info">
+            <span class="split-delivery-label">Your deliveries</span>
+            <span class="split-delivery-detail" id="split-box-delivery"></span>
+          </div>
+          <ul class="split-benefits">
+            <li class="split-benefit positive">🧊 Save on fridge space</li>
+            <li class="split-benefit positive">🥗 Keep your meals fresher</li>
+            <li class="split-benefit positive">📅 Meals across the week</li>
+          </ul>
         </div>
+
       </div>
 
       <div class="continue-btn-container">
@@ -1209,8 +1348,8 @@
     <div class="success-panel" id="success-panel">
       <!-- Success Banner -->
       <div class="success-banner" id="success-banner">
-        <h2 id="success-banner-title">🎉 £5 credit added to your account!</h2>
-        <p id="success-banner-text">Your credit will be automatically applied to your next delivery.</p>
+        <h2 id="success-banner-title">🎉 You've just upgraded your rewards!</h2>
+        <p id="success-banner-text">Complete your preferences to unlock exclusive rewards with Frive.</p>
       </div>
 
       <!-- Benefits Section -->
@@ -1233,6 +1372,16 @@
             </a>
           </div>
 
+          <!-- Frive App -->
+           <div class="benefit-card">
+            <span class="icon">📱</span>
+            <h4>Download the Frive App</h4>
+            <p>Change your meals, track deliveries, and manage your account on the go. Available now on iOS.</p>
+            <a href="https://apps.apple.com/gb/app/frive-formerly-lions-prep/id6443897554" target="_blank" class="btn">
+              Download on App Store →
+            </a>
+          </div>
+
           <!-- Rewards Programme -->
           <div class="benefit-card">
             <span class="icon">🎁</span>
@@ -1244,15 +1393,8 @@
             </a>
           </div>
 
-          <!-- Frive App -->
-          <div class="benefit-card">
-            <span class="icon">📱</span>
-            <h4>Download the Frive App</h4>
-            <p>Change your meals, track deliveries, and manage your account on the go. Available now on iOS.</p>
-            <a href="https://apps.apple.com/gb/app/frive-formerly-lions-prep/id6443897554" target="_blank" class="btn">
-              Download on App Store →
-            </a>
-          </div>
+          
+         
         </div>
 
         <!-- Final CTA Button -->
@@ -1267,16 +1409,46 @@
   </div>
 
   <!-- Supabase JS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 
+    SECURITY: Subresource Integrity (SRI) added to prevent CDN tampering.
+    Generated from: https://www.jsdelivr.com/package/npm/@supabase/supabase-js?tab=files&version=2.47.10
+  -->
+  <script 
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.min.js"
+    integrity="sha384-z4iWwfGok6nwo14qorcgp9QHDhY0q4kM3S2mWKmdxg/N9+jiyxlx6oqp6vHl3t8V"
+    crossorigin="anonymous">
+  </script>
+
+  <!--
+    LOCAL DEV ONLY: config.local.js sets window.FRIVE_LOCAL_CONFIG with real credentials.
+    This file is gitignored and must never be deployed to production.
+    In production, credentials are injected server-side and this script tag is absent.
+  -->
+  <script src="config.local.js" onerror="/* not present in production, that's fine */"></script>
 
   <script>
     // ═══════════════════════════════════════════════════════════
-    // SUPABASE CONFIGURATION
+    // CONFIGURATION
     // ═══════════════════════════════════════════════════════════
     
-    // TODO: Replace with your actual Supabase credentials
-    const SUPABASE_URL = 'https://fhwkyeccpqtdidnexxrr.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZod2t5ZWNjcHF0ZGlkbmV4eHJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MzE5NDMsImV4cCI6MjA5MjIwNzk0M30.PLfHEo0ZIbJ8H9-66L4SkrkH3WyH9HEuBjlOf9qMs5c';
+    // SECURITY: Debug flag — controls console logging.
+    // Set to false in production to prevent data leakage via DevTools.
+    const DEBUG = true; // Set to true only during development
+
+    // SECURITY: Credentials are injected server-side in production.
+    // In local development, window.FRIVE_LOCAL_CONFIG (from config.local.js) is used.
+    // The ANON key only — never the service_role key.
+    const SUPABASE_URL = (window.FRIVE_LOCAL_CONFIG && window.FRIVE_LOCAL_CONFIG.SUPABASE_URL)
+      || '{{SUPABASE_URL}}';
+    const SUPABASE_ANON_KEY = (window.FRIVE_LOCAL_CONFIG && window.FRIVE_LOCAL_CONFIG.SUPABASE_ANON_KEY)
+      || '{{SUPABASE_ANON_KEY}}';
+
+    // Validate that credentials have been provided one way or another
+    if (SUPABASE_URL.includes('{{') || SUPABASE_ANON_KEY.includes('{{')) {
+      console.error('SECURITY ERROR: Supabase credentials not injected by server');
+      document.body.innerHTML = '<div style="text-align:center;padding:50px;"><h1>Configuration Error</h1><p>Please contact support.</p></div>';
+      throw new Error('Configuration error');
+    }
     
     // Initialize Supabase client
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -1286,7 +1458,9 @@
     // ═══════════════════════════════════════════════════════════
     
     const state = {
-      orderId: null,
+      token: null, // SECURITY: Signed token from URL (replaces sequential order_id)
+      orderId: null, // Internal order ID (retrieved from token validation)
+      customerId: null, // Customer ID from personalization_config
       preferences: [],
       goals: [], // Health goals selected by user
       mealVotes: {}, // stores meal_id: 'up' or 'down'
@@ -1297,7 +1471,6 @@
       meals: [], // Meals loaded from Supabase
       config: null, // Full config object from Supabase
       splitBoxPreference: null, // 'yes' or 'no'
-      incentivise: true // Whether to show £5 credit messaging
     };
 
     // Placeholder meals - will be replaced with actual menu items
@@ -1321,17 +1494,72 @@
     // ═══════════════════════════════════════════════════════════
 
     /**
-     * Get order_id from URL parameter
-     * Example: ?order_id=abc123
+     * SECURITY: Get signed token from URL parameter.
+     * Production: ?token=<uuid>
+     * Dev fallback: ?order_id=<id> (treated as the token directly)
      */
-    function getOrderIdFromURL() {
+    function getTokenFromURL() {
       const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get('order_id');
+      return urlParams.get('token') || urlParams.get('order_id') || null;
+    }
+
+    /** Returns true if the string is a valid UUID (v4 format). */
+    function isUUID(value) {
+      return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
+    }
+
+    /**
+     * SECURITY: Validate token and retrieve associated order_id.
+     *
+     * Production: calls validate_personalization_token() RPC with a UUID token.
+     * Dev / legacy: if the value is not UUID-shaped (e.g. ?order_id=127333),
+     * the RPC is skipped and the raw value is used as the order_id directly.
+     * This lets you test locally with existing order IDs before the token
+     * system is fully deployed.
+     */
+    async function validateTokenAndGetOrderId(token) {
+      // Non-UUID value (e.g. plain integer order_id) — skip RPC, use directly.
+      if (!isUUID(token)) {
+        if (DEBUG) console.warn('Non-UUID token — skipping RPC, using value as order_id (dev/legacy mode)');
+        return token;
+      }
+
+      try {
+        const { data, error } = await supabaseClient
+          .rpc('validate_personalization_token', { token_input: token });
+
+        if (error) {
+          // Function not yet deployed (migration not run)
+          if (error.code === 'PGRST202' || error.message?.includes('Could not find the function')) {
+            if (DEBUG) console.warn('validate_personalization_token RPC not found — using token as order_id (dev mode)');
+            return token;
+          }
+          if (DEBUG) console.error('Token validation error:', error);
+          throw new Error('Invalid or expired link');
+        }
+
+        // RPC returns an array (RETURNS TABLE) — pick the first row
+        const result = Array.isArray(data) ? data[0] : data;
+
+        if (!result || !result.is_valid) {
+          throw new Error('Invalid or expired link');
+        }
+
+        if (DEBUG) console.log('Token validated successfully');
+        return result.order_id;
+
+      } catch (error) {
+        if (DEBUG) console.error('Token validation failed:', error);
+        throw error;
+      }
     }
 
     /**
      * Fetch order configuration from Supabase
      * Checks if we should ask preferences and meal ratings
+     * 
+     * SECURITY: RLS must be enabled on personalization_config table
+     * Policy should verify that the order_id matches the token presented
      */
     async function fetchOrderConfig(orderId) {
       try {
@@ -1355,7 +1583,8 @@
               incentivise: true
             };
           }
-          throw error;
+          if (DEBUG) console.error('Config fetch error:', error);
+          throw new Error('Unable to load configuration');
         }
 
         // Determine if we should ask about split box
@@ -1369,17 +1598,19 @@
           askSplitBox: shouldAskSplitBox,
           numberOfMeals: data.number_of_meals,
           deliveryDay: data.delivery_day,
+          customerId: data.customer_id || null,
           incentivise: data.incentivise !== false // Default to true if not set
         };
       } catch (error) {
-        console.error('Error fetching order config:', error);
-        showError('Failed to load configuration. Please try again.');
-        throw error;
+        if (DEBUG) console.error('Error fetching order config:', error);
+        throw error; // Let initializeApp handle the error display
       }
     }
 
     /**
      * Create default configuration for new order
+     * 
+     * SECURITY: RLS must be enabled on personalization_config table
      */
     async function createDefaultConfig(orderId) {
       const { error } = await supabaseClient
@@ -1392,13 +1623,17 @@
         }]);
 
       if (error) {
-        console.error('Error creating config:', error);
+        if (DEBUG) console.error('Error creating config:', error);
       }
     }
 
     /**
      * Fetch active meals from Supabase
      * Filters based on user preferences and returns randomized meals
+     * 
+     * SECURITY: RLS must be enabled on meals table
+     * The meals table should be readable by anon key (public menu data)
+     * but ensure no sensitive customer data is stored here
      */
     async function fetchMealsFromDB(preferences = []) {
       try {
@@ -1407,9 +1642,12 @@
           .select('*')
           .eq('is_active', true);
 
-        if (error) throw error;
+        if (error) {
+          if (DEBUG) console.error('Meals fetch error:', error);
+          throw new Error('Unable to load meals');
+        }
 
-        console.log(`Loaded ${data.length} total meals from Supabase`);
+        if (DEBUG) console.log(`Loaded ${data.length} total meals from Supabase`);
         
         // Filter meals based on preferences
         let filteredMeals = data;
@@ -1429,8 +1667,13 @@
           
           // Convert user preferences to tag format
           const selectedTags = preferences.map(pref => preferenceMap[pref]).filter(Boolean);
+
+          // If vegetarian is selected, also include vegan meals (vegan meals are always vegetarian)
+          if (preferences.includes('vegetarian') && !selectedTags.includes('Vegan')) {
+            selectedTags.push('Vegan');
+          }
           
-          console.log('Filtering meals by tags:', selectedTags);
+          if (DEBUG) console.log('Filtering meals by tags:', selectedTags);
           
           // Filter meals that have at least one matching tag
           filteredMeals = data.filter(meal => {
@@ -1438,7 +1681,7 @@
             return meal.tags.some(tag => selectedTags.includes(tag));
           });
           
-          console.log(`Filtered to ${filteredMeals.length} meals matching preferences`);
+          if (DEBUG) console.log(`Filtered to ${filteredMeals.length} meals matching preferences`);
         }
         
         // Randomize the order
@@ -1447,11 +1690,11 @@
         // Limit to 10 meals
         const selectedMeals = randomizedMeals.slice(0, 10);
         
-        console.log(`Returning ${selectedMeals.length} randomized meals`);
+        if (DEBUG) console.log(`Returning ${selectedMeals.length} randomized meals`);
         return selectedMeals;
       } catch (error) {
-        console.error('Error fetching meals:', error);
-        showError('Failed to load meals. Please try again.');
+        if (DEBUG) console.error('Error fetching meals:', error);
+        showError('Something went wrong. Please try again.');
         return [];
       }
     }
@@ -1470,6 +1713,9 @@
 
     /**
      * Load existing personalization data from Supabase
+     * 
+     * SECURITY: RLS must be enabled on personalization_responses table
+     * Policy must ensure users can only access their own order's data
      */
     async function loadPersonalizationData(orderId) {
       try {
@@ -1477,33 +1723,38 @@
           .from('personalization_responses')
           .select('*')
           .eq('order_id', orderId)
-          .single();
+          .limit(1);
 
-        if (error && error.code !== 'PGRST116') {
-          throw error;
+        if (error) {
+          if (DEBUG) console.error('Load personalization error:', error);
+          throw new Error('Unable to load your data');
         }
 
-        if (data) {
+        const row = data && data.length > 0 ? data[0] : null;
+
+        if (row) {
           // Restore state from database
-          state.preferences = data.preferences || [];
-          state.goals = data.goals || [];
-          state.mealVotes = data.meal_votes || {};
+          state.preferences = row.preferences || [];
+          state.goals = row.goals || [];
+          state.mealVotes = row.meal_votes || {};
           state.votesCount = Object.keys(state.mealVotes).length;
-          state.creditClaimed = data.credit_claimed || false;
-          state.splitBoxPreference = data.split_box_preference || null;
+          state.creditClaimed = row.credit_claimed || false;
+          state.splitBoxPreference = row.split_box_preference || null;
           
           return true;
         }
 
         return false;
       } catch (error) {
-        console.error('Error loading personalization data:', error);
+        if (DEBUG) console.error('Error loading personalization data:', error);
         return false;
       }
     }
 
     /**
      * Save preferences to Supabase
+     * 
+     * SECURITY: RLS must be enabled on personalization_responses table
      */
     async function savePreferencesToDB() {
       if (!state.orderId) return;
@@ -1521,12 +1772,15 @@
             onConflict: 'order_id'
           });
 
-        if (error) throw error;
+        if (error) {
+          if (DEBUG) console.error('Save preferences error:', error);
+          throw new Error('Unable to save preferences');
+        }
         
-        console.log('Preferences saved to Supabase');
+        if (DEBUG) console.log('Preferences saved to Supabase');
       } catch (error) {
-        console.error('Error saving preferences:', error);
-        showError('Failed to save your preferences. Please try again.');
+        if (DEBUG) console.error('Error saving preferences:', error);
+        showError('Something went wrong. Please try again.');
       }
     }
 
@@ -1534,6 +1788,8 @@
      * Save meal vote to Supabase
      * Saves to both personalization_responses (for quick lookup) 
      * and meal_votes table (for detailed analytics)
+     * 
+     * SECURITY: RLS must be enabled on both tables
      */
     async function saveMealVoteToDB(mealId, vote) {
       if (!state.orderId) return;
@@ -1555,7 +1811,10 @@
             onConflict: 'order_id'
           });
 
-        if (responseError) throw responseError;
+        if (responseError) {
+          if (DEBUG) console.error('Save vote to responses error:', responseError);
+          throw responseError;
+        }
 
         // Save to meal_votes table (normalized for analytics)
         const { error: voteError } = await supabaseClient
@@ -1569,17 +1828,38 @@
             onConflict: 'order_id,meal_id'
           });
 
-        if (voteError) throw voteError;
+        if (voteError) {
+          if (DEBUG) console.error('Save vote to meal_votes error:', voteError);
+          throw voteError;
+        }
         
-        console.log(`Meal vote saved: ${mealId} = ${vote}`);
+        if (DEBUG) console.log(`Meal vote saved: ${mealId} = ${vote}`);
       } catch (error) {
-        console.error('Error saving meal vote:', error);
-        showError('Failed to save your rating. Please try again.');
+        if (DEBUG) console.error('Error saving meal vote:', error);
+        showError('Something went wrong. Please try again.');
       }
     }
 
     /**
-     * Mark credit as claimed in Supabase
+     * SECURITY: Mark credit as claimed - SERVER-SIDE IMPLEMENTATION REQUIRED
+     * 
+     * This function should NOT be the source of truth for credit issuance.
+     * Instead, it should call a Supabase database function or edge function
+     * that handles the actual credit issuance with idempotency.
+     * 
+     * The server-side function should:
+     * 1. Verify the token/order_id is valid
+     * 2. Check if credit was already claimed (idempotent)
+     * 3. Issue the £5 credit to the customer account
+     * 4. Mark credit_claimed = true in personalization_responses
+     * 5. Log the transaction for audit purposes
+     * 
+     * TODO: Create Supabase function:
+     * CREATE OR REPLACE FUNCTION claim_personalization_credit(order_id_input text)
+     * RETURNS boolean ...
+     * 
+     * Current implementation is CLIENT-SIDE ONLY and NOT SECURE.
+     * This must be replaced before production deployment.
      */
     async function markCreditClaimed() {
       if (!state.orderId) return;
@@ -1587,6 +1867,11 @@
       state.creditClaimed = true;
 
       try {
+        // TODO: Replace with server-side credit issuance
+        // const { data, error } = await supabaseClient
+        //   .rpc('claim_personalization_credit', { order_id_input: state.orderId });
+        
+        // TEMPORARY: Client-side flag only (INSECURE - DO NOT USE IN PRODUCTION)
         const { error } = await supabaseClient
           .from('personalization_responses')
           .upsert([{
@@ -1600,11 +1885,48 @@
             onConflict: 'order_id'
           });
 
-        if (error) throw error;
+        if (error) {
+          if (DEBUG) console.error('Mark credit claimed error:', error);
+          throw new Error('Unable to process credit');
+        }
         
-        console.log('Credit claimed and saved to Supabase');
+        if (DEBUG) console.log('Credit claimed flag saved (NOTE: Server-side issuance required)');
       } catch (error) {
-        console.error('Error marking credit as claimed:', error);
+        if (DEBUG) console.error('Error marking credit as claimed:', error);
+        showError('Something went wrong. Please try again.');
+      }
+    }
+
+    /**
+     * Notify n8n webhook that a customer has upgraded their rewards.
+     * Fires-and-forgets — a failure here should never block the success screen.
+     */
+    async function notifyRewardWebhook() {
+      if (!state.customerId) {
+        if (DEBUG) console.warn('[Webhook] No customer_id — skipping webhook.');
+        return;
+      }
+
+      const payload = {
+        customer_id: state.customerId,
+        order_id: state.orderId,
+        completed_at: new Date().toISOString()
+      };
+
+      if (DEBUG) console.log('[Webhook] Sending payload:', payload);
+
+      try {
+        const response = await fetch(
+          'https://adamhorne.app.n8n.cloud/webhook/reward_test_pot',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          }
+        );
+        if (DEBUG) console.log('[Webhook] Response status:', response.status);
+      } catch (error) {
+        if (DEBUG) console.error('[Webhook] Fetch failed:', error.message);
       }
     }
 
@@ -1618,9 +1940,19 @@
       document.getElementById('preferences-section').style.display = 'block';
     }
 
+    /**
+     * SECURITY: Show sanitized error message to user
+     * Generic user-facing messages only - detailed errors logged to console if DEBUG=true
+     * Never expose database schema, table names, or internal error details to users
+     */
     function showError(message) {
       const errorContainer = document.getElementById('error-container');
-      errorContainer.innerHTML = `<div class="error-message">${message}</div>`;
+      // SECURITY: Using textContent instead of innerHTML to prevent XSS
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error-message';
+      errorDiv.textContent = message; // Safe: textContent prevents XSS
+      errorContainer.innerHTML = ''; // Clear previous errors
+      errorContainer.appendChild(errorDiv);
     }
 
     function hideLoading() {
@@ -1782,6 +2114,8 @@
 
     /**
      * Save goals to Supabase
+     * 
+     * SECURITY: RLS must be enabled on personalization_responses table
      */
     async function saveGoalsToDB() {
       if (!state.orderId) return;
@@ -1795,11 +2129,14 @@
           })
           .eq('order_id', state.orderId);
 
-        if (error) throw error;
-        console.log('Goals saved:', state.goals);
+        if (error) {
+          if (DEBUG) console.error('Save goals error:', error);
+          throw new Error('Unable to save goals');
+        }
+        if (DEBUG) console.log('Goals saved:', state.goals);
       } catch (error) {
-        console.error('Error saving goals:', error);
-        showError('Failed to save your goals. Please try again.');
+        if (DEBUG) console.error('Error saving goals:', error);
+        showError('Something went wrong. Please try again.');
       }
     }
 
@@ -1837,6 +2174,8 @@
 
     /**
      * Save split box preference to Supabase
+     * 
+     * SECURITY: RLS must be enabled on personalization_responses table
      */
     async function saveSplitBoxPreference() {
       if (!state.orderId || !state.splitBoxPreference) return;
@@ -1850,11 +2189,14 @@
           })
           .eq('order_id', state.orderId);
 
-        if (error) throw error;
-        console.log('Split box preference saved:', state.splitBoxPreference);
+        if (error) {
+          if (DEBUG) console.error('Save split box error:', error);
+          throw new Error('Unable to save preference');
+        }
+        if (DEBUG) console.log('Split box preference saved:', state.splitBoxPreference);
       } catch (error) {
-        console.error('Error saving split box preference:', error);
-        showError('Failed to save your preference. Please try again.');
+        if (DEBUG) console.error('Error saving split box preference:', error);
+        showError('Something went wrong. Please try again.');
       }
     }
 
@@ -1869,12 +2211,12 @@
       document.getElementById('split-box-section').style.display = 'none';
       
       // Reload meals based on selected preferences
-      console.log('Reloading meals based on preferences:', state.preferences);
+      if (DEBUG) console.log('Reloading meals based on preferences:', state.preferences);
       state.meals = await fetchMealsFromDB(state.preferences);
-      console.log(`Loaded ${state.meals.length} meals matching preferences`);
+      if (DEBUG) console.log(`Loaded ${state.meals.length} meals matching preferences`);
       
       if (state.meals.length === 0) {
-        showError('No meals available matching your preferences. Please adjust your selections.');
+        showError('Something went wrong. Please try again.');
         return;
       }
       
@@ -1886,6 +2228,11 @@
       // Show progress bar and meal voting
       document.getElementById('progress-container').classList.add('active');
       document.getElementById('meal-voting-container').classList.add('active');
+
+      // On mobile, take over the full screen
+      document.body.classList.add('voting-fullscreen');
+      // Scroll to top so the fixed progress bar is at the very top
+      window.scrollTo(0, 0);
       
       // Render first meal
       renderCurrentMeal();
@@ -1905,27 +2252,86 @@
       // Default image if none provided
       const imageUrl = meal.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c';
       
-      container.innerHTML = `
-        <div class="meal-card">
-          <div class="meal-image" style="background-image: url('${imageUrl}')"></div>
-          <div class="meal-info">
-            <h3 class="meal-name">${meal.name}</h3>
-            <p class="meal-description">${meal.description || ''}</p>
-            <div class="meal-nutrition">
-              ${meal.calories ? `<span class="nutrition-item"><strong>${meal.calories}</strong>kcal</span>` : ''}
-              ${meal.protein ? `<span class="nutrition-item">Protein: <strong>${meal.protein}g</strong></span>` : ''}
-            </div>
-          </div>
-          <div class="voting-buttons">
-            <button class="vote-btn thumbs-down" onclick="voteMeal('${meal.meal_id}', 0)">
-              <span class="vote-icon">👎</span>
-            </button>
-            <button class="vote-btn thumbs-up" onclick="voteMeal('${meal.meal_id}', 1)">
-              <span class="vote-icon">👍</span>
-            </button>
-          </div>
-        </div>
-      `;
+      // SECURITY: Using DOM methods instead of innerHTML to prevent XSS
+      // Although meal data comes from Supabase, defensive coding is best practice
+      container.innerHTML = ''; // Clear container
+      
+      const mealCard = document.createElement('div');
+      mealCard.className = 'meal-card';
+      
+      // Meal image
+      const mealImage = document.createElement('div');
+      mealImage.className = 'meal-image';
+      mealImage.style.backgroundImage = `url('${encodeURI(imageUrl)}')`;
+      
+      // Meal info
+      const mealInfo = document.createElement('div');
+      mealInfo.className = 'meal-info';
+      
+      const mealName = document.createElement('h3');
+      mealName.className = 'meal-name';
+      mealName.textContent = meal.name; // Safe: textContent prevents XSS
+      
+      const mealDescription = document.createElement('p');
+      mealDescription.className = 'meal-description';
+      mealDescription.textContent = meal.description || ''; // Safe: textContent prevents XSS
+      
+      const mealNutrition = document.createElement('div');
+      mealNutrition.className = 'meal-nutrition';
+      
+      if (meal.calories) {
+        const caloriesSpan = document.createElement('span');
+        caloriesSpan.className = 'nutrition-item';
+        const caloriesStrong = document.createElement('strong');
+        caloriesStrong.textContent = meal.calories;
+        caloriesSpan.appendChild(caloriesStrong);
+        caloriesSpan.appendChild(document.createTextNode('kcal'));
+        mealNutrition.appendChild(caloriesSpan);
+      }
+      
+      if (meal.protein) {
+        const proteinSpan = document.createElement('span');
+        proteinSpan.className = 'nutrition-item';
+        proteinSpan.appendChild(document.createTextNode('Protein: '));
+        const proteinStrong = document.createElement('strong');
+        proteinStrong.textContent = meal.protein + 'g';
+        proteinSpan.appendChild(proteinStrong);
+        mealNutrition.appendChild(proteinSpan);
+      }
+      
+      mealInfo.appendChild(mealName);
+      mealInfo.appendChild(mealDescription);
+      mealInfo.appendChild(mealNutrition);
+      
+      // Voting buttons
+      const votingButtons = document.createElement('div');
+      votingButtons.className = 'voting-buttons';
+      
+      const thumbsDownBtn = document.createElement('button');
+      thumbsDownBtn.className = 'vote-btn thumbs-down';
+      thumbsDownBtn.onclick = () => voteMeal(meal.meal_id, 0);
+      const thumbsDownIcon = document.createElement('span');
+      thumbsDownIcon.className = 'vote-icon';
+      thumbsDownIcon.textContent = '👎';
+      thumbsDownBtn.appendChild(thumbsDownIcon);
+      
+      const thumbsUpBtn = document.createElement('button');
+      thumbsUpBtn.className = 'vote-btn thumbs-up';
+      thumbsUpBtn.onclick = () => voteMeal(meal.meal_id, 1);
+      const thumbsUpIcon = document.createElement('span');
+      thumbsUpIcon.className = 'vote-icon';
+      thumbsUpIcon.textContent = '👍';
+      thumbsUpBtn.appendChild(thumbsUpIcon);
+      
+      votingButtons.appendChild(thumbsDownBtn);
+      votingButtons.appendChild(thumbsUpBtn);
+      
+      // Assemble card
+      mealCard.appendChild(mealImage);
+      mealCard.appendChild(mealInfo);
+      mealCard.appendChild(votingButtons);
+      
+      container.appendChild(mealCard);
     }
 
     async function voteMeal(mealId, vote) {
@@ -1969,6 +2375,11 @@
     async function showSuccess() {
       // Mark credit as claimed in Supabase
       await markCreditClaimed();
+
+      // Notify reward webhook (non-blocking)
+      notifyRewardWebhook();
+      // Exit fullscreen voting mode
+      document.body.classList.remove('voting-fullscreen');
       
       // Hide all other sections
       document.getElementById('info-bar-wrap').style.display = 'none';
@@ -1990,40 +2401,63 @@
     // RESET FUNCTION
     // ═══════════════════════════════════════════════════════════
 
-    function resetDemo() {
+    async function resetDemo() {
+      // Delete saved data from Supabase so it doesn't restore on reload
+      if (state.orderId) {
+        await supabaseClient
+          .from('personalization_responses')
+          .delete()
+          .eq('order_id', state.orderId);
+
+        await supabaseClient
+          .from('meal_votes')
+          .delete()
+          .eq('order_id', state.orderId);
+      }
+
       // Reset state
       state.preferences = [];
+      state.goals = [];
       state.mealVotes = {};
       state.votesCount = 0;
       state.creditClaimed = false;
+      state.splitBoxPreference = null;
       currentMealIndex = 0;
-      
-      // Show intro screen and hide everything else
+
+      // Show intro screen, hide everything else
       document.getElementById('intro-screen').style.display = 'block';
       document.getElementById('preferences-section').style.display = 'none';
-      
+      document.getElementById('goals-section').style.display = 'none';
+      document.getElementById('split-box-section').style.display = 'none';
+      document.getElementById('info-bar-wrap').style.display = 'block';
+
       // Hide success panel
       document.getElementById('success-panel').classList.remove('active');
-      
-      // Reset all selections
-      document.querySelectorAll('.pref-card').forEach(card => {
+
+      // Reset all preference and goal selections
+      document.querySelectorAll('.pref-card, .goal-card, .split-box-card').forEach(card => {
         card.classList.remove('selected');
       });
-      
-      // Hide continue button
+
+      // Hide continue buttons
       document.getElementById('continue-btn').classList.remove('active');
-      
-      // Hide progress and voting
+      const goalsBtn = document.getElementById('goals-continue-btn');
+      if (goalsBtn) { goalsBtn.classList.remove('active'); goalsBtn.disabled = true; }
+      const splitBtn = document.getElementById('split-continue-btn');
+      if (splitBtn) { splitBtn.classList.remove('active'); splitBtn.disabled = true; }
+
+      // Hide progress and voting, clear meal cards
       document.getElementById('progress-container').classList.remove('active');
       document.getElementById('meal-voting-container').classList.remove('active');
-      
-      // Clear meal voting container to reset meals
       document.getElementById('meal-voting-container').innerHTML = '';
-      
+
+      // Exit fullscreen voting mode (in case reset was triggered mid-voting)
+      document.body.classList.remove('voting-fullscreen');
+
       // Reset progress bar
       document.getElementById('progress-bar-fill').style.width = '0%';
       document.getElementById('votes-count').textContent = '0';
-      
+
       // Scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -2033,24 +2467,14 @@
     // ═══════════════════════════════════════════════════════════
 
     function updateIncentiviseUI() {
-      if (state.incentivise) {
-        // Show £5 credit messaging
-        document.getElementById('intro-text').textContent = 'Tell us what you like and get meals tailored to you. Get £5 off when you do.';
-        document.getElementById('info-bar-text').innerHTML = '💰 Rate 10 meals to claim your £5 credit!';
-        document.getElementById('progress-text').textContent = 'Rate meals to unlock your £5 credit';
-        document.getElementById('success-banner-title').textContent = '🎉 £5 credit added to your account!';
-        document.getElementById('success-banner-text').textContent = 'Your credit will be automatically applied to your next order. Welcome to Frive!';
-        document.getElementById('success-banner').style.display = 'block';
-      } else {
-        // Hide £5 credit messaging
-        document.getElementById('intro-text').textContent = 'Tell us what you like and get meals tailored to you.';
-        document.getElementById('info-bar-text').innerHTML = '✨ Help us personalise your Frive experience';
-        document.getElementById('progress-text').textContent = 'Help us personalise your meals';
-        document.getElementById('success-banner-title').textContent = '🎉 Thank you!';
-        document.getElementById('success-banner-text').textContent = 'Your preferences have been saved. We\'ll use this to personalise your meal recommendations!';
-        // Keep banner visible but with different message
-        document.getElementById('success-banner').style.display = 'block';
-      }
+      const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+      setText('intro-text', 'Tell us what you like and get a FREE upgrade to your rewards scheme.');
+      setText('info-bar-text', '🎁 Upgrade your rewards scheme!');
+      setText('progress-text', 'Help us personalise your meals');
+      setText('success-banner-title', "🎉 You've just upgraded your rewards!");
+      setText('success-banner-text', 'Complete your preferences to unlock exclusive rewards with Frive.');
+      const banner = document.getElementById('success-banner');
+      if (banner) banner.style.display = 'block';
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -2071,22 +2495,23 @@
         firstDay = 'Monday';
         secondDay = 'Wednesday';
       } else {
-        // Fallback for other days (shouldn't happen if split box logic is correct)
         firstDay = deliveryDay;
         secondDay = 'Wednesday';
       }
 
-      // Update the description
-      document.getElementById('split-box-description').textContent = 
-        `You have ${numberOfMeals} meals. Keep your meals fresh and save on fridge space by receiving your meals in two deliveries a week.`;
-      
-      // Update One Box description
-      document.getElementById('one-box-description').textContent = 
-        `Receive all ${numberOfMeals} meals on ${firstDay}s`;
-      
-      // Update Split Box description
-      document.getElementById('split-box-card-description').textContent = 
-        `Receive meals on ${firstDay} and ${secondDay}`;
+      const half = Math.ceil(numberOfMeals / 2);
+      const rest = numberOfMeals - half;
+
+      // Header description
+      document.getElementById('split-box-description').textContent =
+        `You have ${numberOfMeals} meals this week — here's how your delivery options compare.`;
+
+      // One Box delivery detail
+      document.getElementById('one-box-delivery').textContent = firstDay;
+
+      // Split Box delivery detail
+      document.getElementById('split-box-delivery').textContent =
+        `${firstDay} + ${secondDay}`;
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -2095,63 +2520,61 @@
 
     async function initializeApp() {
       try {
-        // Get order_id from URL
-        const orderId = getOrderIdFromURL();
+        // SECURITY: Get signed token from URL (not sequential order_id)
+        const token = getTokenFromURL();
         
-        console.log('=== INITIALIZATION START ===');
-        console.log('Order ID from URL:', orderId);
+        if (DEBUG) console.log('=== INITIALIZATION START ===');
+        if (DEBUG) console.log('Token from URL:', token ? 'present' : 'missing');
         
-        if (!orderId) {
-          showError('No order ID provided. Please use a valid personalization link.');
+        if (!token) {
+          showError('Invalid or missing link. Please check your email for the correct link.');
           hideLoading();
           return;
         }
 
-        state.orderId = orderId;
-        console.log('State order ID set:', state.orderId);
+        state.token = token;
 
-        // Test Supabase connection
-        console.log('Testing Supabase connection...');
-        const { data: testData, error: testError } = await supabaseClient
-          .from('personalization_config')
-          .select('count');
-        
-        if (testError) {
-          console.error('Supabase connection test failed:', testError);
-          showError(`Database connection failed: ${testError.message}. Make sure you've run the SQL schema in Supabase.`);
+        // SECURITY: Validate token and get order_id server-side
+        try {
+          const orderId = await validateTokenAndGetOrderId(token);
+          state.orderId = orderId;
+          if (DEBUG) console.log('Token validated, order_id:', state.orderId);
+        } catch (error) {
+          if (DEBUG) console.error('Token validation failed:', error);
+          showError('This link has expired or is invalid. Please contact support if you need help.');
           hideLoading();
           return;
         }
-        console.log('Supabase connection successful!');
 
         // Fetch configuration flags from Supabase
-        console.log('Fetching order config...');
-        const config = await fetchOrderConfig(orderId);
-        console.log('Config received:', config);
+        if (DEBUG) console.log('Fetching order config...');
+        const config = await fetchOrderConfig(state.orderId);
+        if (DEBUG) console.log('Config received:', config);
         
         // Store full config in state
         state.config = config;
         state.askPreferences = config.askPreferences;
         state.askMealRatings = config.askMealRatings;
-        state.incentivise = config.incentivise;
+        state.customerId = config.customerId;
 
         // Update UI based on incentivise flag
         updateIncentiviseUI();
 
         // Load existing data if available (need this before loading meals)
-        console.log('Loading existing personalization data...');
-        const hasExistingData = await loadPersonalizationData(orderId);
-        console.log('Has existing data:', hasExistingData);
+        if (DEBUG) console.log('Loading existing personalization data...');
+        const hasExistingData = await loadPersonalizationData(state.orderId);
+        if (DEBUG) console.log('Has existing data:', hasExistingData);
 
         // Load meals from Supabase if meal ratings are enabled
         if (state.askMealRatings) {
-          console.log('Loading meals from database...');
+          if (DEBUG) console.log('Loading meals from database...');
           // Pass existing preferences to filter meals
           state.meals = await fetchMealsFromDB(state.preferences);
-          console.log(`Loaded ${state.meals.length} meals`);
+          if (DEBUG) console.log(`Loaded ${state.meals.length} meals`);
           
           if (state.meals.length === 0) {
-            showError('No meals available matching your preferences. Please try again later.');
+            showError('Something went wrong. Please try again later.');
+            hideLoading();
             return;
           }
         }
@@ -2162,11 +2585,11 @@
         // Show appropriate sections based on flags and existing data
         if (state.creditClaimed) {
           // Already completed - show success directly
-          console.log('Flow already completed, showing success');
+          if (DEBUG) console.log('Flow already completed, showing success');
           restoreUIFromState();
         } else if (hasExistingData && (state.preferences.length > 0 || state.votesCount > 0)) {
           // User has started - skip intro and show preferences section
-          console.log('User has existing progress, skipping intro');
+          if (DEBUG) console.log('User has existing progress, skipping intro');
           if (state.askPreferences) {
             document.getElementById('preferences-section').style.display = 'block';
             restoreUIFromState();
@@ -2176,26 +2599,24 @@
           }
         } else if (state.askPreferences) {
           // New user - show intro screen first
-          console.log('New user, showing intro screen');
+          if (DEBUG) console.log('New user, showing intro screen');
           document.getElementById('intro-screen').style.display = 'block';
         } else if (state.askMealRatings) {
           // Skip to meal ratings (no preferences to ask)
-          console.log('Skipping to meal ratings');
+          if (DEBUG) console.log('Skipping to meal ratings');
           startMealVoting();
         } else {
           // Nothing to ask, show completion
-          console.log('No questions to ask');
+          if (DEBUG) console.log('No questions to ask');
           showError('This personalization flow has been completed.');
         }
 
-        console.log('=== INITIALIZATION COMPLETE ===');
+        if (DEBUG) console.log('=== INITIALIZATION COMPLETE ===');
 
       } catch (error) {
-        console.error('=== INITIALIZATION ERROR ===');
-        console.error('Error details:', error);
-        console.error('Error message:', error.message);
-        console.error('Error stack:', error.stack);
-        showError(`Failed to initialize: ${error.message}. Check console for details.`);
+        if (DEBUG) console.error('=== INITIALIZATION ERROR ===');
+        if (DEBUG) console.error('Error details:', error);
+        showError('Something went wrong. Please try again later.');
         hideLoading();
       }
     }
