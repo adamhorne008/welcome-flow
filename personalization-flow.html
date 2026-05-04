@@ -2354,9 +2354,6 @@
       // This triggers the DB-side reward_claim_trigger → n8n webhook automatically
       await markCreditClaimed();
 
-      // Flow complete — clear the stored token so the page can't be reused
-      clearTokenFromSession();
-
       // Exit fullscreen voting mode
       document.body.classList.remove('voting-fullscreen');
       
