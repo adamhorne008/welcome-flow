@@ -1493,14 +1493,57 @@
     // SUPABASE FUNCTIONS
     // ═══════════════════════════════════════════════════════════
 
+    const SESSION_TOKEN_KEY = 'frive_pt';
+    const SESSION_TOKEN_TTL  = 4 * 60 * 60 * 1000; // 4 hours in ms
+
+    /** Persist a valid token to sessionStorage with a TTL. */
+    function saveTokenToSession(token) {
+      try {
+        sessionStorage.setItem(SESSION_TOKEN_KEY, JSON.stringify({
+          token,
+          expires: Date.now() + SESSION_TOKEN_TTL
+        }));
+      } catch (e) {
+        if (DEBUG) console.warn('sessionStorage unavailable:', e);
+      }
+    }
+
+    /** Read back a non-expired token from sessionStorage, or null. */
+    function getTokenFromSession() {
+      try {
+        const raw = sessionStorage.getItem(SESSION_TOKEN_KEY);
+        if (!raw) return null;
+        const { token, expires } = JSON.parse(raw);
+        if (Date.now() > expires) {
+          sessionStorage.removeItem(SESSION_TOKEN_KEY);
+          return null;
+        }
+        return token;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    /** Clear the stored token (call on completion or reset). */
+    function clearTokenFromSession() {
+      try { sessionStorage.removeItem(SESSION_TOKEN_KEY); } catch (e) { /* ignore */ }
+    }
+
     /**
-     * SECURITY: Get signed token from URL parameter.
-     * Production: ?token=<uuid>
-     * Dev fallback: ?order_id=<id> (treated as the token directly)
+     * SECURITY: Get token — URL parameter takes priority, then sessionStorage.
+     * Only UUID-shaped tokens are accepted; ?order_id= bypasses are removed.
      */
     function getTokenFromURL() {
       const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get('token') || urlParams.get('order_id') || null;
+      const urlToken  = urlParams.get('token');
+
+      if (urlToken && isUUID(urlToken)) {
+        saveTokenToSession(urlToken);
+        return urlToken;
+      }
+
+      // No valid token in URL — fall back to sessionStorage (handles reloads)
+      return getTokenFromSession();
     }
 
     /** Returns true if the string is a valid UUID (v4 format). */
@@ -1509,19 +1552,12 @@
     }
 
     /**
-     * SECURITY: Validate token and retrieve associated order_id.
-     *
-     * Production: calls validate_personalization_token() RPC with a UUID token.
-     * Dev / legacy: if the value is not UUID-shaped (e.g. ?order_id=127333),
-     * the RPC is skipped and the raw value is used as the order_id directly.
-     * This lets you test locally with existing order IDs before the token
-     * system is fully deployed.
+     * SECURITY: Validate token via server-side RPC and retrieve order_id.
+     * Non-UUID values are rejected outright — no bypass paths.
      */
     async function validateTokenAndGetOrderId(token) {
-      // Non-UUID value (e.g. plain integer order_id) — skip RPC, use directly.
       if (!isUUID(token)) {
-        if (DEBUG) console.warn('Non-UUID token — skipping RPC, using value as order_id (dev/legacy mode)');
-        return token;
+        throw new Error('Invalid token format');
       }
 
       try {
@@ -1529,11 +1565,6 @@
           .rpc('validate_personalization_token', { token_input: token });
 
         if (error) {
-          // Function not yet deployed (migration not run)
-          if (error.code === 'PGRST202' || error.message?.includes('Could not find the function')) {
-            if (DEBUG) console.warn('validate_personalization_token RPC not found — using token as order_id (dev mode)');
-            return token;
-          }
           if (DEBUG) console.error('Token validation error:', error);
           throw new Error('Invalid or expired link');
         }
@@ -2322,6 +2353,10 @@
       // Mark credit as claimed in Supabase
       // This triggers the DB-side reward_claim_trigger → n8n webhook automatically
       await markCreditClaimed();
+
+      // Flow complete — clear the stored token so the page can't be reused
+      clearTokenFromSession();
+
       // Exit fullscreen voting mode
       document.body.classList.remove('voting-fullscreen');
       
@@ -2397,6 +2432,9 @@
 
       // Exit fullscreen voting mode (in case reset was triggered mid-voting)
       document.body.classList.remove('voting-fullscreen');
+
+      // Clear stored token so a fresh token is required on next load
+      clearTokenFromSession();
 
       // Reset progress bar
       document.getElementById('progress-bar-fill').style.width = '0%';
