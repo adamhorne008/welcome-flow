@@ -1,3 +1,6 @@
+# Local development config — contains real credentials, never commit
+config.local.js
+
 # SQL test files
 *.sql
 test-*.sql
