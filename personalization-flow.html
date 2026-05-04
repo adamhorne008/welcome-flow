@@ -1096,21 +1096,24 @@
     }
 
     .error-message {
-      background: #FFF5F5;
-      border: 2px solid #F44336;
-      color: #C62828;
-      padding: 16px;
-      border-radius: 8px;
-      margin: 20px auto;
+      background: var(--cream-banner);
+      border: 2px solid var(--lime);
+      color: var(--kale);
+      padding: 20px 24px;
+      border-radius: 12px;
+      margin: 40px auto;
       max-width: 600px;
       text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.5;
     }
   </style>
 </head>
 <body>
   <header>
     <div class="header-content">
-      <a href="index.html" aria-label="Frive Home">
+      <a href="/" aria-label="Frive Home">
         <svg width="60" height="32" viewBox="0 0 64 34" fill="none">
           <path d="M27.1093 5.47436L39.8848 0.518036C40.1147 0.428684 40.3738 0.6858 40.3428 0.970268L39.9012 5.01301C39.8118 5.82265 39.2243 6.54659 38.396 6.86752L32.499 9.15604C31.6688 9.4788 30.7474 9.34021 30.1362 8.80228L27.0801 6.11623C26.8611 5.92659 26.8794 5.56189 27.1093 5.47436Z" fill="#053827"/>
           <path d="M29.4721 33.5C29.2732 33.5 29.1108 33.3377 29.1108 33.1389V10.8009C29.1108 10.6021 29.2732 10.4398 29.4721 10.4398H34.5133C34.7122 10.4398 34.8746 10.6021 34.8746 10.8009V33.1371C34.8746 33.3359 34.7122 33.4982 34.5133 33.4982H29.4721V33.5Z" fill="#053827"/>
@@ -2489,7 +2492,7 @@
         if (DEBUG) console.log('Token from URL:', token ? 'present' : 'missing');
         
         if (!token) {
-          showError('Invalid or missing link. Please check your email for the correct link.');
+          showError('🌿 This is for Frive customers! Please follow your link to access.');
           hideLoading();
           return;
         }
