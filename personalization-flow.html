@@ -1439,9 +1439,9 @@
     // In local development, window.FRIVE_LOCAL_CONFIG (from config.local.js) is used.
     // The ANON key only — never the service_role key.
     const SUPABASE_URL = (window.FRIVE_LOCAL_CONFIG && window.FRIVE_LOCAL_CONFIG.SUPABASE_URL)
-      || '{{SUPABASE_URL}}';
+      || 'https://fhwkyeccpqtdidnexxrr.supabase.co';
     const SUPABASE_ANON_KEY = (window.FRIVE_LOCAL_CONFIG && window.FRIVE_LOCAL_CONFIG.SUPABASE_ANON_KEY)
-      || '{{SUPABASE_ANON_KEY}}';
+      || 'sb_publishable_6kMep6lBzFZTmOqjCI7gGQ_6Rm2aVvo';
 
     // Validate that credentials have been provided one way or another
     if (SUPABASE_URL.includes('{{') || SUPABASE_ANON_KEY.includes('{{')) {
