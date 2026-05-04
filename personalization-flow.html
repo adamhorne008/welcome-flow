@@ -1439,9 +1439,9 @@
     // In local development, window.FRIVE_LOCAL_CONFIG (from config.local.js) is used.
     // The ANON key only — never the service_role key.
     const SUPABASE_URL = (window.FRIVE_LOCAL_CONFIG && window.FRIVE_LOCAL_CONFIG.SUPABASE_URL)
-      || 'https://fhwkyeccpqtdidnexxrr.supabase.co';
+      || '{{SUPABASE_URL}}';
     const SUPABASE_ANON_KEY = (window.FRIVE_LOCAL_CONFIG && window.FRIVE_LOCAL_CONFIG.SUPABASE_ANON_KEY)
-      || 'sb_publishable_6kMep6lBzFZTmOqjCI7gGQ_6Rm2aVvo';
+      || '{{SUPABASE_ANON_KEY}}';
 
     // Validate that credentials have been provided one way or another
     if (SUPABASE_URL.includes('{{') || SUPABASE_ANON_KEY.includes('{{')) {
@@ -1841,25 +1841,9 @@
     }
 
     /**
-     * SECURITY: Mark credit as claimed - SERVER-SIDE IMPLEMENTATION REQUIRED
-     * 
-     * This function should NOT be the source of truth for credit issuance.
-     * Instead, it should call a Supabase database function or edge function
-     * that handles the actual credit issuance with idempotency.
-     * 
-     * The server-side function should:
-     * 1. Verify the token/order_id is valid
-     * 2. Check if credit was already claimed (idempotent)
-     * 3. Issue the £5 credit to the customer account
-     * 4. Mark credit_claimed = true in personalization_responses
-     * 5. Log the transaction for audit purposes
-     * 
-     * TODO: Create Supabase function:
-     * CREATE OR REPLACE FUNCTION claim_personalization_credit(order_id_input text)
-     * RETURNS boolean ...
-     * 
-     * Current implementation is CLIENT-SIDE ONLY and NOT SECURE.
-     * This must be replaced before production deployment.
+     * Save completion status to Supabase.
+     * Sets credit_claimed = true, which fires the server-side Postgres trigger
+     * (reward_claim_trigger) that notifies n8n — no credit logic runs client-side.
      */
     async function markCreditClaimed() {
       if (!state.orderId) return;
@@ -1867,11 +1851,6 @@
       state.creditClaimed = true;
 
       try {
-        // TODO: Replace with server-side credit issuance
-        // const { data, error } = await supabaseClient
-        //   .rpc('claim_personalization_credit', { order_id_input: state.orderId });
-        
-        // TEMPORARY: Client-side flag only (INSECURE - DO NOT USE IN PRODUCTION)
         const { error } = await supabaseClient
           .from('personalization_responses')
           .upsert([{
@@ -1886,47 +1865,14 @@
           });
 
         if (error) {
-          if (DEBUG) console.error('Mark credit claimed error:', error);
-          throw new Error('Unable to process credit');
+          if (DEBUG) console.error('Mark completion error:', error);
+          throw new Error('Unable to save completion');
         }
-        
-        if (DEBUG) console.log('Credit claimed flag saved (NOTE: Server-side issuance required)');
+
+        if (DEBUG) console.log('Completion saved — server-side trigger will handle reward');
       } catch (error) {
-        if (DEBUG) console.error('Error marking credit as claimed:', error);
+        if (DEBUG) console.error('Error saving completion:', error);
         showError('Something went wrong. Please try again.');
-      }
-    }
-
-    /**
-     * Notify n8n webhook that a customer has upgraded their rewards.
-     * Fires-and-forgets — a failure here should never block the success screen.
-     */
-    async function notifyRewardWebhook() {
-      if (!state.customerId) {
-        if (DEBUG) console.warn('[Webhook] No customer_id — skipping webhook.');
-        return;
-      }
-
-      const payload = {
-        customer_id: state.customerId,
-        order_id: state.orderId,
-        completed_at: new Date().toISOString()
-      };
-
-      if (DEBUG) console.log('[Webhook] Sending payload:', payload);
-
-      try {
-        const response = await fetch(
-          'https://adamhorne.app.n8n.cloud/webhook/reward_test_pot',
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          }
-        );
-        if (DEBUG) console.log('[Webhook] Response status:', response.status);
-      } catch (error) {
-        if (DEBUG) console.error('[Webhook] Fetch failed:', error.message);
       }
     }
 
@@ -2374,10 +2320,8 @@
 
     async function showSuccess() {
       // Mark credit as claimed in Supabase
+      // This triggers the DB-side reward_claim_trigger → n8n webhook automatically
       await markCreditClaimed();
-
-      // Notify reward webhook (non-blocking)
-      notifyRewardWebhook();
       // Exit fullscreen voting mode
       document.body.classList.remove('voting-fullscreen');
       
