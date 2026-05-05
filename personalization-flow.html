@@ -690,9 +690,9 @@
     }
 
     .split-box-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       margin-bottom: 24px;
     }
 
@@ -700,7 +700,7 @@
       background: white;
       border: 3px solid var(--border);
       border-radius: 16px;
-      padding: 24px 20px;
+      padding: 24px 20px 24px 48px;
       cursor: pointer;
       transition: all 0.3s ease;
       display: flex;
@@ -710,14 +710,133 @@
     }
 
     .split-box-card:hover {
-      border-color: var(--kale);
-      transform: translateY(-4px);
       box-shadow: 0 8px 24px rgba(5, 56, 39, 0.15);
     }
 
     .split-box-card.selected {
-      border-color: var(--lime);
-      background: var(--cream-banner);
+      border-color: var(--kale);
+      background: white;
+    }
+
+    /* "Current plan" card — compact single row */
+    .split-box-card.current-plan {
+      padding: 14px 20px 14px 48px;
+      gap: 0;
+      background: #f0f0f0;
+      opacity: 0.85;
+      border-color: #d4d4d4;
+    }
+
+    .split-box-card.current-plan:hover {
+      opacity: 1;
+      transform: none;
+    }
+
+    .split-box-card.current-plan.selected {
+      background: #f0f0f0;
+      border-color: var(--kale);
+      opacity: 1;
+    }
+
+    /* Radio indicator */
+    .split-radio {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: white;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .split-radio::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--kale);
+      transition: transform 0.2s ease;
+    }
+
+    .split-box-card.selected .split-radio {
+      border-color: var(--kale);
+    }
+
+    .split-box-card.selected .split-radio::after {
+      background: var(--kale);
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .split-current-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .split-current-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--grey-60);
+      background: #EBEBEB;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    /* Upgrade card — prominent */
+    .split-box-card.upgrade-card {
+      border-color: var(--kale);
+      background: white;
+    }
+
+    .split-box-card.upgrade-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(5, 56, 39, 0.2);
+    }
+
+    /* Meal split breakdown */
+    .split-meal-breakdown {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .split-meal-day {
+      background: #f0f4f2;
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    .split-meal-day-name {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--grey-60);
+      margin-bottom: 3px;
+    }
+
+    .split-meal-day-count {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--kale);
+      line-height: 1;
+    }
+
+    .split-meal-day-label {
+      font-size: 11px;
+      color: var(--grey-60);
+      margin-top: 2px;
     }
 
     /* Card header row: icon + title + badge */
@@ -802,9 +921,6 @@
     }
 
     @media (max-width: 520px) {
-      .split-box-options {
-        grid-template-columns: 1fr;
-      }
       .split-recommended-badge {
         margin-left: 0;
       }
@@ -814,7 +930,7 @@
     .goals-section {
       display: none;
       max-width: 700px;
-      margin: 40px auto;
+      margin: auto;
       padding: 40px 24px;
     }
 
@@ -867,8 +983,8 @@
     }
 
     .goal-card.selected {
-      border-color: var(--lime);
-      background: var(--cream-banner);
+      border-color: var(--kale);
+      background: #F0F8F5;
     }
 
     .goal-card .goal-icon {
@@ -896,12 +1012,6 @@
 
     @media (max-width: 480px) {
       .goals-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .split-box-options {
         grid-template-columns: 1fr;
       }
     }
@@ -974,14 +1084,14 @@
 
     .benefits-header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
 
     .benefits-header h3 {
-      font-size: clamp(24px, 4vw, 32px);
+      font-size: clamp(22px, 4vw, 28px);
       color: var(--grey-80);
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .benefits-header p {
@@ -990,87 +1100,218 @@
       line-height: 1.5;
     }
 
-    .benefits-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
+    /* Rewards progress bar */
+    .rewards-progress {
+      background: #f0f4f2;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .rewards-tier {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    .rewards-tier::after {
+      content: '→';
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--grey-60);
+      font-size: 16px;
+    }
+
+    .rewards-tier:last-child::after {
+      display: none;
+    }
+
+    .tier-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--grey-60);
+      margin-bottom: 4px;
+    }
+
+    .tier-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--grey-80);
+    }
+
+    .tier-name.active {
+      color: var(--kale);
+    }
+
+    .tier-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+      margin: 6px auto 0;
+    }
+
+    .tier-dot.active {
+      background: var(--lime);
+    }
+
+    /* Checklist items */
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
       margin-bottom: 40px;
     }
 
-    .benefit-card {
+    .checklist-item {
       background: white;
       border: 2px solid var(--border);
       border-radius: 16px;
-      padding: 32px 24px;
-      text-align: center;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      align-items: center;
+      gap: 20px;
       transition: all 0.3s ease;
     }
 
-    .benefit-card:hover {
+    .checklist-item:hover {
       border-color: var(--lime);
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(5, 56, 39, 0.1);
+      box-shadow: 0 4px 16px rgba(5, 56, 39, 0.08);
     }
 
-    .benefit-card .icon {
-      font-size: 56px;
-      margin-bottom: 16px;
-      display: block;
+    .checklist-item.completed {
+      border-color: var(--lime);
+      background: #f7fdf9;
     }
 
-    .benefit-card h4 {
+    .checklist-check {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2.5px solid var(--border);
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 22px;
+      transition: all 0.3s ease;
+    }
+
+    .checklist-item.completed .checklist-check {
+      background: var(--lime);
+      border-color: var(--lime);
       font-size: 20px;
-      color: var(--grey-80);
-      font-weight: 700;
-      margin-bottom: 12px;
     }
 
-    .benefit-card p {
-      font-size: 15px;
-      color: var(--grey-60);
-      line-height: 1.6;
-      margin-bottom: 16px;
+    .checklist-body {
+      min-width: 0;
     }
 
-    .benefit-card .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      background: var(--kale);
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      transition: all 0.2s;
-    }
-
-    .benefit-card .btn:hover {
-      background: #064d35;
-      transform: scale(1.05);
-    }
-
-    .benefit-card .btn.whatsapp {
-      background: #25D366;
-    }
-
-    .benefit-card .btn.whatsapp:hover {
-      background: #20BA5A;
-    }
-
-    .reward-badge {
+    .checklist-reward-tag {
       display: inline-block;
       background: var(--lime);
       color: var(--kale);
-      padding: 6px 16px;
+      padding: 3px 12px;
       border-radius: 20px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
     }
 
-    @media (max-width: 768px) {
-      .benefits-grid {
-        grid-template-columns: 1fr;
+    .checklist-item.completed .checklist-reward-tag {
+      background: var(--kale);
+      color: white;
+    }
+
+    .checklist-body h4 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--grey-80);
+      margin-bottom: 4px;
+    }
+
+    .checklist-body p {
+      font-size: 14px;
+      color: var(--grey-60);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .checklist-body .done-note {
+      font-size: 13px;
+      color: var(--kale);
+      font-weight: 600;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .checklist-item.completed .checklist-body .done-note {
+      display: block;
+    }
+
+    .checklist-item.completed .checklist-body .pending-note {
+      display: none;
+    }
+
+    .checklist-cta {
+      flex-shrink: 0;
+    }
+
+    .checklist-cta .btn {
+      display: inline-block;
+      padding: 11px 20px;
+      background: var(--kale);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .checklist-cta .btn:hover {
+      background: #064d35;
+      transform: scale(1.04);
+    }
+
+    .checklist-cta .btn.whatsapp {
+      background: #25D366;
+    }
+
+    .checklist-cta .btn.whatsapp:hover {
+      background: #20BA5A;
+    }
+
+    .checklist-item.completed .checklist-cta .btn {
+      background: #e0f5e9;
+      color: var(--kale);
+    }
+
+    @media (max-width: 600px) {
+      .checklist-item {
+        grid-template-columns: 40px 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      .checklist-cta {
+        grid-column: 1 / -1;
+        margin-top: 4px;
+      }
+
+      .checklist-cta .btn {
+        width: 100%;
+        text-align: center;
+        display: block;
       }
     }
 
@@ -1290,31 +1531,29 @@
     <!-- Split Box Section -->
     <div class="split-box-section" id="split-box-section">
       <div class="section-header">
-        <h2>How would you like your meals delivered?</h2>
-        <p id="split-box-description">You have a large order — here's how your delivery options compare.</p>
+        <h2>You currently get 1 delivery a week</h2>
+        <p id="split-box-description">Switch to split delivery for fresher meals and more fridge space.</p>
       </div>
 
       <div class="split-box-options">
 
-        <!-- One Box -->
-        <div class="split-box-card" onclick="selectSplitBox(this, 'no')" data-value="no">
-          <div class="split-card-header">
-            <div class="split-card-icon">📦</div>
-            <h3>One Box</h3>
+        <!-- One Box (current plan) — compact summary row -->
+        <div class="split-box-card current-plan" onclick="selectSplitBox(this, 'no')" data-value="no">
+          <div class="split-radio"></div>
+          <div class="split-current-row">
+            <span class="split-current-badge">Your current plan</span>
+            <div class="split-card-header" style="margin-top: 0;">
+              <div class="split-card-icon" style="font-size: 22px;">📦</div>
+              <h3>One Box</h3>
+              <span class="split-delivery-detail" id="one-box-delivery" style="font-size: 14px; color: var(--grey-60); font-weight: 400; margin-left: 4px;"></span>
+            </div>
           </div>
-          <div class="split-delivery-info">
-            <span class="split-delivery-label">Your delivery</span>
-            <span class="split-delivery-detail" id="one-box-delivery"></span>
-          </div>
-          <ul class="split-benefits">
-            <li class="split-benefit neutral">Everything arrives together</li>
-            <li class="split-benefit neutral">Single delivery per week</li>
-          </ul>
         </div>
 
-        <!-- Split Box -->
-        <div class="split-box-card" onclick="selectSplitBox(this, 'yes')" data-value="yes">
-          <span class="split-recommended-badge">Recommended</span>
+        <!-- Split Box (upgrade) — full featured card -->
+        <div class="split-box-card upgrade-card" onclick="selectSplitBox(this, 'yes')" data-value="yes">
+          <div class="split-radio"></div>
+          <span class="split-recommended-badge">Recommended upgrade</span>
           <div class="split-card-header">
             <div class="split-card-icon">📦📦</div>
             <h3>Split Delivery</h3>
@@ -1323,10 +1562,23 @@
             <span class="split-delivery-label">Your deliveries</span>
             <span class="split-delivery-detail" id="split-box-delivery"></span>
           </div>
+          <!-- Meal breakdown 60/40 -->
+          <div class="split-meal-breakdown">
+            <div class="split-meal-day">
+              <div class="split-meal-day-name" id="split-day1-name">Sunday</div>
+              <div class="split-meal-day-count" id="split-day1-count">—</div>
+              <div class="split-meal-day-label">meals</div>
+            </div>
+            <div class="split-meal-day">
+              <div class="split-meal-day-name" id="split-day2-name">Wednesday</div>
+              <div class="split-meal-day-count" id="split-day2-count">—</div>
+              <div class="split-meal-day-label">meals</div>
+            </div>
+          </div>
           <ul class="split-benefits">
             <li class="split-benefit positive">🧊 Save on fridge space</li>
             <li class="split-benefit positive">🥗 Keep your meals fresher</li>
-            <li class="split-benefit positive">📅 Meals across the week</li>
+            <li class="split-benefit positive">📅 Meals spread across the week</li>
           </ul>
         </div>
 
@@ -1358,50 +1610,68 @@
       <!-- Benefits Section -->
       <div class="benefits-container">
         <div class="benefits-header">
-          <p>Here's everything you need to know to make the most of your subscription</p>
+          <h3>Maximise your rewards</h3>
+          <p>Complete the steps below to unlock the best rewards with Frive</p>
         </div>
 
-        <div class="benefits-grid">
-          <!-- Freya Chatbot -->
-          <div class="benefit-card">
-            <span class="icon">💬</span>
-            <h4>Meet Freya, Your AI Assistant</h4>
-            <p>Got questions? Chat with Freya on WhatsApp 24/7 for instant help.</p>
-            <p style="font-size: 14px; margin-top: 12px;"><strong>Try asking:</strong></p>
-            <p style="font-size: 13px; font-style: italic; color: var(--grey-60); margin-bottom: 4px;">"Where is my delivery?"</p>
-            <p style="font-size: 13px; font-style: italic; color: var(--grey-60); margin-bottom: 16px;">"I would like to change my meals"</p>
-            <a href="https://wa.me/447957621162" target="_blank" class="btn whatsapp">
-              💚 Save Whatsapp Number
-            </a>
+        <!-- Rewards tier progress -->
+        <div class="rewards-progress">
+          <div class="rewards-tier">
+            <div class="tier-label">You're here</div>
+            <div class="tier-name active" id="tier-base">Standard Rewards</div>
+            <div class="tier-dot active"></div>
+          </div>
+          <div class="rewards-tier">
+            <div class="tier-label">Step 1</div>
+            <div class="tier-name" id="tier-whatsapp">Improved Rewards</div>
+            <div class="tier-dot" id="tier-dot-whatsapp"></div>
+          </div>
+          <div class="rewards-tier">
+            <div class="tier-label">Step 2</div>
+            <div class="tier-name" id="tier-app">Best Rewards</div>
+            <div class="tier-dot" id="tier-dot-app"></div>
+          </div>
+        </div>
+
+        <!-- Checklist -->
+        <div class="checklist">
+
+          <!-- Step 1: WhatsApp -->
+          <div class="checklist-item" id="checklist-whatsapp">
+            <div class="checklist-check" id="check-whatsapp">💬</div>
+            <div class="checklist-body">
+              <span class="checklist-reward-tag">Unlocks improved rewards</span>
+              <h4>Save our WhatsApp number</h4>
+              <p class="pending-note">Save Freya's number and get access to 24/7 support — plus an upgrade to your rewards programme.</p>
+              <p class="done-note">✓ Done! Your rewards have been upgraded.</p>
+            </div>
+            <div class="checklist-cta">
+              <a href="https://wa.me/447957621162" target="_blank" class="btn whatsapp" id="btn-whatsapp" onclick="markChecklistDone('whatsapp')">
+                💚 Save Number
+              </a>
+            </div>
           </div>
 
-          <!-- Frive App -->
-           <div class="benefit-card">
-            <span class="icon">📱</span>
-            <h4>Download the Frive App</h4>
-            <p>Change your meals, track deliveries, and manage your account on the go. Available now on iOS.</p>
-            <a href="https://apps.apple.com/gb/app/frive-formerly-lions-prep/id6443897554" target="_blank" class="btn">
-              Download on App Store →
-            </a>
+          <!-- Step 2: App -->
+          <div class="checklist-item" id="checklist-app">
+            <div class="checklist-check" id="check-app">📱</div>
+            <div class="checklist-body">
+              <span class="checklist-reward-tag">Unlocks best rewards</span>
+              <h4>Download the Frive App</h4>
+              <p class="pending-note">Manage your meals, track deliveries, and unlock our best rewards tier. Available now on iOS.</p>
+              <p class="done-note">✓ App link opened — we'll email you once you've downloaded it!</p>
+            </div>
+            <div class="checklist-cta">
+              <a href="https://apps.apple.com/gb/app/frive-formerly-lions-prep/id6443897554" target="_blank" class="btn" id="btn-app" onclick="markChecklistDone('app')">
+                Download on App Store →
+              </a>
+            </div>
           </div>
 
-          <!-- Rewards Programme -->
-          <div class="benefit-card">
-            <span class="icon">🎁</span>
-            <span class="reward-badge">Rewards club</span>
-            <h4>Free Breakfast?</h4>
-            <p>Try our full menu and claim a free item for the next 5 weeks!</p>
-            <a href="https://www.frive.co.uk/my-account/my-rewards" class="btn">
-              Claim your reward now →
-            </a>
-          </div>
-
-          
-         
         </div>
 
         <!-- Final CTA Button -->
-        <div class="continue-btn-container" style="margin-top: 40px; padding-bottom: 20px;">
+        <div class="continue-btn-container" style="padding-bottom: 20px;">
           <a href="https://www.frive.co.uk/my-account" class="continue-btn active" style="text-decoration: none;">
             Go to My Account
           </a>
@@ -2335,6 +2605,19 @@
       document.getElementById('total-meals').textContent = totalMeals;
     }
 
+    // ═══════════════════════════════════════════════════════════
+    // CHECKLIST INTERACTIONS
+    // ═══════════════════════════════════════════════════════════
+
+    function markChecklistDone(item) {
+      const el = document.getElementById('checklist-' + item);
+      const dot = document.getElementById('tier-dot-' + item);
+      const tier = document.getElementById('tier-' + item);
+      if (el) el.classList.add('completed');
+      if (dot) dot.classList.add('active');
+      if (tier) tier.classList.add('active');
+    }
+
     async function showSuccess() {
       // Mark credit as claimed in Supabase
       // This triggers the DB-side reward_claim_trigger → n8n webhook automatically
@@ -2464,12 +2747,13 @@
         secondDay = 'Wednesday';
       }
 
-      const half = Math.ceil(numberOfMeals / 2);
-      const rest = numberOfMeals - half;
+      // 60/40 split in favour of first delivery day
+      const firstCount = Math.round(numberOfMeals * 0.6);
+      const secondCount = numberOfMeals - firstCount;
 
       // Header description
       document.getElementById('split-box-description').textContent =
-        `You have ${numberOfMeals} meals this week — here's how your delivery options compare.`;
+        `You have ${numberOfMeals} meals this week — upgrade to split delivery for fresher meals and more fridge space.`;
 
       // One Box delivery detail
       document.getElementById('one-box-delivery').textContent = firstDay;
@@ -2477,6 +2761,12 @@
       // Split Box delivery detail
       document.getElementById('split-box-delivery').textContent =
         `${firstDay} + ${secondDay}`;
+
+      // Meal breakdown counts
+      document.getElementById('split-day1-name').textContent = firstDay;
+      document.getElementById('split-day1-count').textContent = firstCount;
+      document.getElementById('split-day2-name').textContent = secondDay;
+      document.getElementById('split-day2-count').textContent = secondCount;
     }
 
     // ═══════════════════════════════════════════════════════════
