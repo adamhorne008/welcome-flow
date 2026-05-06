@@ -689,11 +689,65 @@
       font-weight: 400;
     }
 
-    .split-box-options {
+    /* Split info card */
+    .split-info-card {
+      background: white;
+      border: 3px solid var(--kale);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    /* Yes / No choice buttons */
+    .split-choice-btns {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-bottom: 24px;
+      margin-bottom: 8px;
+    }
+
+    .split-choice-btn {
+      width: 100%;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: FriveJokker, Arial, sans-serif;
+      border: 3px solid transparent;
+    }
+
+    .split-choice-yes {
+      background: var(--kale);
+      color: white;
+      border-color: var(--kale);
+    }
+
+    .split-choice-yes:hover {
+      background: #064d35;
+    }
+
+    .split-choice-yes.selected {
+      background: var(--kale);
+      border-color: var(--lime);
+      box-shadow: 0 0 0 2px var(--lime);
+    }
+
+    .split-choice-no {
+      background: white;
+      color: var(--grey-60);
+      border-color: var(--border);
+    }
+
+    .split-choice-no:hover {
+      border-color: var(--grey-60);
+      color: var(--grey-80);
+    }
+
+    .split-choice-no.selected {
+      border-color: var(--kale);
+      color: var(--kale);
     }
 
     .split-box-card {
@@ -957,19 +1011,19 @@
     .goals-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      gap: 10px;
       margin-bottom: 24px;
     }
 
     .goal-card {
       background: white;
       border: 3px solid var(--border);
-      border-radius: 16px;
-      padding: 24px 16px;
+      border-radius: 12px;
+      padding: 14px 10px;
       cursor: pointer;
       transition: all 0.3s ease;
       text-align: center;
-      min-height: 140px;
+      min-height: 90px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -978,8 +1032,8 @@
 
     .goal-card:hover {
       border-color: var(--kale);
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(5, 56, 39, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(5, 56, 39, 0.15);
     }
 
     .goal-card.selected {
@@ -988,8 +1042,8 @@
     }
 
     .goal-card .goal-icon {
-      font-size: 48px;
-      margin-bottom: 12px;
+      font-size: 30px;
+      margin-bottom: 8px;
       filter: grayscale(20%);
     }
 
@@ -998,7 +1052,7 @@
     }
 
     .goal-card .goal-label {
-      font-size: 15px;
+      font-size: 13px;
       color: var(--grey-80);
       font-weight: 600;
       line-height: 1.3;
@@ -1012,7 +1066,7 @@
 
     @media (max-width: 480px) {
       .goals-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -1100,68 +1154,6 @@
       line-height: 1.5;
     }
 
-    /* Rewards progress bar */
-    .rewards-progress {
-      background: #f0f4f2;
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      gap: 0;
-    }
-
-    .rewards-tier {
-      flex: 1;
-      text-align: center;
-      position: relative;
-    }
-
-    .rewards-tier::after {
-      content: '→';
-      position: absolute;
-      right: -12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--grey-60);
-      font-size: 16px;
-    }
-
-    .rewards-tier:last-child::after {
-      display: none;
-    }
-
-    .tier-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--grey-60);
-      margin-bottom: 4px;
-    }
-
-    .tier-name {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--grey-80);
-    }
-
-    .tier-name.active {
-      color: var(--kale);
-    }
-
-    .tier-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--border);
-      margin: 6px auto 0;
-    }
-
-    .tier-dot.active {
-      background: var(--lime);
-    }
-
     /* Checklist items */
     .checklist {
       display: flex;
@@ -1204,32 +1196,38 @@
       flex-shrink: 0;
       font-size: 22px;
       transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .checklist-check .check-emoji {
+      transition: opacity 0.2s ease;
+    }
+
+    .checklist-check .check-tick {
+      display: none;
+      font-style: normal;
+      font-size: 22px;
+      line-height: 1;
     }
 
     .checklist-item.completed .checklist-check {
-      background: var(--lime);
-      border-color: var(--lime);
-      font-size: 20px;
+      background: var(--kale);
+      border-color: var(--kale);
+    }
+
+    .checklist-item.completed .checklist-check .check-emoji {
+      display: none;
+    }
+
+    .checklist-item.completed .checklist-check .check-tick {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
     }
 
     .checklist-body {
       min-width: 0;
-    }
-
-    .checklist-reward-tag {
-      display: inline-block;
-      background: var(--lime);
-      color: var(--kale);
-      padding: 3px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .checklist-item.completed .checklist-reward-tag {
-      background: var(--kale);
-      color: white;
     }
 
     .checklist-body h4 {
@@ -1531,57 +1529,44 @@
     <!-- Split Box Section -->
     <div class="split-box-section" id="split-box-section">
       <div class="section-header">
-        <h2>You currently get 1 delivery a week</h2>
-        <p id="split-box-description">Switch to split delivery for fresher meals and more fridge space.</p>
+        <h2>Split your deliveries to improve your order</h2>
+        <p id="split-box-description">Here's what you'd get with split delivery this week.</p>
       </div>
 
-      <div class="split-box-options">
-
-        <!-- One Box (current plan) — compact summary row -->
-        <div class="split-box-card current-plan" onclick="selectSplitBox(this, 'no')" data-value="no">
-          <div class="split-radio"></div>
-          <div class="split-current-row">
-            <span class="split-current-badge">Your current plan</span>
-            <div class="split-card-header" style="margin-top: 0;">
-              <div class="split-card-icon" style="font-size: 22px;">📦</div>
-              <h3>One Box</h3>
-              <span class="split-delivery-detail" id="one-box-delivery" style="font-size: 14px; color: var(--grey-60); font-weight: 400; margin-left: 4px;"></span>
-            </div>
+      <!-- Single info card showing split delivery benefits -->
+      <div class="split-info-card">
+        <span class="split-recommended-badge" style="position: static; display: inline-block; margin-bottom: 16px; border-top: 1.5px solid var(--lime); border-radius: 20px;">Recommended</span>
+        <div class="split-delivery-info" style="margin-bottom: 16px;">
+          <span class="split-delivery-label">Your deliveries</span>
+          <span class="split-delivery-detail" id="split-box-delivery"></span>
+        </div>
+        <div class="split-meal-breakdown" style="margin-bottom: 16px;">
+          <div class="split-meal-day">
+            <div class="split-meal-day-name" id="split-day1-name">Sunday</div>
+            <div class="split-meal-day-count" id="split-day1-count">—</div>
+            <div class="split-meal-day-label">meals</div>
+          </div>
+          <div class="split-meal-day">
+            <div class="split-meal-day-name" id="split-day2-name">Wednesday</div>
+            <div class="split-meal-day-count" id="split-day2-count">—</div>
+            <div class="split-meal-day-label">meals</div>
           </div>
         </div>
+        <ul class="split-benefits">
+          <li class="split-benefit positive">🧊 Save on fridge space</li>
+          <li class="split-benefit positive">🥗 Keep your meals fresher for longer</li>
+          <li class="split-benefit positive">📅 Minimum 6 days shelf life on each delivery</li>
+        </ul>
+      </div>
 
-        <!-- Split Box (upgrade) — full featured card -->
-        <div class="split-box-card upgrade-card" onclick="selectSplitBox(this, 'yes')" data-value="yes">
-          <div class="split-radio"></div>
-          <span class="split-recommended-badge">Recommended upgrade</span>
-          <div class="split-card-header">
-            <div class="split-card-icon">📦📦</div>
-            <h3>Split Delivery</h3>
-          </div>
-          <div class="split-delivery-info">
-            <span class="split-delivery-label">Your deliveries</span>
-            <span class="split-delivery-detail" id="split-box-delivery"></span>
-          </div>
-          <!-- Meal breakdown 60/40 -->
-          <div class="split-meal-breakdown">
-            <div class="split-meal-day">
-              <div class="split-meal-day-name" id="split-day1-name">Sunday</div>
-              <div class="split-meal-day-count" id="split-day1-count">—</div>
-              <div class="split-meal-day-label">meals</div>
-            </div>
-            <div class="split-meal-day">
-              <div class="split-meal-day-name" id="split-day2-name">Wednesday</div>
-              <div class="split-meal-day-count" id="split-day2-count">—</div>
-              <div class="split-meal-day-label">meals</div>
-            </div>
-          </div>
-          <ul class="split-benefits">
-            <li class="split-benefit positive">🧊 Save on fridge space</li>
-            <li class="split-benefit positive">🥗 Keep your meals fresher</li>
-            <li class="split-benefit positive">📅 Meals spread across the week</li>
-          </ul>
-        </div>
-
+      <!-- Yes / No buttons -->
+      <div class="split-choice-btns">
+        <button class="split-choice-btn split-choice-yes" id="split-btn-yes" onclick="selectSplitBoxChoice(this, 'yes')">
+          Yes, split my delivery
+        </button>
+        <button class="split-choice-btn split-choice-no" id="split-btn-no" onclick="selectSplitBoxChoice(this, 'no')">
+          No, keep all items in one delivery
+        </button>
       </div>
 
       <div class="continue-btn-container">
@@ -1610,60 +1595,45 @@
       <!-- Benefits Section -->
       <div class="benefits-container">
         <div class="benefits-header">
-          <h3>Maximise your rewards</h3>
-          <p>Complete the steps below to unlock the best rewards with Frive</p>
-        </div>
-
-        <!-- Rewards tier progress -->
-        <div class="rewards-progress">
-          <div class="rewards-tier">
-            <div class="tier-label">You're here</div>
-            <div class="tier-name active" id="tier-base">Standard Rewards</div>
-            <div class="tier-dot active"></div>
-          </div>
-          <div class="rewards-tier">
-            <div class="tier-label">Step 1</div>
-            <div class="tier-name" id="tier-whatsapp">Improved Rewards</div>
-            <div class="tier-dot" id="tier-dot-whatsapp"></div>
-          </div>
-          <div class="rewards-tier">
-            <div class="tier-label">Step 2</div>
-            <div class="tier-name" id="tier-app">Best Rewards</div>
-            <div class="tier-dot" id="tier-dot-app"></div>
-          </div>
+          <h3>Now unlock even better rewards 🎁</h3>
+          <p>Complete these two steps to upgrade your rewards programme further</p>
         </div>
 
         <!-- Checklist -->
         <div class="checklist">
 
-          <!-- Step 1: WhatsApp -->
-          <div class="checklist-item" id="checklist-whatsapp">
-            <div class="checklist-check" id="check-whatsapp">💬</div>
-            <div class="checklist-body">
-              <span class="checklist-reward-tag">Unlocks improved rewards</span>
-              <h4>Save our WhatsApp number</h4>
-              <p class="pending-note">Save Freya's number and get access to 24/7 support — plus an upgrade to your rewards programme.</p>
-              <p class="done-note">✓ Done! Your rewards have been upgraded.</p>
-            </div>
-            <div class="checklist-cta">
-              <a href="https://wa.me/447957621162" target="_blank" class="btn whatsapp" id="btn-whatsapp" onclick="markChecklistDone('whatsapp')">
-                💚 Save Number
-              </a>
-            </div>
-          </div>
-
-          <!-- Step 2: App -->
+          <!-- Step 1: App -->
           <div class="checklist-item" id="checklist-app">
-            <div class="checklist-check" id="check-app">📱</div>
+            <div class="checklist-check" id="check-app">
+              <span class="check-emoji">&#128241;</span>
+              <span class="check-tick">&#10003;</span>
+            </div>
             <div class="checklist-body">
-              <span class="checklist-reward-tag">Unlocks best rewards</span>
               <h4>Download the Frive App</h4>
-              <p class="pending-note">Manage your meals, track deliveries, and unlock our best rewards tier. Available now on iOS.</p>
+              <p class="pending-note">Unlock our best rewards tier — we'll email you as soon as you've downloaded it.</p>
               <p class="done-note">✓ App link opened — we'll email you once you've downloaded it!</p>
             </div>
             <div class="checklist-cta">
               <a href="https://apps.apple.com/gb/app/frive-formerly-lions-prep/id6443897554" target="_blank" class="btn" id="btn-app" onclick="markChecklistDone('app')">
                 Download on App Store →
+              </a>
+            </div>
+          </div>
+
+          <!-- Step 2: WhatsApp -->
+          <div class="checklist-item" id="checklist-whatsapp">
+            <div class="checklist-check" id="check-whatsapp">
+              <span class="check-emoji">&#128172;</span>
+              <span class="check-tick">&#10003;</span>
+            </div>
+            <div class="checklist-body">
+              <h4>Save our WhatsApp number</h4>
+              <p class="pending-note">Unlock an improved rewards tier — plus 24/7 support with Freya whenever you need it.</p>
+              <p class="done-note">✓ Done! You've unlocked an improved rewards tier.</p>
+            </div>
+            <div class="checklist-cta">
+              <a href="https://wa.me/447957621162" target="_blank" class="btn whatsapp" id="btn-whatsapp" onclick="markChecklistDone('whatsapp')">
+                💚 Save Number
               </a>
             </div>
           </div>
@@ -2394,6 +2364,29 @@
       document.getElementById('split-continue-btn').disabled = false;
     }
 
+    function selectSplitBoxChoice(el, value) {
+      // Clear selected state from both buttons
+      document.querySelectorAll('.split-choice-btn').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+
+      // Mark this button as selected
+      el.classList.add('selected');
+
+      // Store the preference
+      state.splitBoxPreference = value;
+
+      // "No" skips the continue button and proceeds immediately
+      if (value === 'no') {
+        continueFromSplitBox();
+        return;
+      }
+
+      // Enable continue button for "Yes"
+      document.getElementById('split-continue-btn').classList.add('active');
+      document.getElementById('split-continue-btn').disabled = false;
+    }
+
     /**
      * Continue from split box section to meal voting
      */
@@ -2753,14 +2746,15 @@
 
       // Header description
       document.getElementById('split-box-description').textContent =
-        `You have ${numberOfMeals} meals this week — upgrade to split delivery for fresher meals and more fridge space.`;
-
-      // One Box delivery detail
-      document.getElementById('one-box-delivery').textContent = firstDay;
+        `You have ${numberOfMeals} meals this week — here's how split delivery would work.`;
 
       // Split Box delivery detail
       document.getElementById('split-box-delivery').textContent =
         `${firstDay} + ${secondDay}`;
+
+      // Update "No" button text with actual delivery day
+      document.getElementById('split-btn-no').textContent =
+        `No, keep all items in my ${firstDay} delivery`;
 
       // Meal breakdown counts
       document.getElementById('split-day1-name').textContent = firstDay;
