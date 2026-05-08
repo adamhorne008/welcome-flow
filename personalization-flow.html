@@ -1741,7 +1741,7 @@
       <div class="split-info-card">
 
         <!-- Subtitle -->
-        <p id="split-subtitle" style="text-align: center; font-size: 17px; font-weight: 700; color: var(--grey-80); margin: 0 0 16px; line-height: 1.6;"><span id="split-plan-detail">—</span> meals.&nbsp; Two deliveries.&nbsp; No extra cost.</p>
+        <p id="split-subtitle" style="text-align: center; font-size: 17px; font-weight: 700; color: var(--grey-80); margin: 0 0 16px; line-height: 1.6;"><span id="split-plan-detail">—</span> items.&nbsp; Two deliveries.&nbsp; No extra cost.</p>
 
         <div class="split-meal-breakdown" style="margin-bottom: 16px;">
           <div class="split-meal-day">
@@ -1749,7 +1749,7 @@
             <div class="split-meal-day-body">
               <div class="split-meal-day-name" id="split-day1-name">Sunday</div>
               <div class="split-meal-day-count" id="split-day1-count">—</div>
-              <div class="split-meal-day-label">meals</div>
+              <div class="split-meal-day-label">items</div>
             </div>
           </div>
           <div class="split-meal-day">
@@ -1757,7 +1757,7 @@
             <div class="split-meal-day-body">
               <div class="split-meal-day-name" id="split-day2-name">Wednesday</div>
               <div class="split-meal-day-count" id="split-day2-count">—</div>
-              <div class="split-meal-day-label">meals</div>
+              <div class="split-meal-day-label">items</div>
             </div>
           </div>
         </div>
@@ -3125,8 +3125,8 @@
         secondDay = 'Wednesday';
       }
 
-      // 60/40 split in favour of first delivery day
-      const firstCount = Math.round(numberOfMeals * 0.6);
+      // 50/50 split — odd remainder goes to first delivery
+      const firstCount = Math.ceil(numberOfMeals / 2);
       const secondCount = numberOfMeals - firstCount;
 
       // Header description
