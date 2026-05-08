@@ -672,6 +672,8 @@
     .split-box-section .section-header {
       text-align: center;
       margin-bottom: 32px;
+      border-bottom: none;
+      padding-bottom: 0;
     }
 
     .split-box-section h2 {
@@ -692,7 +694,7 @@
     /* Split info card */
     .split-info-card {
       background: white;
-      border: 3px solid var(--kale);
+      border: 1px solid #dfdfdf;
       border-radius: 16px;
       padding: 24px;
       margin-bottom: 20px;
@@ -865,10 +867,26 @@
     }
 
     .split-meal-day {
-      background: #f0f4f2;
-      border-radius: 10px;
-      padding: 10px 12px;
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
       text-align: center;
+    }
+
+    .split-meal-day-delivery {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--grey-80);
+      background: #f5f5f5;
+      border-bottom: 1.5px solid var(--border);
+      padding: 8px 12px;
+    }
+
+    .split-meal-day-body {
+      padding: 12px 12px 14px;
     }
 
     .split-meal-day-name {
@@ -877,11 +895,11 @@
       text-transform: uppercase;
       letter-spacing: 0.4px;
       color: var(--grey-60);
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
 
     .split-meal-day-count {
-      font-size: 20px;
+      font-size: 26px;
       font-weight: 800;
       color: var(--kale);
       line-height: 1;
@@ -890,7 +908,7 @@
     .split-meal-day-label {
       font-size: 11px;
       color: var(--grey-60);
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     /* Card header row: icon + title + badge */
@@ -961,6 +979,8 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      align-items: center;
+      text-align: center;
     }
 
     .split-benefit {
@@ -1120,7 +1140,7 @@
     .benefits-container {
       max-width: 900px;
       margin: 0 auto;
-      padding: 0 24px 60px;
+      padding: 0 24px 00px;
       opacity: 0;
       animation: fadeInUp 0.8s ease 0.4s forwards;
     }
@@ -1154,7 +1174,154 @@
       line-height: 1.5;
     }
 
-    /* Checklist items */
+    /* Rewards Timeline — icon left, card right, always */
+    .timeline-section-label {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--grey-60);
+      margin-bottom: 16px;
+      margin-top: 0;
+    }
+    .rewards-timeline {
+      position: relative;
+      margin: 0 auto 40px;
+      max-width: 520px;
+    }
+
+    /* Vertical line down the left */
+    .rewards-timeline::before {
+      content: '';
+      position: absolute;
+      left: 18px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+      position: relative;
+      padding-left: 0;
+    }
+
+    .timeline-dot {
+      flex-shrink: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      z-index: 1;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-dot.active {
+      border-color: var(--kale);
+      background: white;
+    }
+
+    .timeline-dot.unlocked {
+      border-color: var(--lime);
+      background: var(--lime);
+      font-size: 18px;
+      box-shadow: 0 0 0 4px rgba(198, 244, 50, 0.35);
+    }
+
+    .timeline-card.unlocked {
+      border-color: var(--kale);
+      background: #f0f8f5;
+      box-shadow: 0 2px 12px rgba(5,56,39,0.12);
+    }
+
+    .timeline-card.unlocked .timeline-week {
+      color: var(--kale);
+      font-size: 11px;
+    }
+
+    .timeline-card.unlocked .timeline-reward {
+      color: var(--kale);
+      font-size: 17px;
+    }
+
+    .timeline-dot.locked {
+      border-color: var(--border);
+      background: #f5f5f5;
+      filter: grayscale(1);
+      opacity: 0.6;
+    }
+
+    .timeline-card {
+      flex: 1;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-card.active {
+      border-color: transparent;
+      background: white;
+    }
+
+    .timeline-card.locked {
+      opacity: 0.55;
+    }
+
+    .timeline-card.clickable {
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    .timeline-card.clickable:hover {
+      border-color: var(--kale);
+      box-shadow: 0 4px 12px rgba(5,56,39,0.12);
+    }
+
+    .timeline-week {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--grey-60);
+      margin-bottom: 2px;
+    }
+
+    .timeline-reward {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--grey-80);
+    }
+
+    .timeline-card.active .timeline-reward {
+      color: var(--kale);
+    }
+
+    .timeline-unlock-badge {
+      display: inline-block;
+      margin-top: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--cream-banner);
+      color: var(--kale);
+      border-radius: 20px;
+      padding: 2px 8px;
+      border: 1px solid var(--lime);
+      cursor: pointer;
+    }
+
+    /* Checklist items (app + whatsapp actions) */
     .checklist {
       display: flex;
       flex-direction: column;
@@ -1529,40 +1696,44 @@
     <!-- Split Box Section -->
     <div class="split-box-section" id="split-box-section">
       <div class="section-header">
-        <h2>Split your deliveries to improve your order</h2>
-        <p id="split-box-description">Here's what you'd get with split delivery this week.</p>
+        <h2>Want fresher meals that last longer?</h2>
       </div>
 
       <!-- Single info card showing split delivery benefits -->
       <div class="split-info-card">
-        <span class="split-recommended-badge" style="position: static; display: inline-block; margin-bottom: 16px; border-top: 1.5px solid var(--lime); border-radius: 20px;">Recommended</span>
-        <div class="split-delivery-info" style="margin-bottom: 16px;">
-          <span class="split-delivery-label">Your deliveries</span>
-          <span class="split-delivery-detail" id="split-box-delivery"></span>
-        </div>
+
+        <!-- Subtitle -->
+        <p id="split-subtitle" style="text-align: center; font-size: 15px; color: var(--grey-80); margin: 0 0 16px; line-height: 1.4;">Receive your <span id="split-plan-detail">—</span> meals in two deliveries for the same price</p>
+
         <div class="split-meal-breakdown" style="margin-bottom: 16px;">
           <div class="split-meal-day">
-            <div class="split-meal-day-name" id="split-day1-name">Sunday</div>
-            <div class="split-meal-day-count" id="split-day1-count">—</div>
-            <div class="split-meal-day-label">meals</div>
+            <div class="split-meal-day-delivery">&#128230; Delivery 1</div>
+            <div class="split-meal-day-body">
+              <div class="split-meal-day-name" id="split-day1-name">Sunday</div>
+              <div class="split-meal-day-count" id="split-day1-count">—</div>
+              <div class="split-meal-day-label">meals</div>
+            </div>
           </div>
           <div class="split-meal-day">
-            <div class="split-meal-day-name" id="split-day2-name">Wednesday</div>
-            <div class="split-meal-day-count" id="split-day2-count">—</div>
-            <div class="split-meal-day-label">meals</div>
+            <div class="split-meal-day-delivery">&#128230; Delivery 2</div>
+            <div class="split-meal-day-body">
+              <div class="split-meal-day-name" id="split-day2-name">Wednesday</div>
+              <div class="split-meal-day-count" id="split-day2-count">—</div>
+              <div class="split-meal-day-label">meals</div>
+            </div>
           </div>
         </div>
         <ul class="split-benefits">
           <li class="split-benefit positive">🧊 Save on fridge space</li>
-          <li class="split-benefit positive">🥗 Keep your meals fresher for longer</li>
-          <li class="split-benefit positive">📅 Minimum 6 days shelf life on each delivery</li>
+          <li class="split-benefit positive">📅 6-8 days shelf life on each delivery</li>
+          <li class="split-benefit positive">🥗 Never waste a meal</li>
         </ul>
       </div>
 
       <!-- Yes / No buttons -->
       <div class="split-choice-btns">
         <button class="split-choice-btn split-choice-yes" id="split-btn-yes" onclick="selectSplitBoxChoice(this, 'yes')">
-          Yes, split my delivery
+          Yes, upgrade and split my delivery
         </button>
         <button class="split-choice-btn split-choice-no" id="split-btn-no" onclick="selectSplitBoxChoice(this, 'no')">
           No, keep all items in one delivery
@@ -1570,10 +1741,7 @@
       </div>
 
       <div class="continue-btn-container">
-        <button class="continue-btn" id="split-continue-btn" onclick="continueFromSplitBox()" disabled>
-          Continue to Rate Meals →
-        </button>
-        <p style="margin-top: 16px; font-size: 14px; color: #666; text-align: center;">
+        <p style="margin-top: 8px; font-size: 14px; color: #666; text-align: center;">
           You can change this any time in our app
         </p>
       </div>
@@ -1586,55 +1754,95 @@
 
     <!-- Success Panel -->
     <div class="success-panel" id="success-panel">
-      <!-- Success Banner -->
-      <div class="success-banner" id="success-banner">
-        <h2 id="success-banner-title">🎉 You've just upgraded your rewards!</h2>
-        <p id="success-banner-text">Complete your preferences to unlock exclusive rewards with Frive.</p>
-      </div>
 
       <!-- Benefits Section -->
       <div class="benefits-container">
         <div class="benefits-header">
-          <h3>Now unlock even better rewards 🎁</h3>
-          <p>Complete these two steps to upgrade your rewards programme further</p>
+          <h3>🎉 We've upgraded your rewards!</h3>
+          <p>Download our app and save our Whatsapp number to unlock even more!</p>
         </div>
 
-        <!-- Checklist -->
-        <div class="checklist">
+        <!-- Rewards Timeline -->
+        <h4 class="timeline-section-label">Your rewards</h4>
+        <div class="rewards-timeline">
 
-          <!-- Step 1: App -->
-          <div class="checklist-item" id="checklist-app">
-            <div class="checklist-check" id="check-app">
-              <span class="check-emoji">&#128241;</span>
-              <span class="check-tick">&#10003;</span>
-            </div>
-            <div class="checklist-body">
-              <h4>Download the Frive App</h4>
-              <p class="pending-note">Unlock our best rewards tier — we'll email you as soon as you've downloaded it.</p>
-              <p class="done-note">✓ App link opened — we'll email you once you've downloaded it!</p>
-            </div>
-            <div class="checklist-cta">
-              <a href="https://apps.apple.com/gb/app/frive-formerly-lions-prep/id6443897554" target="_blank" class="btn" id="btn-app" onclick="markChecklistDone('app')">
-                Download on App Store →
-              </a>
+          <!-- Week 1 -->
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-card active">
+              <div class="timeline-week">Week 1</div>
+              <div class="timeline-reward">Free Breakfast</div>
             </div>
           </div>
 
-          <!-- Step 2: WhatsApp -->
-          <div class="checklist-item" id="checklist-whatsapp">
-            <div class="checklist-check" id="check-whatsapp">
-              <span class="check-emoji">&#128172;</span>
-              <span class="check-tick">&#10003;</span>
+          <!-- Week 2 -->
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-card active">
+              <div class="timeline-week">Week 2</div>
+              <div class="timeline-reward">Free Snack</div>
             </div>
-            <div class="checklist-body">
-              <h4>Save our WhatsApp number</h4>
-              <p class="pending-note">Unlock an improved rewards tier — plus 24/7 support with Freya whenever you need it.</p>
-              <p class="done-note">✓ Done! You've unlocked an improved rewards tier.</p>
+          </div>
+
+          <!-- Week 3 -->
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-card active">
+              <div class="timeline-week">Week 3</div>
+              <div class="timeline-reward">Free Smoothie</div>
             </div>
-            <div class="checklist-cta">
-              <a href="https://wa.me/447957621162" target="_blank" class="btn whatsapp" id="btn-whatsapp" onclick="markChecklistDone('whatsapp')">
-                💚 Save Number
-              </a>
+          </div>
+
+          <!-- Week 4 -->
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-card active">
+              <div class="timeline-week">Week 4</div>
+              <div class="timeline-reward">Free Meal</div>
+            </div>
+          </div>
+
+          <!-- Week 5 -->
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-card active">
+              <div class="timeline-week">Week 5</div>
+              <div class="timeline-reward">20% Off</div>
+            </div>
+          </div>
+
+          <!-- Week 6 — JUST UNLOCKED -->
+          <div class="timeline-item">
+            <div class="timeline-dot unlocked">&#127873;</div>
+            <div class="timeline-card unlocked">
+              <div class="timeline-week">Week 6 &#8212; Just added! &#127881;</div>
+              <div class="timeline-reward">&#163;5 Credit</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Unlock more rewards -->
+        <h4 class="timeline-section-label" style="margin-top: 32px;">Unlock more rewards</h4>
+        <div class="rewards-timeline">
+
+          <!-- Week 8 — App unlock -->
+          <div class="timeline-item" id="timeline-week8">
+            <div class="timeline-dot locked" id="dot-week8">📱</div>
+            <div class="timeline-card locked clickable" id="card-week8" onclick="handleAppClick()">
+              <div class="timeline-week">Week 8</div>
+              <div class="timeline-reward">£5 credit</div>
+              <span class="timeline-unlock-badge" id="badge-week8">🔒 Download the app to unlock →</span>
+            </div>
+          </div>
+
+          <!-- Week 10 — WhatsApp unlock -->
+          <div class="timeline-item" id="timeline-week10">
+            <div class="timeline-dot locked" id="dot-week10">💬</div>
+            <div class="timeline-card locked clickable" id="card-week10" onclick="handleWhatsappClick()">
+              <div class="timeline-week">Week 10</div>
+              <div class="timeline-reward">20% Off</div>
+              <span class="timeline-unlock-badge" id="badge-week10">🔒 Save our WhatsApp to unlock →</span>
             </div>
           </div>
 
@@ -1714,6 +1922,11 @@
       meals: [], // Meals loaded from Supabase
       config: null, // Full config object from Supabase
       splitBoxPreference: null, // 'yes' or 'no'
+      defaultPreferences: [], // Pre-set preferences from config when askPreferences is false
+      rewardTestPot: null, // reward_test_pot value from config
+      appClicked: false, // Whether app button has been clicked (for one-time reward fire)
+      whatsappClicked: false, // Whether whatsapp button has been clicked (for one-time reward fire)
+      rewardActionsCount: 0, // How many of the two actions have been taken (0, 1, or 2)
     };
 
     // Placeholder meals - will be replaced with actual menu items
@@ -1876,7 +2089,9 @@
           numberOfMeals: data.number_of_meals,
           deliveryDay: data.delivery_day,
           customerId: data.customer_id || null,
-          incentivise: data.incentivise !== false // Default to true if not set
+          incentivise: data.incentivise !== false, // Default to true if not set
+          defaultPreferences: data.preferences || [], // Pre-set preferences when askPreferences is false
+          rewardTestPot: data.reward_test_pot ?? null // Test reward pot amount (number or null)
         };
       } catch (error) {
         if (DEBUG) console.error('Error fetching order config:', error);
@@ -1923,10 +2138,15 @@
           };
           
           // Convert user preferences to tag format
-          const selectedTags = preferences.map(pref => preferenceMap[pref]).filter(Boolean);
+          // Normalise to lowercase for map lookup; fall back to the raw value in case
+          // the config already stores capitalised tag names (e.g. "Meat", "Fish")
+          const selectedTags = preferences.map(pref => {
+            return preferenceMap[pref.toLowerCase()] || pref;
+          }).filter(Boolean);
 
           // If vegetarian is selected, also include vegan meals (vegan meals are always vegetarian)
-          if (preferences.includes('vegetarian') && !selectedTags.includes('Vegan')) {
+          const hasVegetarian = preferences.some(p => p.toLowerCase() === 'vegetarian');
+          if (hasVegetarian && !selectedTags.includes('Vegan')) {
             selectedTags.push('Vegan');
           }
           
@@ -1997,6 +2217,9 @@
           state.votesCount = Object.keys(state.mealVotes).length;
           state.creditClaimed = row.credit_claimed || false;
           state.splitBoxPreference = row.split_box_preference || null;
+          state.appClicked = row.app_unlocked || false;
+          state.whatsappClicked = row.whatsapp_unlocked || false;
+          state.rewardActionsCount = (state.appClicked ? 1 : 0) + (state.whatsappClicked ? 1 : 0);
           
           return true;
         }
@@ -2138,9 +2361,14 @@
     // ═══════════════════════════════════════════════════════════
 
     function startPersonalization() {
-      // Hide intro screen, show preferences section
+      // Hide intro screen
       document.getElementById('intro-screen').style.display = 'none';
-      document.getElementById('preferences-section').style.display = 'block';
+      // If preferences are required, show that section; otherwise go straight to meal voting
+      if (state.askPreferences) {
+        document.getElementById('preferences-section').style.display = 'block';
+      } else if (state.askMealRatings) {
+        startMealVoting();
+      }
     }
 
     /**
@@ -2207,6 +2435,9 @@
         document.getElementById('progress-container').style.display = 'none';
         document.getElementById('meal-voting-container').style.display = 'none';
         document.getElementById('success-panel').classList.add('active');
+        // Restore unlock state for timeline cards
+        if (state.appClicked) markChecklistDone('app');
+        if (state.whatsappClicked) markChecklistDone('whatsapp');
       }
     }
 
@@ -2376,15 +2607,8 @@
       // Store the preference
       state.splitBoxPreference = value;
 
-      // "No" skips the continue button and proceeds immediately
-      if (value === 'no') {
-        continueFromSplitBox();
-        return;
-      }
-
-      // Enable continue button for "Yes"
-      document.getElementById('split-continue-btn').classList.add('active');
-      document.getElementById('split-continue-btn').disabled = false;
+      // Both choices proceed immediately
+      continueFromSplitBox();
     }
 
     /**
@@ -2436,9 +2660,10 @@
       document.getElementById('goals-section').style.display = 'none';
       document.getElementById('split-box-section').style.display = 'none';
       
-      // Reload meals based on selected preferences
-      if (DEBUG) console.log('Reloading meals based on preferences:', state.preferences);
-      state.meals = await fetchMealsFromDB(state.preferences);
+      // Reload meals based on selected preferences, or config defaults if preferences not asked
+      const preferencesToUse = state.askPreferences ? state.preferences : (state.defaultPreferences || []);
+      if (DEBUG) console.log('Using preferences for meal filter:', preferencesToUse, state.askPreferences ? '(user-selected)' : '(from config defaults)');
+      state.meals = await fetchMealsFromDB(preferencesToUse);
       if (DEBUG) console.log(`Loaded ${state.meals.length} meals matching preferences`);
       
       if (state.meals.length === 0) {
@@ -2604,17 +2829,108 @@
 
     function markChecklistDone(item) {
       const el = document.getElementById('checklist-' + item);
-      const dot = document.getElementById('tier-dot-' + item);
-      const tier = document.getElementById('tier-' + item);
       if (el) el.classList.add('completed');
-      if (dot) dot.classList.add('active');
-      if (tier) tier.classList.add('active');
+
+      if (item === 'app') {
+        // Unlock Week 8 timeline card
+        const dot = document.getElementById('dot-week8');
+        const card = document.getElementById('card-week8');
+        const badge = document.getElementById('badge-week8');
+        if (dot) { dot.classList.remove('locked'); dot.classList.add('active'); }
+        if (card) { card.classList.remove('locked'); card.classList.add('active'); }
+        if (badge) badge.textContent = '✓ Unlocked!';
+      }
+
+      if (item === 'whatsapp') {
+        // Unlock Week 10 timeline card
+        const dot = document.getElementById('dot-week10');
+        const card = document.getElementById('card-week10');
+        const badge = document.getElementById('badge-week10');
+        if (dot) { dot.classList.remove('locked'); dot.classList.add('active'); }
+        if (card) { card.classList.remove('locked'); card.classList.add('active'); }
+        if (badge) badge.textContent = '✓ Unlocked!';
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // REWARD POT FIRING
+    // ═══════════════════════════════════════════════════════════
+
+    /**
+     * Fire a reward pot event by updating reward_test_pot on the response row.
+     * The DB trigger / n8n webhook will pick up the change server-side.
+     */
+    async function fireRewardPot(potId) {
+      if (!state.orderId) return;
+      if (DEBUG) console.log('Firing reward pot:', potId);
+      try {
+        const { error } = await supabaseClient
+          .from('personalization_responses')
+          .update({
+            reward_test_pot: potId,
+            updated_at: new Date().toISOString()
+          })
+          .eq('order_id', state.orderId);
+        if (error) {
+          if (DEBUG) console.error('Fire reward pot error:', error);
+        } else {
+          if (DEBUG) console.log('Reward pot fired successfully:', potId);
+        }
+      } catch (error) {
+        if (DEBUG) console.error('Error firing reward pot:', error);
+      }
+    }
+
+    /**
+     * Called when the App download button is clicked.
+     * Only fires the reward pot once; pot ID depends on whether this is the 1st or 2nd action.
+     */
+    function handleAppClick() {
+      window.open('https://apps.apple.com/gb/app/frive/id6444167042', '_blank');
+      if (state.appClicked) return; // Reward already fired
+      state.appClicked = true;
+      markChecklistDone('app');
+      const potId = state.rewardActionsCount === 0 ? 6 : 7;
+      state.rewardActionsCount++;
+      fireRewardPot(potId);
+      saveUnlockState();
+    }
+
+    function handleWhatsappClick() {
+      window.open('https://wa.me/447700900000', '_blank');
+      if (state.whatsappClicked) return; // Reward already fired
+      state.whatsappClicked = true;
+      markChecklistDone('whatsapp');
+      const potId = state.rewardActionsCount === 0 ? 6 : 7;
+      state.rewardActionsCount++;
+      fireRewardPot(potId);
+      saveUnlockState();
+    }
+
+    async function saveUnlockState() {
+      if (!state.orderId) return;
+      try {
+        const { error } = await supabaseClient
+          .from('personalization_responses')
+          .update({
+            app_unlocked: state.appClicked,
+            whatsapp_unlocked: state.whatsappClicked,
+            updated_at: new Date().toISOString()
+          })
+          .eq('order_id', state.orderId);
+        if (error && DEBUG) console.error('Save unlock state error:', error);
+      } catch (error) {
+        if (DEBUG) console.error('Error saving unlock state:', error);
+      }
     }
 
     async function showSuccess() {
       // Mark credit as claimed in Supabase
       // This triggers the DB-side reward_claim_trigger → n8n webhook automatically
       await markCreditClaimed();
+
+      // Fire reward pot 4 — success page shown
+      await fireRewardPot(4);
 
       // Exit fullscreen voting mode
       document.body.classList.remove('voting-fullscreen');
@@ -2709,13 +3025,9 @@
 
     function updateIncentiviseUI() {
       const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
-      setText('intro-text', 'Tell us what you like and get a FREE upgrade to your rewards scheme.');
+      setText('intro-text', "Tell us your tastes and we'll build your weekly menu around you. Plus get a rewards upgrade on us.");
       setText('info-bar-text', '🎁 Upgrade your rewards scheme!');
       setText('progress-text', 'Help us personalise your meals');
-      setText('success-banner-title', "🎉 You've just upgraded your rewards!");
-      setText('success-banner-text', 'Complete your preferences to unlock exclusive rewards with Frive.');
-      const banner = document.getElementById('success-banner');
-      if (banner) banner.style.display = 'block';
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -2745,12 +3057,11 @@
       const secondCount = numberOfMeals - firstCount;
 
       // Header description
-      document.getElementById('split-box-description').textContent =
-        `You have ${numberOfMeals} meals this week — here's how split delivery would work.`;
+      // (removed — title is now static)
 
-      // Split Box delivery detail
-      document.getElementById('split-box-delivery').textContent =
-        `${firstDay} + ${secondDay}`;
+      // Your plan label
+      document.getElementById('split-plan-detail').textContent =
+        `${numberOfMeals}`;
 
       // Update "No" button text with actual delivery day
       document.getElementById('split-btn-no').textContent =
@@ -2805,6 +3116,8 @@
         state.askPreferences = config.askPreferences;
         state.askMealRatings = config.askMealRatings;
         state.customerId = config.customerId;
+        state.defaultPreferences = config.defaultPreferences || [];
+        state.rewardTestPot = config.rewardTestPot;
 
         // Update UI based on incentivise flag
         updateIncentiviseUI();
@@ -2817,8 +3130,10 @@
         // Load meals from Supabase if meal ratings are enabled
         if (state.askMealRatings) {
           if (DEBUG) console.log('Loading meals from database...');
-          // Pass existing preferences to filter meals
-          state.meals = await fetchMealsFromDB(state.preferences);
+          // Use user-selected preferences if askPreferences is true, otherwise use config defaults
+          const initPrefs = state.askPreferences ? state.preferences : (state.defaultPreferences || []);
+          if (DEBUG) console.log('Initial meal filter preferences:', initPrefs);
+          state.meals = await fetchMealsFromDB(initPrefs);
           if (DEBUG) console.log(`Loaded ${state.meals.length} meals`);
           
           if (state.meals.length === 0) {
@@ -2846,18 +3161,10 @@
             startMealVoting();
             restoreUIFromState();
           }
-        } else if (state.askPreferences) {
-          // New user - show intro screen first
+        } else {
+          // New user - always show intro screen first, regardless of askPreferences
           if (DEBUG) console.log('New user, showing intro screen');
           document.getElementById('intro-screen').style.display = 'block';
-        } else if (state.askMealRatings) {
-          // Skip to meal ratings (no preferences to ask)
-          if (DEBUG) console.log('Skipping to meal ratings');
-          startMealVoting();
-        } else {
-          // Nothing to ask, show completion
-          if (DEBUG) console.log('No questions to ask');
-          showError('This personalization flow has been completed.');
         }
 
         if (DEBUG) console.log('=== INITIALIZATION COMPLETE ===');
