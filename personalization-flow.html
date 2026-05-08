@@ -570,6 +570,13 @@
       display: flex;
       align-items: center;
       gap: 4px;
+          display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid lightgrey;
+    padding: 5px;
+    border-radius: 5px;
+}
     }
 
     .nutrition-item strong {
@@ -1261,6 +1268,36 @@
       opacity: 0.6;
     }
 
+    /* Action-required card — stands out inline with other rewards */
+    .timeline-dot.action {
+      border-color: var(--kale);
+      background: var(--kale);
+      font-size: 18px;
+      box-shadow: 0 0 0 4px rgba(5,56,39,0.15);
+    }
+
+    .timeline-card.action {
+      border-color: var(--kale);
+      background: var(--kale);
+      color: white;
+    }
+
+    .timeline-card.action .timeline-week {
+      color: rgba(255,255,255,0.75);
+      font-size: 11px;
+    }
+
+    .timeline-card.action .timeline-reward {
+      color: white;
+      font-size: 17px;
+    }
+
+    .timeline-card.action .timeline-unlock-badge {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
     .timeline-card {
       flex: 1;
       background: white;
@@ -1703,7 +1740,7 @@
       <div class="split-info-card">
 
         <!-- Subtitle -->
-        <p id="split-subtitle" style="text-align: center; font-size: 15px; color: var(--grey-80); margin: 0 0 16px; line-height: 1.4;">Receive your <span id="split-plan-detail">—</span> meals in two deliveries for the same price</p>
+        <p id="split-subtitle" style="text-align: center; font-size: 17px; font-weight: 700; color: var(--grey-80); margin: 0 0 16px; line-height: 1.6;"><span id="split-plan-detail">—</span> meals.&nbsp; Two deliveries.&nbsp; No extra cost.</p>
 
         <div class="split-meal-breakdown" style="margin-bottom: 16px;">
           <div class="split-meal-day">
@@ -1741,8 +1778,8 @@
       </div>
 
       <div class="continue-btn-container">
-        <p style="margin-top: 8px; font-size: 14px; color: #666; text-align: center;">
-          You can change this any time in our app
+        <p style="margin-top: 8px; font-size: 14px; color: #666; text-align: center;" id="split-delivery-note">
+          Note: Any changes will impact your next delivery.
         </p>
       </div>
     </div>
@@ -1784,38 +1821,48 @@
             </div>
           </div>
 
-          <!-- Week 3 -->
-          <div class="timeline-item">
-            <div class="timeline-dot active"></div>
-            <div class="timeline-card active">
-              <div class="timeline-week">Week 3</div>
-              <div class="timeline-reward">Free Smoothie</div>
+          <!-- Week 3 — App unlock, lime style -->
+          <div class="timeline-item" id="timeline-week8">
+            <div class="timeline-dot unlocked" id="dot-week8">📱</div>
+            <div class="timeline-card unlocked clickable" id="card-week8" onclick="handleAppClick()">
+              <div class="timeline-week">Week 3 &#8212; Unlock now! &#127381;</div>
+              <div class="timeline-reward">&#163;5 Credit</div>
+              <span class="timeline-unlock-badge" id="badge-week8">📱 Download the app to unlock →</span>
             </div>
           </div>
 
-          <!-- Week 4 -->
+          <!-- Week 4 — shifted from Week 3 -->
           <div class="timeline-item">
             <div class="timeline-dot active"></div>
             <div class="timeline-card active">
               <div class="timeline-week">Week 4</div>
-              <div class="timeline-reward">Free Meal</div>
+              <div class="timeline-reward">Free Smoothie</div>
             </div>
           </div>
 
-          <!-- Week 5 -->
+          <!-- Week 5 — shifted from Week 4 -->
           <div class="timeline-item">
             <div class="timeline-dot active"></div>
             <div class="timeline-card active">
               <div class="timeline-week">Week 5</div>
+              <div class="timeline-reward">Free Meal</div>
+            </div>
+          </div>
+
+          <!-- Week 6 — shifted from Week 5 -->
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-card active">
+              <div class="timeline-week">Week 6</div>
               <div class="timeline-reward">20% Off</div>
             </div>
           </div>
 
-          <!-- Week 6 — JUST UNLOCKED -->
+          <!-- Week 8 — JUST UNLOCKED, shifted from Week 6 -->
           <div class="timeline-item">
             <div class="timeline-dot unlocked">&#127873;</div>
             <div class="timeline-card unlocked">
-              <div class="timeline-week">Week 6 &#8212; Just added! &#127881;</div>
+              <div class="timeline-week">Week 8 &#8212; Just added! &#127881;</div>
               <div class="timeline-reward">&#163;5 Credit</div>
             </div>
           </div>
@@ -1826,23 +1873,13 @@
         <h4 class="timeline-section-label" style="margin-top: 32px;">Unlock more rewards</h4>
         <div class="rewards-timeline">
 
-          <!-- Week 8 — App unlock -->
-          <div class="timeline-item" id="timeline-week8">
-            <div class="timeline-dot locked" id="dot-week8">📱</div>
-            <div class="timeline-card locked clickable" id="card-week8" onclick="handleAppClick()">
-              <div class="timeline-week">Week 8</div>
-              <div class="timeline-reward">£5 credit</div>
-              <span class="timeline-unlock-badge" id="badge-week8">🔒 Download the app to unlock →</span>
-            </div>
-          </div>
-
-          <!-- Week 10 — WhatsApp unlock -->
+          <!-- Week 10 — WhatsApp unlock, lime style -->
           <div class="timeline-item" id="timeline-week10">
-            <div class="timeline-dot locked" id="dot-week10">💬</div>
-            <div class="timeline-card locked clickable" id="card-week10" onclick="handleWhatsappClick()">
-              <div class="timeline-week">Week 10</div>
+            <div class="timeline-dot unlocked" id="dot-week10">💬</div>
+            <div class="timeline-card unlocked clickable" id="card-week10" onclick="handleWhatsappClick()">
+              <div class="timeline-week">Week 10 &#8212; Unlock now! &#127381;</div>
               <div class="timeline-reward">20% Off</div>
-              <span class="timeline-unlock-badge" id="badge-week10">🔒 Save our WhatsApp to unlock →</span>
+              <span class="timeline-unlock-badge" id="badge-week10">&#128241; Save our WhatsApp to unlock →</span>
             </div>
           </div>
 
@@ -1927,6 +1964,7 @@
       appClicked: false, // Whether app button has been clicked (for one-time reward fire)
       whatsappClicked: false, // Whether whatsapp button has been clicked (for one-time reward fire)
       rewardActionsCount: 0, // How many of the two actions have been taken (0, 1, or 2)
+      addedApp: false, // Whether customer already has the app (from config)
     };
 
     // Placeholder meals - will be replaced with actual menu items
@@ -2078,7 +2116,7 @@
         }
 
         // Determine if we should ask about split box
-        const shouldAskSplitBox = data.number_of_meals > 12 && 
+        const shouldAskSplitBox = data.number_of_meals > 10 && 
                                   (data.delivery_day === 'Sun' || data.delivery_day === 'Mon');
 
         return {
@@ -2089,9 +2127,10 @@
           numberOfMeals: data.number_of_meals,
           deliveryDay: data.delivery_day,
           customerId: data.customer_id || null,
-          incentivise: data.incentivise !== false, // Default to true if not set
-          defaultPreferences: data.preferences || [], // Pre-set preferences when askPreferences is false
-          rewardTestPot: data.reward_test_pot ?? null // Test reward pot amount (number or null)
+          incentivise: data.incentivise !== false,
+          defaultPreferences: data.preferences || [],
+          rewardTestPot: data.reward_test_pot ?? null,
+          addedApp: data.added_app || false // Customer already has the app downloaded
         };
       } catch (error) {
         if (DEBUG) console.error('Error fetching order config:', error);
@@ -2363,10 +2402,32 @@
     function startPersonalization() {
       // Hide intro screen
       document.getElementById('intro-screen').style.display = 'none';
-      // If preferences are required, show that section; otherwise go straight to meal voting
-      if (state.askPreferences) {
+      // Walk through each question flag independently
+      showNextFlowStep(null);
+    }
+
+    /**
+     * Central flow router — decides the next section to show based on config flags.
+     * Pass the section we just came from ('preferences', 'goals', 'splitbox', or null for start).
+     */
+    function showNextFlowStep(from) {
+      const cfg = state.config || {};
+
+      if (from === null && state.askPreferences) {
         document.getElementById('preferences-section').style.display = 'block';
-      } else if (state.askMealRatings) {
+        return;
+      }
+      if ((from === null || from === 'preferences') && cfg.askGoals) {
+        document.getElementById('goals-section').style.display = 'block';
+        return;
+      }
+      if ((from === null || from === 'preferences' || from === 'goals') && cfg.askSplitBox) {
+        updateSplitBoxUI();
+        document.getElementById('split-box-section').style.display = 'block';
+        return;
+      }
+      // Nothing left — go to meal voting (or success if ratings not needed)
+      if (state.askMealRatings) {
         startMealVoting();
       }
     }
@@ -2435,6 +2496,17 @@
         document.getElementById('progress-container').style.display = 'none';
         document.getElementById('meal-voting-container').style.display = 'none';
         document.getElementById('success-panel').classList.add('active');
+        // If addedApp, swap Week 3 card to WhatsApp action and hide Week 10 before restoring
+        if (state.addedApp) {
+          const dot = document.getElementById('dot-week8');
+          const card = document.getElementById('card-week8');
+          const badge = document.getElementById('badge-week8');
+          const week10 = document.getElementById('timeline-week10');
+          if (dot && !state.whatsappClicked) dot.textContent = '💬';
+          if (card) card.setAttribute('onclick', 'handleWhatsappClick()');
+          if (badge && !state.whatsappClicked) badge.innerHTML = '&#128241; Save our WhatsApp to unlock &rarr;';
+          if (week10) week10.style.display = 'none';
+        }
         // Restore unlock state for timeline cards
         if (state.appClicked) markChecklistDone('app');
         if (state.whatsappClicked) markChecklistDone('whatsapp');
@@ -2475,25 +2547,8 @@
      */
     async function continueFromPreferences() {
       await savePreferencesToDB();
-      
-      // Hide preferences section
       document.getElementById('preferences-section').style.display = 'none';
-      
-      // Check if we need to ask about goals
-      if (state.config && state.config.askGoals) {
-        document.getElementById('goals-section').style.display = 'block';
-        return;
-      }
-      
-      // Check if we need to ask about split box
-      if (state.config && state.config.askSplitBox) {
-        updateSplitBoxUI(); // Personalize the split box text
-        document.getElementById('split-box-section').style.display = 'block';
-        return;
-      }
-      
-      // Go straight to meal voting
-      startMealVoting();
+      showNextFlowStep('preferences');
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -2531,19 +2586,8 @@
      */
     async function continueFromGoals() {
       await saveGoalsToDB();
-      
-      // Hide goals section
       document.getElementById('goals-section').style.display = 'none';
-      
-      // Check if we need to ask about split box
-      if (state.config && state.config.askSplitBox) {
-        updateSplitBoxUI(); // Personalize the split box text
-        document.getElementById('split-box-section').style.display = 'block';
-        return;
-      }
-      
-      // Go straight to meal voting
-      startMealVoting();
+      showNextFlowStep('goals');
     }
 
     /**
@@ -2760,7 +2804,7 @@
       
       const thumbsDownBtn = document.createElement('button');
       thumbsDownBtn.className = 'vote-btn thumbs-down';
-      thumbsDownBtn.onclick = () => voteMeal(meal.meal_id, 0);
+      thumbsDownBtn.onclick = () => voteMeal(meal.id, 0);
       const thumbsDownIcon = document.createElement('span');
       thumbsDownIcon.className = 'vote-icon';
       thumbsDownIcon.textContent = '👎';
@@ -2768,7 +2812,7 @@
       
       const thumbsUpBtn = document.createElement('button');
       thumbsUpBtn.className = 'vote-btn thumbs-up';
-      thumbsUpBtn.onclick = () => voteMeal(meal.meal_id, 1);
+      thumbsUpBtn.onclick = () => voteMeal(meal.id, 1);
       const thumbsUpIcon = document.createElement('span');
       thumbsUpIcon.className = 'vote-icon';
       thumbsUpIcon.textContent = '👍';
@@ -2832,22 +2876,23 @@
       if (el) el.classList.add('completed');
 
       if (item === 'app') {
-        // Unlock Week 8 timeline card
+        // Unlock Week 3 app card — keep unlocked style, update content to show done
         const dot = document.getElementById('dot-week8');
         const card = document.getElementById('card-week8');
         const badge = document.getElementById('badge-week8');
-        if (dot) { dot.classList.remove('locked'); dot.classList.add('active'); }
-        if (card) { card.classList.remove('locked'); card.classList.add('active'); }
+        if (dot) { dot.textContent = '🎁'; }
+        if (card) { card.classList.remove('clickable'); }
         if (badge) badge.textContent = '✓ Unlocked!';
       }
 
       if (item === 'whatsapp') {
-        // Unlock Week 10 timeline card
-        const dot = document.getElementById('dot-week10');
-        const card = document.getElementById('card-week10');
-        const badge = document.getElementById('badge-week10');
-        if (dot) { dot.classList.remove('locked'); dot.classList.add('active'); }
-        if (card) { card.classList.remove('locked'); card.classList.add('active'); }
+        // If addedApp, WhatsApp is on the Week 3 card (week8 IDs); otherwise Week 10
+        const cardId = state.addedApp ? 'week8' : 'week10';
+        const dot = document.getElementById('dot-' + cardId);
+        const card = document.getElementById('card-' + cardId);
+        const badge = document.getElementById('badge-' + cardId);
+        if (dot) { dot.textContent = '🎁'; }
+        if (card) { card.classList.remove('clickable'); }
         if (badge) badge.textContent = '✓ Unlocked!';
       }
     }
@@ -2886,22 +2931,22 @@
      * Only fires the reward pot once; pot ID depends on whether this is the 1st or 2nd action.
      */
     function handleAppClick() {
-      window.open('https://apps.apple.com/gb/app/frive/id6444167042', '_blank');
+      window.open('https://apps.apple.com/gb/app/frive/id/6444167042', '_blank');
       if (state.appClicked) return; // Reward already fired
       state.appClicked = true;
       markChecklistDone('app');
-      const potId = state.rewardActionsCount === 0 ? 6 : 7;
+      const potId = state.rewardActionsCount === 0 ? 6 : 8; // 6 = first action, 8 = both complete
       state.rewardActionsCount++;
       fireRewardPot(potId);
       saveUnlockState();
     }
 
     function handleWhatsappClick() {
-      window.open('https://wa.me/447700900000', '_blank');
+      window.open('https://wa.me/447957621162', '_blank');
       if (state.whatsappClicked) return; // Reward already fired
       state.whatsappClicked = true;
       markChecklistDone('whatsapp');
-      const potId = state.rewardActionsCount === 0 ? 6 : 7;
+      const potId = state.rewardActionsCount === 0 ? 6 : 8; // 6 = first action, 8 = both complete
       state.rewardActionsCount++;
       fireRewardPot(potId);
       saveUnlockState();
@@ -2930,7 +2975,7 @@
       await markCreditClaimed();
 
       // Fire reward pot 4 — success page shown
-      await fireRewardPot(4);
+      await fireRewardPot(7); // Pot 7 — survey completed
 
       // Exit fullscreen voting mode
       document.body.classList.remove('voting-fullscreen');
@@ -2946,6 +2991,18 @@
       
       // Show success panel
       document.getElementById('success-panel').classList.add('active');
+
+      // If customer already has the app, repurpose Week 3 card for WhatsApp and hide Week 10
+      if (state.addedApp) {
+        const dot = document.getElementById('dot-week8');
+        const card = document.getElementById('card-week8');
+        const badge = document.getElementById('badge-week8');
+        const week10 = document.getElementById('timeline-week10');
+        if (dot) dot.textContent = '💬';
+        if (card) card.setAttribute('onclick', 'handleWhatsappClick()');
+        if (badge) badge.innerHTML = '&#128241; Save our WhatsApp to unlock &rarr;';
+        if (week10) week10.style.display = 'none';
+      }
       
       // Scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -3065,13 +3122,46 @@
 
       // Update "No" button text with actual delivery day
       document.getElementById('split-btn-no').textContent =
-        `No, keep all items in my ${firstDay} delivery`;
+        `No, deliver everything on ${firstDay}`;
 
       // Meal breakdown counts
       document.getElementById('split-day1-name').textContent = firstDay;
       document.getElementById('split-day1-count').textContent = firstCount;
       document.getElementById('split-day2-name').textContent = secondDay;
       document.getElementById('split-day2-count').textContent = secondCount;
+
+      // Update the delivery impact note with the calculated date
+      const noteEl = document.getElementById('split-delivery-note');
+      if (noteEl) {
+        const dateStr = getNextDeliveryDateString(deliveryDay);
+        noteEl.textContent = `Note: Any changes will start from ${dateStr} delivery.`;
+      }
+    }
+
+    /**
+     * Calculate the next affected delivery date based on delivery day and today's date.
+     * - On or before Tuesday: the upcoming Sunday/Monday this week
+     * - After Tuesday (Wed–Sat): the Sunday/Monday the following week
+     */
+    function getNextDeliveryDateString(deliveryDay) {
+      const targetDay = deliveryDay === 'Mon' ? 1 : 0; // 0=Sun, 1=Mon
+      const today = new Date();
+      const todayDay = today.getDay(); // 0=Sun ... 6=Sat
+      const CUTOFF = 2; // Tuesday
+
+      // Days until the next occurrence of the target delivery day
+      let daysUntil = (targetDay - todayDay + 7) % 7;
+      if (daysUntil === 0) daysUntil = 7; // If today is delivery day, use next week's
+
+      // After Tuesday: skip an extra week
+      if (todayDay > CUTOFF) daysUntil += 7;
+
+      const delivery = new Date(today);
+      delivery.setDate(today.getDate() + daysUntil);
+
+      const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${dayNames[delivery.getDay()]} ${delivery.getDate()} ${monthNames[delivery.getMonth()]}`;
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -3118,6 +3208,7 @@
         state.customerId = config.customerId;
         state.defaultPreferences = config.defaultPreferences || [];
         state.rewardTestPot = config.rewardTestPot;
+        state.addedApp = config.addedApp;
 
         // Update UI based on incentivise flag
         updateIncentiviseUI();
