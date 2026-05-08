@@ -1566,7 +1566,8 @@
           <path d="M0 33.1371V4.59177C0 4.39119 0.162386 4.23072 0.361262 4.23072H10.7886C10.9893 4.23072 11.1499 4.39301 11.1499 4.59177V8.87157C11.1499 9.07215 10.9875 9.23262 10.7886 9.23262H6.10497C5.90427 9.23262 5.74371 9.39492 5.74371 9.59368V15.9778C5.74371 16.1784 5.90609 16.3389 6.10497 16.3389H9.86173C10.0624 16.3389 10.223 16.5012 10.223 16.6999V20.7919C10.223 20.9925 10.0606 21.153 9.86173 21.153H6.10497C5.90427 21.153 5.74371 21.3153 5.74371 21.514V33.1335C5.74371 33.3341 5.58132 33.4945 5.38244 33.4945H0.361262C0.162386 33.5 0 33.3377 0 33.1371Z" fill="#053827"/>
         </svg>
       </a>
-      <button class="reset-btn" onclick="resetDemo()">🔄 Reset Demo</button>
+      <!-- Demo button — hidden in production; change display:none to display:block to re-enable -->
+      <button class="reset-btn" onclick="resetDemo()" style="display:none">🔄 Reset Demo</button>
     </div>
   </header>
 
@@ -2336,20 +2337,35 @@
         }
 
         // Save to meal_votes table (normalized for analytics)
-        const { error: voteError } = await supabaseClient
+        // Always attempt update first; if no rows matched, insert
+        const { data: updatedRows, error: updateError } = await supabaseClient
           .from('meal_votes')
-          .upsert([{
-            order_id: state.orderId,
-            meal_id: mealId,
-            vote: vote,
-            voted_at: new Date().toISOString()
-          }], {
-            onConflict: 'order_id,meal_id'
-          });
+          .update({ vote: vote, voted_at: new Date().toISOString() })
+          .eq('order_id', state.orderId)
+          .eq('meal_id', mealId)
+          .select();
 
-        if (voteError) {
-          if (DEBUG) console.error('Save vote to meal_votes error:', voteError);
-          throw voteError;
+        if (updateError) {
+          if (DEBUG) console.error('Save vote update error:', updateError);
+          throw updateError;
+        }
+
+        if (!updatedRows || updatedRows.length === 0) {
+          // No existing row — insert fresh
+          const { error: insertError } = await supabaseClient
+            .from('meal_votes')
+            .insert([{
+              order_id: state.orderId,
+              meal_id: mealId,
+              vote: vote,
+              voted_at: new Date().toISOString()
+            }]);
+
+          if (insertError) {
+            if (DEBUG) console.error('Save vote insert error:', insertError);
+            console.error('Insert failed — details:', JSON.stringify(insertError), 'order_id:', state.orderId, 'meal_id:', mealId, 'vote:', vote);
+            throw insertError;
+          }
         }
         
         if (DEBUG) console.log(`Meal vote saved: ${mealId} = ${vote}`);
@@ -2804,7 +2820,7 @@
       
       const thumbsDownBtn = document.createElement('button');
       thumbsDownBtn.className = 'vote-btn thumbs-down';
-      thumbsDownBtn.onclick = () => voteMeal(meal.id, 0);
+      thumbsDownBtn.onclick = () => voteMeal(meal.meal_id, 0);
       const thumbsDownIcon = document.createElement('span');
       thumbsDownIcon.className = 'vote-icon';
       thumbsDownIcon.textContent = '👎';
@@ -2812,7 +2828,7 @@
       
       const thumbsUpBtn = document.createElement('button');
       thumbsUpBtn.className = 'vote-btn thumbs-up';
-      thumbsUpBtn.onclick = () => voteMeal(meal.id, 1);
+      thumbsUpBtn.onclick = () => voteMeal(meal.meal_id, 1);
       const thumbsUpIcon = document.createElement('span');
       thumbsUpIcon.className = 'vote-icon';
       thumbsUpIcon.textContent = '👍';
