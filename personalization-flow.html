@@ -2693,11 +2693,11 @@
       try {
         const { error } = await supabaseClient
           .from('personalization_responses')
-          .update({
+          .upsert([{
+            order_id: state.orderId,
             split_box_preference: state.splitBoxPreference,
             updated_at: new Date().toISOString()
-          })
-          .eq('order_id', state.orderId);
+          }], { onConflict: 'order_id' });
 
         if (error) {
           if (DEBUG) console.error('Save split box error:', error);
