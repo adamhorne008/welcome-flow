@@ -1551,6 +1551,222 @@
       font-weight: 500;
       line-height: 1.5;
     }
+
+    /* ── Payment Failed Flow ── */
+    .payment-failed-screen {
+      max-width: 540px;
+      margin: 40px auto;
+      padding: 0 16px 48px;
+    }
+
+    .payment-failed-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFF3CD;
+      color: #7D5200;
+      border: 1px solid #FFD966;
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .payment-failed-screen h2 {
+      font-family: 'FriveJokker', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--kale);
+      margin: 0 0 10px;
+      line-height: 1.2;
+    }
+
+    .payment-failed-screen .pf-subtitle {
+      font-size: 15px;
+      color: var(--grey-60);
+      margin: 0 0 28px;
+      line-height: 1.5;
+    }
+
+    .pf-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .pf-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 18px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      cursor: pointer;
+      background: #fff;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .pf-option:hover {
+      border-color: var(--kale);
+    }
+
+    .pf-option.selected {
+      border-color: var(--kale);
+      background: #F0F7F3;
+    }
+
+    .pf-option-radio {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.15s;
+    }
+
+    .pf-option.selected .pf-option-radio {
+      border-color: var(--kale);
+      background: #fff;
+    }
+
+    .pf-option.selected .pf-option-radio::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--kale);
+    }
+
+    .pf-option-text {
+      flex: 1;
+    }
+
+    .pf-option-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--kale);
+      margin: 0 0 3px;
+    }
+
+    .pf-option-desc {
+      font-size: 13px;
+      color: var(--grey-60);
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .pf-confirm-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--kale);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'FriveJokker', sans-serif;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: opacity 0.15s;
+    }
+
+    .pf-confirm-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .pf-confirm-btn:not(:disabled):hover {
+      opacity: 0.88;
+    }
+
+    .pf-action-btn {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 10px;
+      padding: 9px 18px;
+      background: var(--kale);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+
+    .pf-action-btn:hover {
+      opacity: 0.85;
+    }
+
+    .pf-success {
+      text-align: center;
+      padding: 32px 0 0;
+    }
+
+    .pf-success-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .pf-success h3 {
+      font-family: 'FriveJokker', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--kale);
+      margin: 0 0 8px;
+    }
+
+    .pf-success p {
+      font-size: 15px;
+      color: var(--grey-60);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Payment Failed — order summary card */
+    .pf-summary-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: var(--grey-60);
+      margin: 0 0 8px;
+    }
+
+    .pf-summary-card {
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .pf-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+    }
+
+    .pf-summary-key {
+      font-size: 14px;
+      color: var(--grey-60);
+    }
+
+    .pf-summary-val {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--kale);
+    }
+
+    .pf-summary-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0;
+    }
   </style>
 </head>
 <body>
@@ -1586,6 +1802,90 @@
 
     <!-- Error Message -->
     <div id="error-container"></div>
+
+    <!-- Payment Failed Flow -->
+    <div id="payment-failed-screen" class="payment-failed-screen" style="display:none;">
+      <div id="pf-form">
+        <div class="payment-failed-badge">⚠️ Payment issue</div>
+        <h2>YOUR PAYMENT DIDN'T GO THROUGH</h2>
+        <p class="pf-subtitle">Don't worry — it happens. Let us know how you'd like to handle your upcoming delivery and we'll take it from there.</p>
+
+        <!-- Order summary — shown only when amount/delivery date are populated -->
+        <div id="pf-order-summary" style="display:none;">
+          <p class="pf-summary-label">HERE'S WHAT WE TRIED TO CHARGE</p>
+          <div class="pf-summary-card">
+            <div class="pf-summary-row" id="pf-summary-amount-row" style="display:none;">
+              <span class="pf-summary-key">Amount due</span>
+              <span class="pf-summary-val" id="pf-summary-amount"></span>
+            </div>
+            <div class="pf-summary-divider" id="pf-summary-divider" style="display:none;"></div>
+            <div class="pf-summary-row" id="pf-summary-date-row" style="display:none;">
+              <span class="pf-summary-key">Delivery date</span>
+              <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+                <span class="pf-summary-val" id="pf-summary-date"></span>
+                <a id="pf-summary-view-delivery" href="https://frive.co.uk/my-account/" target="_blank" style="display:none; font-size:13px; color: var(--kale); text-decoration: underline; font-weight: 400;">View delivery &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pf-options">
+          <div class="pf-option" id="pf-opt-retry" onclick="selectPaymentOption('retry')">
+            <div class="pf-option-radio"></div>
+            <div class="pf-option-text">
+              <p class="pf-option-title">Try the payment again</p>
+              <p class="pf-option-desc">My details are correct — please retry the payment.</p>
+            </div>
+          </div>
+
+          <div class="pf-option" id="pf-opt-card" onclick="selectPaymentOption('update_card')">
+            <div class="pf-option-radio"></div>
+            <div class="pf-option-text">
+              <p class="pf-option-title">Update my card details</p>
+              <p class="pf-option-desc">Switch to a different payment method and we'll retry.</p>
+              <a id="pf-account-btn" href="https://frive.co.uk/my-account" target="_blank" class="pf-action-btn" style="display:none;" onclick="savePaymentActionAndOpen('card', 'https://frive.co.uk/my-account')">My Account &rarr;</a>
+            </div>
+          </div>
+
+          <div class="pf-option" id="pf-opt-reduce" onclick="selectPaymentOption('reduce')">
+            <div class="pf-option-radio"></div>
+            <div class="pf-option-text">
+              <p class="pf-option-title">Reduce my order</p>
+              <p class="pf-option-desc">Cut down the size of your next box to lower the cost.</p>
+            </div>
+          </div>
+
+          <div class="pf-option" id="pf-opt-support" onclick="selectPaymentOption('support')">
+            <div class="pf-option-radio"></div>
+            <div class="pf-option-text">
+              <p class="pf-option-title">Get in touch with support</p>
+              <p class="pf-option-desc">Chat with us on WhatsApp and we'll help sort it out.</p>
+              <a id="pf-whatsapp-btn" href="#" target="_blank" class="pf-action-btn" style="display:none;" onclick="savePaymentActionAndOpen('support', this.href)">Get in touch &rarr;</a>
+            </div>
+          </div>
+
+          <div class="pf-option" id="pf-opt-skip" onclick="selectPaymentOption('skip')">
+            <div class="pf-option-radio"></div>
+            <div class="pf-option-text">
+              <p class="pf-option-title">Skip this delivery</p>
+              <p class="pf-option-desc">We'll pause your next delivery and resume the following week.</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="pf-confirm-btn" id="pf-confirm-btn" onclick="confirmPaymentChoice()" disabled>
+          CONFIRM MY CHOICE
+        </button>
+      </div>
+
+      <!-- Success state (shown after confirmation) -->
+      <div class="pf-success" id="pf-success" style="display:none;">
+        <div class="pf-success-icon">✅</div>
+        <h3>GOT IT — THANKS FOR LETTING US KNOW</h3>
+        <p id="pf-success-msg">We'll be in touch shortly to confirm the next steps.</p>
+        <a href="https://frive.co.uk/my-account" target="_blank" class="pf-action-btn" id="pf-success-account-btn">My Account &rarr;</a>
+      </div>
+    </div>
 
     <!-- Intro Screen -->
     <div class="intro-screen" id="intro-screen" style="display: none;">
@@ -1804,66 +2104,66 @@
         <h4 class="timeline-section-label">Your rewards</h4>
         <div class="rewards-timeline">
 
-          <!-- Week 1 -->
-          <div class="timeline-item">
-            <div class="timeline-dot active"></div>
-            <div class="timeline-card active">
-              <div class="timeline-week">Week 1</div>
-              <div class="timeline-reward">Free Breakfast</div>
-            </div>
-          </div>
-
-          <!-- Week 2 -->
-          <div class="timeline-item">
-            <div class="timeline-dot active"></div>
-            <div class="timeline-card active">
-              <div class="timeline-week">Week 2</div>
-              <div class="timeline-reward">Free Snack</div>
-            </div>
-          </div>
-
-          <!-- Week 3 — App unlock, lime style -->
+          <!-- Week 1 — App unlock, lime style -->
           <div class="timeline-item" id="timeline-week8">
             <div class="timeline-dot unlocked" id="dot-week8">📱</div>
             <div class="timeline-card unlocked clickable" id="card-week8" onclick="handleAppClick()">
-              <div class="timeline-week">Week 3 &#8212; Unlock now! &#127381;</div>
+              <div class="timeline-week">Week 1 &#8212; Unlock now! &#127381;</div>
               <div class="timeline-reward">&#163;5 Credit</div>
               <span class="timeline-unlock-badge" id="badge-week8">📱 Download the app to unlock →</span>
             </div>
           </div>
 
-          <!-- Week 4 — shifted from Week 3 -->
+          <!-- Week 4 -->
           <div class="timeline-item">
             <div class="timeline-dot active"></div>
             <div class="timeline-card active">
               <div class="timeline-week">Week 4</div>
-              <div class="timeline-reward">Free Smoothie</div>
+              <div class="timeline-reward">Free Breakfast</div>
             </div>
           </div>
 
-          <!-- Week 5 — shifted from Week 4 -->
+          <!-- Week 5 -->
           <div class="timeline-item">
             <div class="timeline-dot active"></div>
             <div class="timeline-card active">
               <div class="timeline-week">Week 5</div>
-              <div class="timeline-reward">Free Meal</div>
+              <div class="timeline-reward">Free Snack</div>
             </div>
           </div>
 
-          <!-- Week 6 — shifted from Week 5 -->
+          <!-- Week 6 -->
           <div class="timeline-item">
             <div class="timeline-dot active"></div>
             <div class="timeline-card active">
               <div class="timeline-week">Week 6</div>
-              <div class="timeline-reward">20% Off</div>
+              <div class="timeline-reward">Free Smoothie</div>
             </div>
           </div>
 
-          <!-- Week 8 — JUST UNLOCKED, shifted from Week 6 -->
+          <!-- Week 7 -->
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-card active">
+              <div class="timeline-week">Week 7</div>
+              <div class="timeline-reward">Free Meal</div>
+            </div>
+          </div>
+
+          <!-- Week 8 -->
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-card active">
+              <div class="timeline-week">Week 8</div>
+              <div class="timeline-reward">20% Off Next Week</div>
+            </div>
+          </div>
+
+          <!-- Week 9 — JUST UNLOCKED by answering the survey -->
           <div class="timeline-item">
             <div class="timeline-dot unlocked">&#127873;</div>
             <div class="timeline-card unlocked">
-              <div class="timeline-week">Week 8 &#8212; Just added! &#127881;</div>
+              <div class="timeline-week">Week 9 &#8212; Just added! &#127881;</div>
               <div class="timeline-reward">&#163;5 Credit</div>
             </div>
           </div>
@@ -1879,7 +2179,7 @@
             <div class="timeline-dot unlocked" id="dot-week10">💬</div>
             <div class="timeline-card unlocked clickable" id="card-week10" onclick="handleWhatsappClick()">
               <div class="timeline-week">Week 10 &#8212; Unlock now! &#127381;</div>
-              <div class="timeline-reward">20% Off</div>
+              <div class="timeline-reward">20% Off Next Week</div>
               <span class="timeline-unlock-badge" id="badge-week10">&#128241; Save our WhatsApp to unlock →</span>
             </div>
           </div>
@@ -1949,6 +2249,8 @@
     const state = {
       token: null, // SECURITY: Signed token from URL (replaces sequential order_id)
       orderId: null, // Internal order ID (retrieved from token validation)
+      flowName: 'welcome_flow', // Flow type determined by token (e.g. 'welcome_flow', 'payment_failed')
+      paymentFailedAction: null, // Selected action in payment_failed flow
       customerId: null, // Customer ID from personalization_config
       preferences: [],
       goals: [], // Health goals selected by user
@@ -1966,6 +2268,8 @@
       whatsappClicked: false, // Whether whatsapp button has been clicked (for one-time reward fire)
       rewardActionsCount: 0, // How many of the two actions have been taken (0, 1, or 2)
       addedApp: false, // Whether customer already has the app (from config)
+      amount: null,        // Charge amount (from config, used in payment_failed flow)
+      deliveryDate: null,  // Delivery date (from config, used in payment_failed flow)
     };
 
     // Placeholder meals - will be replaced with actual menu items
@@ -2047,10 +2351,10 @@
     }
 
     /**
-     * SECURITY: Validate token via server-side RPC and retrieve order_id.
+     * SECURITY: Validate token via server-side RPC and retrieve order_id + flow_name.
      * Non-UUID values are rejected outright — no bypass paths.
      */
-    async function validateTokenAndGetOrderId(token) {
+    async function validateToken(token) {
       if (!isUUID(token)) {
         throw new Error('Invalid token format');
       }
@@ -2071,8 +2375,11 @@
           throw new Error('Invalid or expired link');
         }
 
-        if (DEBUG) console.log('Token validated successfully');
-        return result.order_id;
+        if (DEBUG) console.log('Token validated successfully, flow:', result.flow_name || 'welcome_flow');
+        return {
+          orderId: result.order_id,
+          flowName: result.flow_name || 'welcome_flow'
+        };
 
       } catch (error) {
         if (DEBUG) console.error('Token validation failed:', error);
@@ -2131,7 +2438,9 @@
           incentivise: data.incentivise !== false,
           defaultPreferences: data.preferences || [],
           rewardTestPot: data.reward_test_pot ?? null,
-          addedApp: data.added_app || false // Customer already has the app downloaded
+          addedApp: data.added_app || false, // Customer already has the app downloaded
+          amount: data.amount ?? null,        // Charge amount for payment_failed flow
+          deliveryDate: data.delivery_date ?? null // Delivery date for payment_failed flow
         };
       } catch (error) {
         if (DEBUG) console.error('Error fetching order config:', error);
@@ -2921,8 +3230,31 @@
      * Fire a reward pot event by updating reward_test_pot on the response row.
      * The DB trigger / n8n webhook will pick up the change server-side.
      */
-    async function fireRewardPot(potId) {
-      if (!state.orderId) return;
+    /**
+     * Notify n8n of a payment failed action by updating payment_failed_responses.
+     * A Postgres trigger on that table fires the n8n webhook with customer_id + delivery_date.
+     */
+    async function notifyPaymentAction(orderId, action) {
+      if (!orderId) return;
+      if (DEBUG) console.log('Notifying payment action:', action);
+      try {
+        const { error } = await supabaseClient
+          .from('payment_failed_responses')
+          .update({
+            notified_at: new Date().toISOString()
+          })
+          .eq('order_id', orderId);
+        if (error) {
+          if (DEBUG) console.error('Notify payment action error:', error);
+        } else {
+          if (DEBUG) console.log('Payment action notification sent');
+        }
+      } catch (error) {
+        if (DEBUG) console.error('Error notifying payment action:', error);
+      }
+    }
+
+    async function fireRewardPot(potId) {      if (!state.orderId) return;
       if (DEBUG) console.log('Firing reward pot:', potId);
       try {
         const { error } = await supabaseClient
@@ -2951,7 +3283,7 @@
       if (state.appClicked) return; // Reward already fired
       state.appClicked = true;
       markChecklistDone('app');
-      const potId = state.rewardActionsCount === 0 ? 6 : 8; // 6 = first action, 8 = both complete
+      const potId = state.rewardActionsCount === 0 ? 10 : 12; // 10 = first action, 12 = both complete
       state.rewardActionsCount++;
       fireRewardPot(potId);
       saveUnlockState();
@@ -2962,7 +3294,7 @@
       if (state.whatsappClicked) return; // Reward already fired
       state.whatsappClicked = true;
       markChecklistDone('whatsapp');
-      const potId = state.rewardActionsCount === 0 ? 6 : 8; // 6 = first action, 8 = both complete
+      const potId = state.rewardActionsCount === 0 ? 10 : 12; // 10 = first action, 12 = both complete
       state.rewardActionsCount++;
       fireRewardPot(potId);
       saveUnlockState();
@@ -2991,7 +3323,7 @@
       await markCreditClaimed();
 
       // Fire reward pot 4 — success page shown
-      await fireRewardPot(7); // Pot 7 — survey completed
+      await fireRewardPot(11); // Pot 11 — survey completed
 
       // Exit fullscreen voting mode
       document.body.classList.remove('voting-fullscreen');
@@ -3200,11 +3532,12 @@
 
         state.token = token;
 
-        // SECURITY: Validate token and get order_id server-side
+        // SECURITY: Validate token and get order_id + flow_name server-side
         try {
-          const orderId = await validateTokenAndGetOrderId(token);
+          const { orderId, flowName } = await validateToken(token);
           state.orderId = orderId;
-          if (DEBUG) console.log('Token validated, order_id:', state.orderId);
+          state.flowName = flowName;
+          if (DEBUG) console.log('Token validated, order_id:', state.orderId, 'flow:', state.flowName);
         } catch (error) {
           if (DEBUG) console.error('Token validation failed:', error);
           showError('This link has expired or is invalid. Please contact support if you need help.');
@@ -3212,66 +3545,11 @@
           return;
         }
 
-        // Fetch configuration flags from Supabase
-        if (DEBUG) console.log('Fetching order config...');
-        const config = await fetchOrderConfig(state.orderId);
-        if (DEBUG) console.log('Config received:', config);
-        
-        // Store full config in state
-        state.config = config;
-        state.askPreferences = config.askPreferences;
-        state.askMealRatings = config.askMealRatings;
-        state.customerId = config.customerId;
-        state.defaultPreferences = config.defaultPreferences || [];
-        state.rewardTestPot = config.rewardTestPot;
-        state.addedApp = config.addedApp;
-
-        // Update UI based on incentivise flag
-        updateIncentiviseUI();
-
-        // Load existing data if available (need this before loading meals)
-        if (DEBUG) console.log('Loading existing personalization data...');
-        const hasExistingData = await loadPersonalizationData(state.orderId);
-        if (DEBUG) console.log('Has existing data:', hasExistingData);
-
-        // Load meals from Supabase if meal ratings are enabled
-        if (state.askMealRatings) {
-          if (DEBUG) console.log('Loading meals from database...');
-          // Use user-selected preferences if askPreferences is true, otherwise use config defaults
-          const initPrefs = state.askPreferences ? state.preferences : (state.defaultPreferences || []);
-          if (DEBUG) console.log('Initial meal filter preferences:', initPrefs);
-          state.meals = await fetchMealsFromDB(initPrefs);
-          if (DEBUG) console.log(`Loaded ${state.meals.length} meals`);
-          
-          if (state.meals.length === 0) {
-            showError('Something went wrong. Please try again later.');
-            hideLoading();
-            return;
-          }
-        }
-
-        // Hide loading, show content
-        hideLoading();
-
-        // Show appropriate sections based on flags and existing data
-        if (state.creditClaimed) {
-          // Already completed - show success directly
-          if (DEBUG) console.log('Flow already completed, showing success');
-          restoreUIFromState();
-        } else if (hasExistingData && (state.preferences.length > 0 || state.votesCount > 0)) {
-          // User has started - skip intro and show preferences section
-          if (DEBUG) console.log('User has existing progress, skipping intro');
-          if (state.askPreferences) {
-            document.getElementById('preferences-section').style.display = 'block';
-            restoreUIFromState();
-          } else if (state.askMealRatings) {
-            startMealVoting();
-            restoreUIFromState();
-          }
+        // Route to the correct flow based on flow_name from the token
+        if (state.flowName === 'payment_failed') {
+          await startPaymentFailedFlow();
         } else {
-          // New user - always show intro screen first, regardless of askPreferences
-          if (DEBUG) console.log('New user, showing intro screen');
-          document.getElementById('intro-screen').style.display = 'block';
+          await startWelcomeFlow();
         }
 
         if (DEBUG) console.log('=== INITIALIZATION COMPLETE ===');
@@ -3282,6 +3560,210 @@
         showError('Something went wrong. Please try again later.');
         hideLoading();
       }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // WELCOME FLOW
+    // ═══════════════════════════════════════════════════════════
+
+    async function startWelcomeFlow() {
+      if (DEBUG) console.log('--- Starting welcome_flow ---');
+
+      // Fetch configuration flags from Supabase
+      if (DEBUG) console.log('Fetching order config...');
+      const config = await fetchOrderConfig(state.orderId);
+      if (DEBUG) console.log('Config received:', config);
+
+      // Store full config in state
+      state.config = config;
+      state.askPreferences = config.askPreferences;
+      state.askMealRatings = config.askMealRatings;
+      state.customerId = config.customerId;
+      state.defaultPreferences = config.defaultPreferences || [];
+      state.rewardTestPot = config.rewardTestPot;
+      state.addedApp = config.addedApp;
+      state.amount = config.amount;
+      state.deliveryDate = config.deliveryDate;
+
+      // Update UI based on incentivise flag
+      updateIncentiviseUI();
+
+      // Load existing data if available (need this before loading meals)
+      if (DEBUG) console.log('Loading existing personalization data...');
+      const hasExistingData = await loadPersonalizationData(state.orderId);
+      if (DEBUG) console.log('Has existing data:', hasExistingData);
+
+      // Load meals from Supabase if meal ratings are enabled
+      if (state.askMealRatings) {
+        if (DEBUG) console.log('Loading meals from database...');
+        const initPrefs = state.askPreferences ? state.preferences : (state.defaultPreferences || []);
+        if (DEBUG) console.log('Initial meal filter preferences:', initPrefs);
+        state.meals = await fetchMealsFromDB(initPrefs);
+        if (DEBUG) console.log(`Loaded ${state.meals.length} meals`);
+
+        if (state.meals.length === 0) {
+          showError('Something went wrong. Please try again later.');
+          hideLoading();
+          return;
+        }
+      }
+
+      // Hide loading, show content
+      hideLoading();
+
+      // Show appropriate sections based on flags and existing data
+      if (state.creditClaimed) {
+        if (DEBUG) console.log('Flow already completed, showing success');
+        restoreUIFromState();
+      } else if (hasExistingData && (state.preferences.length > 0 || state.votesCount > 0)) {
+        if (DEBUG) console.log('User has existing progress, skipping intro');
+        if (state.askPreferences) {
+          document.getElementById('preferences-section').style.display = 'block';
+          restoreUIFromState();
+        } else if (state.askMealRatings) {
+          startMealVoting();
+          restoreUIFromState();
+        }
+      } else {
+        if (DEBUG) console.log('New user, showing intro screen');
+        document.getElementById('intro-screen').style.display = 'block';
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // PAYMENT FAILED FLOW
+    // ═══════════════════════════════════════════════════════════
+
+    async function startPaymentFailedFlow() {
+      if (DEBUG) console.log('--- Starting payment_failed flow ---');
+
+      // Fetch config to get amount and delivery date
+      const config = await fetchOrderConfig(state.orderId);
+      state.config = config;
+      state.amount = config.amount;
+      state.deliveryDate = config.deliveryDate;
+
+      // Hide the rewards banner — not relevant for this flow
+      document.getElementById('info-bar-wrap').style.display = 'none';
+      hideLoading();
+
+      // Populate amount and delivery date if available
+      if (state.amount || state.deliveryDate) {
+        document.getElementById('pf-order-summary').style.display = 'block';
+
+        if (state.amount) {
+          document.getElementById('pf-summary-amount').textContent = `£${parseFloat(state.amount).toFixed(2)}`;
+          document.getElementById('pf-summary-amount-row').style.display = 'flex';
+        }
+
+        if (state.deliveryDate) {
+          const d = new Date(state.deliveryDate);
+          const formatted = d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+          document.getElementById('pf-summary-date').textContent = formatted;
+          document.getElementById('pf-summary-date-row').style.display = 'flex';
+          document.getElementById('pf-summary-view-delivery').style.display = 'inline';
+        }
+
+        // Show divider only when both are present
+        if (state.amount && state.deliveryDate) {
+          document.getElementById('pf-summary-divider').style.display = 'block';
+        }
+      }
+
+      document.getElementById('payment-failed-screen').style.display = 'block';
+    }
+
+    function selectPaymentOption(value) {
+      // Clear all selected states
+      ['skip', 'reduce', 'card', 'retry', 'support'].forEach(opt => {
+        document.getElementById(`pf-opt-${opt}`).classList.remove('selected');
+      });
+
+      // Select the chosen option
+      const elId = value === 'update_card' ? 'card' : value;
+      document.getElementById(`pf-opt-${elId}`).classList.add('selected');
+
+      // Show My Account button only for update_card
+      document.getElementById('pf-account-btn').style.display =
+        value === 'update_card' ? 'inline-flex' : 'none';
+
+      // Show WhatsApp button only for support, with pre-filled message
+      const waBtn = document.getElementById('pf-whatsapp-btn');
+      if (value === 'support') {
+        const dateStr = state.deliveryDate
+          ? new Date(state.deliveryDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+          : 'my upcoming delivery';
+        const msg = encodeURIComponent(`Hi, my delivery payment has failed for ${dateStr}`);
+        waBtn.href = `https://wa.me/447957621162?text=${msg}`;
+        waBtn.style.display = 'inline-flex';
+      } else {
+        waBtn.style.display = 'none';
+      }
+
+      // Hide confirm button when update_card or support selected (they use the action buttons)
+      document.getElementById('pf-confirm-btn').style.display =
+        (value === 'update_card' || value === 'support') ? 'none' : 'block';
+      state.paymentFailedAction = value;
+
+      // Enable confirm button
+      document.getElementById('pf-confirm-btn').disabled = false;
+    }
+
+    async function confirmPaymentChoice() {
+      if (!state.paymentFailedAction) return;
+
+      const btn = document.getElementById('pf-confirm-btn');
+      btn.disabled = true;
+      btn.textContent = 'SAVING...';
+
+      try {
+        await savePaymentActionToDB(state.paymentFailedAction);
+
+        // Show success state
+        document.getElementById('pf-form').style.display = 'none';
+        document.getElementById('pf-success').style.display = 'block';
+
+        const messages = {
+          retry:  "We'll retry your payment shortly.",
+          reduce: "Our team will be in touch to adjust your box size.",
+          skip:   "Your next delivery has been skipped. We'll see you the following week."
+        };
+        document.getElementById('pf-success-msg').textContent =
+          messages[state.paymentFailedAction] || "We'll be in touch shortly to confirm the next steps.";
+
+        if (DEBUG) console.log('Payment failed action saved:', state.paymentFailedAction);
+      } catch (error) {
+        if (DEBUG) console.error('Error saving payment failed action:', error);
+        btn.disabled = false;
+        btn.textContent = 'CONFIRM MY CHOICE';
+        showError('Something went wrong. Please try again.');
+      }
+    }
+
+    // Called when "My Account" or "Get in touch" action buttons are clicked.
+    // Saves the action to the DB then opens the URL.
+    async function savePaymentActionAndOpen(action, url) {
+      try {
+        await savePaymentActionToDB(action);
+      } catch (e) {
+        if (DEBUG) console.error('Error saving action on button click:', e);
+        // Don't block navigation — still open the link
+      }
+      window.open(url, '_blank');
+    }
+
+    // Shared DB save for all payment failed actions.
+    // DB values: retry | reduce | skip | card | support
+    async function savePaymentActionToDB(action) {
+      const { error } = await supabaseClient
+        .from('personalization_responses')
+        .upsert([{
+          order_id: state.orderId,
+          payment_failed_action: action,
+          updated_at: new Date().toISOString()
+        }], { onConflict: 'order_id' });
+      if (error) throw error;
+      if (DEBUG) console.log('Payment action saved to DB:', action);
     }
 
     // Start the app when DOM is ready
