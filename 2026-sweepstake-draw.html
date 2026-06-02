@@ -808,23 +808,23 @@ Dan Gosling</textarea>
         : [...remainingNames, ...allNames.slice(0, 8)];
 
       let cycles = 0;
-      const totalCycles = 20;
+      const totalCycles = 15;
 
       function tick() {
         const idx = Math.floor(Math.random() * pool.length);
         slotName.textContent = pool[idx];
         cycles++;
 
-        const delay = cycles < 8  ? 50
-                    : cycles < 14 ? 100
-                    : cycles < 18 ? 200
-                    : 350;
+        const delay = cycles < 6  ? 30
+                    : cycles < 10 ? 60
+                    : cycles < 13 ? 130
+                    : 250;
 
         if (cycles < totalCycles) {
           setTimeout(tick, delay);
         } else {
           slotName.textContent = winnerName;
-          setTimeout(callback, 800);
+          setTimeout(callback, 500);
         }
       }
 
